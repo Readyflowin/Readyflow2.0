@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@theme {
+  --color-brand-green: #1DFF8A;
+  --color-brand-ink: #070707;
+  --color-brand-ivory: #F4EFE6;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-ivory text-brand-ink antialiased overflow-x-hidden;
+  }
+}
+
+/* 1. Live Gradient Text Animation */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-text-gradient {
+  background-size: 200% auto;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* 2. Marquee & Melt Animations */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes melt {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.animate-marquee { animation: marquee 30s linear infinite; }
+.animate-melt { animation: melt 15s infinite ease-in-out; }
+
+/* 3. Sexy Icon Hover Glow */
+.icon-glow {
+  @apply transition-all duration-500 group-hover:shadow-[0_15px_35px_rgba(29,255,138,0.25)] group-hover:border-brand-green/40;
+}

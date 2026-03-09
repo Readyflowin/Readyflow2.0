@@ -1,0 +1,13 @@
+# ReadyFlow 2.0 // Clean Index Protocol
+User-agent: *
+Allow: /
+Allow: /work
+Allow: /pricing
+
+# Disallow everything else that might have existed before
+Disallow: /cgi-bin/
+Disallow: /temp/
+Disallow: /old/
+
+# Pointing to the new source of truth
+Sitemap: https://readyflow.in/sitemap.xml
