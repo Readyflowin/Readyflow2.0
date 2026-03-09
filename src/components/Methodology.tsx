@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { Laptop, Search, MapPin, BarChart3, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom"; //
 
 // ─── Constants (SEO-Engineered & Brand Neutral) ──────────────────────────────
 
@@ -61,7 +62,6 @@ const itemVariants: Variants = {
 
 export default function Methodology() {
   return (
-    // Minimal top padding to lock with the Marquee above it
     <section className="relative pt-4 pb-0 bg-[#F4EFE6] overflow-hidden" id="services">
       
       <motion.div 
@@ -87,10 +87,8 @@ export default function Methodology() {
             <motion.div 
               key={idx} 
               variants={itemVariants}
-              // FIX: Instant 0.1s transition for both hover entrance AND exit
               transition={{ duration: 0.1, ease: "easeOut" }}
               whileHover={{ y: -12 }}
-              // Removed transition-all to stop the "settle" delay
               className={`group p-8 rounded-[2.5rem] border ${pillar.border} ${pillar.color} flex flex-col h-full cursor-default hover:shadow-xl hover:shadow-black/5`}
             >
               <motion.div 
@@ -113,19 +111,25 @@ export default function Methodology() {
                 </p>
               </div>
 
-              {/* Instant arrow reveal on hover */}
-              <div className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#070707] opacity-0 group-hover:opacity-100 transition-opacity duration-100 cursor-pointer">
+              {/* */}
+              <Link 
+                to="/work"
+                className="mt-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#070707] opacity-0 group-hover:opacity-100 transition-opacity duration-100 cursor-pointer"
+              >
                 Learn More <ArrowRight size={14} />
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* Explore Button */}
+        {/* */}
         <motion.div variants={itemVariants} className="mt-20 mb-24 flex justify-center">
-          <button className="px-10 py-5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.25em] shadow-2xl hover:bg-[#1DFF8A] hover:text-[#070707] transition-all duration-200">
+          <Link 
+            to="/work"
+            className="px-10 py-5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.25em] shadow-2xl hover:bg-[#1DFF8A] hover:text-[#070707] transition-all duration-200 inline-block text-center"
+          >
             View Success Stories
-          </button>
+          </Link>
         </motion.div>
       </motion.div>
 
