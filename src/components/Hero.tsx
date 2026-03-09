@@ -17,7 +17,6 @@ const TICKER = [
 ];
 
 const STATS = [
-  // Updated to high-impact industrial icons
   { value: "33+", label: "Real Deployments", icon: Zap },
   { value: "4.9★", label: "Client Rating",    icon: Award },
   { value: "3.2×",  label: "Avg. ROI Lift",    icon: BarChart3 },
@@ -124,6 +123,14 @@ export default function Hero() {
         variants={containerVariants} initial="hidden" animate="visible"
         className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center"
       >
+        {/* SEO BRAND TAG: This is what helps you rank for 'ReadyFlow' */}
+        <motion.span 
+          variants={itemVariants} 
+          className="text-[#1DFF8A] font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block"
+        >
+          ReadyFlow Studio - India's Trusted Shopify Partner
+        </motion.span>
+
         <h1 className="text-5xl md:text-8xl lg:text-[130px] font-black text-[#070707] tracking-tighter leading-[0.85] mb-6 md:mb-8 uppercase">
           <motion.span variants={itemVariants} className="block">Scale Your</motion.span>
           <motion.span variants={itemVariants} className="block animate-text-gradient bg-gradient-to-r from-[#070707] via-slate-600 to-[#1DFF8A] bg-clip-text text-transparent">
@@ -142,10 +149,10 @@ export default function Hero() {
           
           <motion.div variants={itemVariants} className="flex items-center gap-5">
             <div className="flex -space-x-4">
-              {/* Pointing to public folder images */}
               {["logo1.png", "logo2.png", "logo3.png", "logo4.png", "logo5.png"].map((file, i) => (
                 <div key={i} className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 md:border-4 border-[#F4EFE6] overflow-hidden shadow-lg bg-white">
-                    <img src={`/${file}`} alt="Partner Logo" className="w-full h-full object-cover" />
+                    {/* Added Alt Tag for Partner SEO */}
+                    <img src={`/${file}`} alt={`ReadyFlow Partner Logo ${i+1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
@@ -158,7 +165,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Stats Grid with Updated Icons */}
+        {/* Stats Grid */}
         <div className="relative z-30 grid grid-cols-4 gap-2 md:gap-12 py-8 md:py-12 border-t border-black/5 mb-12 md:mb-16 w-full">
           {STATS.map((s, idx) => (
             <motion.div 

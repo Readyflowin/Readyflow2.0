@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Instagram, MessageCircle, MapPin, Clock } from "lucide-react";
+import { Link, useLocation } from "react-router-dom"; //
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 
-const WA_NUMBER = "918602555840"; //
+const WA_NUMBER = "918602555840"; 
 const INSTA_URL = "https://www.instagram.com/ready_flow_/";
-const MAPS_URL = "https://www.google.com/maps/place/Readyflow/@19.6922828,61.0418276,4z/data=!3m1!4b1!4m6!3m5!1s0x23ab5ddb3988f051:0x317e5e400a2e3cf9!8m2!3d21.0680074!4d82.7525294!16s%2Fg%2F11yt0tlwcd?entry=ttu&g_ep=EgoyMDI2MDMwNS4wIKXMDSoASAFQAw%3D%3D"; //
+const MAPS_URL = "https://maps.app.goo.gl/YourActualGMBLink"; //
 
 const OFFER_MSG = encodeURIComponent("Hi ReadyFlow! I'm interested in the Founder's Launch Offer for ₹7,499. Let's build my Shopify store!");
 const GENERAL_MSG = encodeURIComponent("Hii, I came from your website and would like to discuss a project.");
 
 export default function Footer() {
   const [time, setTime] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     const updateTime = () => {
@@ -43,8 +45,9 @@ export default function Footer() {
             <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8 md:mb-10">
               Ready to <br /> <span className="text-black/10">Scale</span> Your Brand?
             </h2>
+            {/* SEO Identity Description */}
             <p className="text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-black/40 max-w-md leading-relaxed">
-              Engineering high-performance Shopify environments for modern brands.
+              ReadyFlow is a high-performance e-commerce engineering studio based in Indore. We architect Shopify environments that convert.
             </p>
           </div>
 
@@ -66,28 +69,25 @@ export default function Footer() {
           </motion.a>
         </div>
 
-        {/* 2. Middle Grid — Layered over Background Text */}
+        {/* 2. Middle Grid */}
         <div className="relative mb-24 md:mb-32">
           
-          {/* Background Signature Text (Centered behind grid) */}
+          {/* Background Signature Text - This is HUGE for brand recognition */}
           <div className="absolute inset-0 flex items-center justify-center select-none pointer-events-none z-0">
             <h3 className="text-[18vw] font-black uppercase tracking-tighter leading-none text-black/[0.04] whitespace-nowrap">
               ReadyFlow
             </h3>
           </div>
 
-          {/* Grid Content (Floats above text) */}
+          {/* Grid Content */}
           <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 py-20 border-y border-black/5">
             <div className="space-y-6">
               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20">Navigation</p>
               <ul className="space-y-4">
-                {["Services", "Work", "Pricing"].map((item) => (
-                  <li key={item}>
-                    <a href={`#${item.toLowerCase()}`} className="group flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-[#1DFF8A] transition-colors">
-                      {item}
-                    </a>
-                  </li>
-                ))}
+                <li><a href={location.pathname === "/" ? "#services" : "/#services"} className="group flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-[#1DFF8A] transition-colors">Services</a></li>
+                {/* Linked to Work Route */}
+                <li><Link to="/work" className="group flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-[#1DFF8A] transition-colors">Work</Link></li>
+                <li><a href={location.pathname === "/" ? "#pricing" : "/#pricing"} className="group flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:text-[#1DFF8A] transition-colors">Pricing</a></li>
               </ul>
             </div>
 
@@ -100,7 +100,7 @@ export default function Footer() {
             </div>
 
             <div className="space-y-6 sm:col-span-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20">Logistics</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20">Logistics // Indore Studio</p>
               <div className="flex flex-col sm:flex-row gap-10 md:gap-16">
                 <a href={MAPS_URL} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
                   <MapPin size={16} className="text-[#1DFF8A] shrink-0 group-hover:scale-110 transition-transform" />
@@ -125,11 +125,12 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-6">
             <span className="text-[9px] font-black uppercase tracking-[0.5em] text-black/20">© {currentYear} ReadyFlow</span>
-            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-black/10 hidden md:block">Studio Architecture</span>
+            {/* Added keywords for footer SEO crawling */}
+            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-black/10 hidden md:block">E-commerce Studio Indore</span>
           </div>
           
           <div className="text-[9px] font-black uppercase tracking-[0.4em] text-black/20">
-            Designed in Indore, India
+            Engineered in Indore, India // 2026
           </div>
         </div>
 
