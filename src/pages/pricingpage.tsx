@@ -1196,7 +1196,7 @@ function ConversationStarter() {
               >
                 <div>
                   <div className="flex gap-1.5 mb-2">
-                    {QUESTIONS.map((q, i) => (
+                    {QUESTIONS.map((q) => (
                       <motion.div
                         key={q.id}
                         animate={{

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowUpRight, Instagram, Globe, ArrowLeft } from "lucide-react";
+import { Instagram, Globe, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
