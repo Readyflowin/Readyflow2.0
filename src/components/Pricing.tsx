@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { 
-  ArrowUpRight, X, ChevronLeft, Sparkles, Check, ArrowRight 
+  ArrowUpRight, X, ChevronLeft, Check, ArrowRight 
 } from "lucide-react";
 import { Link } from "react-router-dom"; //
 
