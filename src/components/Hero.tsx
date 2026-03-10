@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import * as THREE from "three";
-// High-fidelity industrial icons
 import { ArrowUpRight, Star, BarChart3, Zap, Award, Globe } from "lucide-react";
 
 const TICKER = [
@@ -123,12 +122,12 @@ export default function Hero() {
         variants={containerVariants} initial="hidden" animate="visible"
         className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center"
       >
-        {/* SEO BRAND TAG: This is what helps you rank for 'ReadyFlow' */}
+        {/* SEO BRAND TAG: Switched to high-contrast black/slate for visibility */}
         <motion.span 
           variants={itemVariants} 
-          className="text-[#1DFF8A] font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block"
+          className="text-[#070707] font-black uppercase tracking-[0.4em] text-[9px] md:text-xs mb-6 px-4 py-2 rounded-full border border-black/5 bg-black/5 block"
         >
-          ReadyFlow Studio - India's Trusted Shopify Partner
+          ReadyFlow Studio <span className="text-slate-400 mx-2">—</span> <span className="text-slate-500">India's Trusted Shopify Partner</span>
         </motion.span>
 
         <h1 className="text-5xl md:text-8xl lg:text-[130px] font-black text-[#070707] tracking-tighter leading-[0.85] mb-6 md:mb-8 uppercase">
@@ -151,16 +150,18 @@ export default function Hero() {
             <div className="flex -space-x-4">
               {["logo1.png", "logo2.png", "logo3.png", "logo4.png", "logo5.png"].map((file, i) => (
                 <div key={i} className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 md:border-4 border-[#F4EFE6] overflow-hidden shadow-lg bg-white">
-                    {/* Added Alt Tag for Partner SEO */}
                     <img src={`/${file}`} alt={`ReadyFlow Partner Logo ${i+1}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
             <div className="text-left">
-              <div className="flex text-[#1DFF8A] gap-0.5 mb-1">
-                {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="currentColor" />)}
+              {/* GOLD STARS: Using high-contrast Amber/Gold and Lucide Icons */}
+              <div className="flex text-[#F59E0B] gap-1 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} fill="#F59E0B" strokeWidth={0} />
+                ))}
               </div>
-              <p className="text-[9px] md:text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase">Trusted by 33+ Indian Brands and Still Counting</p>
+              <p className="text-[9px] md:text-[10px] font-black tracking-[0.2em] text-[#070707]/60 uppercase">Trusted by 33+ Indian Brands</p>
             </div>
           </motion.div>
         </div>
