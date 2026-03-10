@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Briefcase } from "lucide-react"; // Added Briefcase for mobile icon
 import { Link, useLocation } from "react-router-dom"; 
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 
-const WA_NUMBER = "918602555840"; //
+const WA_NUMBER = "918602555840"; 
 const CONTACT_MSG = encodeURIComponent("Hi! I came from your website and want to discuss a project.");
 
-// Updated: Services, Reviews, Pricing, Contact
 const NAV_LINKS = [
   { name: "Services", path: "#services", type: "anchor" },
-  { name: "Reviews", path: "#work", type: "anchor" }, //
+  { name: "Reviews", path: "#work", type: "anchor" }, 
   { name: "Pricing", path: "#pricing", type: "anchor" },
   { name: "Contact", path: `https://wa.me/${WA_NUMBER}?text=${CONTACT_MSG}`, type: "external" },
 ];
@@ -34,60 +33,61 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         className={`
-          pointer-events-auto flex items-center justify-between w-full max-w-6xl px-5 md:px-8 py-3 
+          pointer-events-auto flex items-center justify-between w-full max-w-6xl px-4 md:px-8 py-2.5 md:py-3 
           rounded-[1.5rem] md:rounded-[2.5rem] border transition-all duration-500
           ${isScrolled 
-            ? "bg-white/80 backdrop-blur-2xl border-black/5 shadow-xl" 
+            ? "bg-white/90 backdrop-blur-2xl border-black/5 shadow-xl" 
             : "bg-white/10 backdrop-blur-md border-black/5 shadow-none"}
         `}
       >
         {/* 1. LOGO */}
-        <Link to="/" className="flex items-center gap-2 md:gap-3 group cursor-pointer pointer-events-auto">
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer pointer-events-auto">
           <div className="w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-[12deg] group-hover:scale-110">
             <img src="/icon.png" alt="ReadyFlow Logo" className="w-full h-full object-contain" />
           </div>
-          <span className="font-black tracking-tighter text-lg md:text-xl uppercase text-[#070707]">
+          <span className="font-black tracking-tighter text-base md:text-xl uppercase text-[#070707]">
             ReadyFlow
           </span>
         </Link>
 
-        {/* 2. DESKTOP NAV */}
+        {/* 2. DESKTOP NAV (Hidden on Mobile) */}
         <ul className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link.name}>
-              {link.type === "external" ? (
-                <a 
-                  href={link.path} target="_blank" rel="noreferrer"
-                  className="text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300 group relative"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1DFF8A] transition-all duration-300 group-hover:w-full" />
-                </a>
-              ) : (
-                <a 
-                  href={location.pathname === "/" ? link.path : `/${link.path}`}
-                  className="text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300 group relative"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1DFF8A] transition-all duration-300 group-hover:w-full" />
-                </a>
-              )}
+              <a 
+                href={location.pathname === "/" ? link.path : `/${link.path}`}
+                target={link.type === "external" ? "_blank" : "_self"}
+                className="text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300"
+              >
+                {link.name}
+              </a>
             </li>
           ))}
         </ul>
 
-        {/* 3. PRIMARY CTA: View Work Archive (/work) */}
-        <div className="flex items-center gap-3 md:gap-4">
+        {/* 3. ACTION GROUP: The Magic Part */}
+        <div className="flex items-center gap-2 md:gap-4">
+          
+          {/* MOBILE ONLY VISIBLE CTA */}
           <Link 
             to="/work"
-            className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-[#1DFF8A] hover:text-[#070707] group"
+            className="md:hidden flex items-center gap-2 px-4 py-2 bg-[#070707] text-[#1DFF8A] rounded-full font-black text-[9px] uppercase tracking-[0.1em] transition-all active:scale-95"
+          >
+            Past Work <Briefcase size={10} />
+          </Link>
+
+          {/* DESKTOP ONLY CTA */}
+          <Link 
+            to="/work"
+            className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-[#1DFF8A] hover:text-[#070707] group"
           >
             View Our Past Work
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
           </Link>
 
+          {/* HAMBURGER TOGGLE */}
           <button 
-            className="md:hidden p-2 text-[#070707]"
+            className="p-2 text-[#070707] flex items-center justify-center"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -95,13 +95,13 @@ export default function Navbar() {
         </div>
       </motion.div>
 
-      {/* 4. MOBILE MENU */}
+      {/* 4. MOBILE MENU OVERLAY (Same as before but cleaner) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
             className="fixed inset-0 top-0 left-0 w-full h-screen bg-[#F4EFE6] z-[110] flex flex-col justify-center items-center p-8 md:hidden pointer-events-auto"
           >
             <div className="absolute top-8 right-8">
@@ -117,7 +117,6 @@ export default function Navbar() {
                   key={link.name} 
                   href={location.pathname === "/" ? link.path : `/${link.path}`}
                   target={link.type === "external" ? "_blank" : "_self"}
-                  rel={link.type === "external" ? "noreferrer" : ""}
                   className="text-5xl font-black text-[#070707] uppercase tracking-tighter leading-none border-b border-black/5 pb-4 hover:text-[#1DFF8A] transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -130,13 +129,11 @@ export default function Navbar() {
               <Link
                 to="/work"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full mt-8 py-6 bg-[#070707] text-[#1DFF8A] rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs flex items-center justify-center gap-3 shadow-2xl active:scale-95 transition-transform"
+                className="w-full mt-8 py-6 bg-[#070707] text-[#1DFF8A] rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs flex items-center justify-center gap-3 shadow-2xl active:scale-95"
               >
-                View Past Work Archive
+                View Past Work 
               </Link>
             </div>
-
-          
           </motion.div>
         )}
       </AnimatePresence>

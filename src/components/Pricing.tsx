@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"; //
 // ─── Configuration ────────────────────────────────────────────────────────────
 
 const WA_NUMBER = "918602555840"; //
-const ENTRY_PRICE = " 7,499";
+const ENTRY_PRICE = " 9,999";
 const SPRING_UI = { type: "spring" as const, stiffness: 400, damping: 30 } as const;
 
 const PARTNERS = [
@@ -134,11 +134,11 @@ export default function PricingSection() {
             </div>
 
             <div className="flex items-center gap-3 mb-6 px-4 py-2 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm">
-              <Sparkles size={14} className="text-[#1DFF8A]" />
-              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white">Limited Launch Offer</span>
+              
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-white">Launch Offer</span>
             </div>
 
-            <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] opacity-30 mb-2">Investment Price</p>
+            <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] opacity-30 mb-2"></p>
             <h3 className="text-6xl sm:text-8xl md:text-[130px] font-black tracking-tighter leading-none mb-8 md:mb-10">
               ₹{ENTRY_PRICE}
             </h3>

@@ -9,7 +9,7 @@ const WA_NUMBER = "918602555840";
 const INSTA_URL = "https://www.instagram.com/ready_flow_/";
 const MAPS_URL = "https://maps.app.goo.gl/YourActualGMBLink"; //
 
-const OFFER_MSG = encodeURIComponent("Hi ReadyFlow! I'm interested in the Founder's Launch Offer for ₹7,499. Let's build my Shopify store!");
+const OFFER_MSG = encodeURIComponent("Hi ReadyFlow! I'm interested in the Founder's Launch Offer for ₹9,999. Let's build my Shopify store!");
 const GENERAL_MSG = encodeURIComponent("Hii, I came from your website and would like to discuss a project.");
 
 export default function Footer() {
