@@ -1,7 +1,7 @@
 // Hero.tsx — smoother, conversion-focused, no mouse-follow motion
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import * as THREE from "three";
 import { ArrowUpRight, Star, BarChart3, Zap, Award, Globe } from "lucide-react";
 
