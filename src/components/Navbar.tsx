@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ArrowRight, Briefcase } from "lucide-react"; // Added Briefcase for mobile icon
+import { Menu, X, ArrowRight, Briefcase } from "lucide-react"; 
 import { Link, useLocation } from "react-router-dom"; 
 
 // ─── Configuration ────────────────────────────────────────────────────────────
@@ -50,25 +50,25 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* 2. DESKTOP NAV (Hidden on Mobile) */}
+        {/* 2. DESKTOP NAV - Animated Underline Added */}
         <ul className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link.name}>
               <a 
                 href={location.pathname === "/" ? link.path : `/${link.path}`}
                 target={link.type === "external" ? "_blank" : "_self"}
-                className="text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300"
+                className="group relative text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300 pb-1"
               >
                 {link.name}
+                {/* The Green Line Animation */}
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#1DFF8A] scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100" />
               </a>
             </li>
           ))}
         </ul>
 
-        {/* 3. ACTION GROUP: The Magic Part */}
+        {/* 3. ACTION GROUP */}
         <div className="flex items-center gap-2 md:gap-4">
-          
-          {/* MOBILE ONLY VISIBLE CTA */}
           <Link 
             to="/work"
             className="md:hidden flex items-center gap-2 px-4 py-2 bg-[#070707] text-[#1DFF8A] rounded-full font-black text-[9px] uppercase tracking-[0.1em] transition-all active:scale-95"
@@ -76,7 +76,6 @@ export default function Navbar() {
             Past Work <Briefcase size={10} />
           </Link>
 
-          {/* DESKTOP ONLY CTA */}
           <Link 
             to="/work"
             className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-[#1DFF8A] hover:text-[#070707] group"
@@ -85,9 +84,8 @@ export default function Navbar() {
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
           </Link>
 
-          {/* HAMBURGER TOGGLE */}
           <button 
-            className="p-2 text-[#070707] flex items-center justify-center"
+            className="md:hidden p-2 text-[#070707] flex items-center justify-center"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -95,7 +93,7 @@ export default function Navbar() {
         </div>
       </motion.div>
 
-      {/* 4. MOBILE MENU OVERLAY (Same as before but cleaner) */}
+      {/* 4. MOBILE MENU OVERLAY - Untouched as requested */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div

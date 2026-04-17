@@ -100,7 +100,7 @@ export default function Footer() {
             </div>
 
             <div className="space-y-6 sm:col-span-2">
-              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20">Logistics // Indore Studio</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20"></p>
               <div className="flex flex-col sm:flex-row gap-10 md:gap-16">
                 <a href={MAPS_URL} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
                   <MapPin size={16} className="text-[#1DFF8A] shrink-0 group-hover:scale-110 transition-transform" />
@@ -130,7 +130,7 @@ export default function Footer() {
           </div>
           
           <div className="text-[9px] font-black uppercase tracking-[0.4em] text-black/20">
-            Engineered in Indore, India // 2026
+            Designed and Developed by Aditya
           </div>
         </div>
 

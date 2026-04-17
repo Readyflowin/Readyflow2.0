@@ -1,17 +1,18 @@
 import { motion } from "framer-motion";
 
-// ─── Authentic Project List (MVP Version) ───────────────────────────────────
+// ─── Complete Project List (Updated from Ledger) ──────────────────────────────
 const BRANDS = [
-  "ReadyFlow.in",
-  "TrulyEco",
-  "MeraPrinters",
-  "DharmiqHub",
-  "ZainAesthetics",
-  "Hoppup",
+  "ReadyFlow",
+  "Deazy.in",
+  "Hopup Clothing",
+  "Zain Aesthetics",
   "Confelion",
-  "Mimito",
   "Haelo",
-  "DevSocs"
+  "TrulyEco",
+  "Mera Printers",
+  "Devsocs",
+  "Mimito",
+  "Dharmiq Hub"
 ];
 
 export default function Marquee() {
@@ -31,7 +32,7 @@ export default function Marquee() {
           {/* Seamless Infinite Loop */}
           <motion.div 
             animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 40, repeat: Infinity, ease: "linear" }} // Slightly slower for better readability
             className="flex items-center gap-24 px-12"
           >
             {[...BRANDS, ...BRANDS].map((brand, index) => (
