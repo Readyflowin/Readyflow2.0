@@ -63,7 +63,7 @@ const PLATFORMS: Platform[] = [
       {
         id: "shopify-starter",
         name: "Starter",
-        price: "₹6,999",
+        price: "₹9,999",
         badge: "Start here",
         subtitle: ".store domain, ready to launch",
         features: [

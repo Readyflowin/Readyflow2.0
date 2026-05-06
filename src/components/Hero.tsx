@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import * as THREE from "three";
-import { ArrowUpRight, Star, BarChart3, Zap, Award, Globe } from "lucide-react";
+import { ArrowUpRight, Star, BarChart3, Zap, Award, Globe, X } from "lucide-react";
 
 // ─── Constants
 const EXPO = [0.16, 1, 0.3, 1] as const;
+const WHATSAPP_NUMBER = "918602555840";
 
 const TICKER = [
   "Shopify Development",
@@ -32,6 +33,13 @@ const PARTNERS = [
   { file: "logo3.png", name: "Brand C", bg: "#C4D4E8" },
   { file: "logo4.png", name: "Brand D", bg: "#E8C4D4" },
   { file: "logo5.png", name: "Brand E", bg: "#E8E4C4" },
+];
+
+const CHATBOT_TYPES = [
+  "Clothing brand",
+  "Dropshipping",
+  "Jewellery",
+  "Others",
 ];
 
 // ─── THREE.JS: optimized wave mesh (no mouse movement)
@@ -240,6 +248,53 @@ function MagneticCTA() {
   );
 }
 
+// ─── CTA for chatbot form
+function ChatbotCTA({
+  onOpen,
+}: {
+  onOpen: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      style={{ background: "#070707", color: "#F4EFE6" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.96 }}
+      className="relative flex items-center gap-4 px-8 py-4 rounded-full font-black text-xs uppercase tracking-[0.25em] overflow-hidden cursor-pointer shrink-0"
+    >
+      <motion.div
+        className="absolute inset-0 rounded-full"
+        style={{ background: "#1DFF8A" }}
+        initial={{ x: "-101%" }}
+        animate={{ x: hovered ? "0%" : "-101%" }}
+        transition={{ duration: 0.34, ease: EXPO }}
+      />
+      <motion.span
+        className="relative z-10 font-black"
+        animate={{ color: hovered ? "#070707" : "#F4EFE6" }}
+        transition={{ duration: 0.18 }}
+      >
+        Build My Chatbot
+      </motion.span>
+      <motion.div
+        className="relative z-10 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300"
+        animate={{
+          background: hovered ? "#070707" : "#1DFF8A",
+          rotate: hovered ? 45 : 0,
+        }}
+        transition={{ duration: 0.2 }}
+      >
+        <ArrowUpRight size={14} style={{ color: hovered ? "#1DFF8A" : "#070707" }} />
+      </motion.div>
+    </motion.button>
+  );
+}
+
 // ─── Count-up number
 function CountUp({ to, suffix, decimals = 0 }: { to: number; suffix: string; decimals?: number }) {
   const [val, setVal] = useState(0);
@@ -335,6 +390,126 @@ function Logo({ p, size = 44 }: { p: typeof PARTNERS[number]; size?: number }) {
   );
 }
 
+// ─── Chatbot form modal
+function ChatbotFormModal({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const [brandName, setBrandName] = useState("");
+  const [brandType, setBrandType] = useState("Clothing brand");
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    if (open) {
+      document.addEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const message =
+      `New chatbot lead:%0A` +
+      `I need a chatbot%0A` +
+      `Brand Name: ${brandName}%0A` +
+      `What defines you best: ${brandType}`;
+
+    window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+  };
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center px-4"
+      onClick={onClose}
+      aria-hidden="true"
+    >
+      <div className="absolute inset-0 bg-black/45 backdrop-blur-[6px]" />
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 18, scale: 0.98 }}
+        transition={{ duration: 0.25, ease: EXPO }}
+        className="relative z-10 w-full max-w-[520px] rounded-[28px] bg-[#F4EFE6] border border-black/10 shadow-2xl overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 px-6 md:px-8 pt-6 pb-4 border-b border-black/10">
+          <div>
+            <p className="text-[9px] font-black tracking-[0.32em] uppercase text-black/35 mb-2">
+              Get Your Chatbot
+            </p>
+            <h3 className="text-2xl md:text-3xl font-black tracking-tight text-[#070707]">
+              Tell us a bit about your brand
+            </h3>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-black/5 hover:bg-black/10 transition"
+            aria-label="Close form"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="px-6 md:px-8 py-6 space-y-5">
+          <div>
+            <label className="block text-[9px] font-black tracking-[0.26em] uppercase text-black/45 mb-2">
+              Brand name
+            </label>
+            <input
+              type="text"
+              required
+              value={brandName}
+              onChange={(e) => setBrandName(e.target.value)}
+              placeholder="Enter your brand name"
+              className="w-full rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm outline-none focus:border-[#1DFF8A] focus:ring-2 focus:ring-[#1DFF8A]/20"
+            />
+          </div>
+
+          <div>
+            <label className="block text-[9px] font-black tracking-[0.26em] uppercase text-black/45 mb-2">
+              What defines you best
+            </label>
+            <select
+              value={brandType}
+              onChange={(e) => setBrandType(e.target.value)}
+              className="w-full rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm outline-none focus:border-[#1DFF8A] focus:ring-2 focus:ring-[#1DFF8A]/20"
+            >
+              {CHATBOT_TYPES.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full rounded-full bg-[#070707] text-[#F4EFE6] px-6 py-4 font-black text-xs uppercase tracking-[0.25em] hover:bg-black transition"
+          >
+            Send on WhatsApp
+          </button>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── Hero
 export default function Hero() {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -342,6 +517,7 @@ export default function Hero() {
 
   const statsRef = useRef<HTMLDivElement>(null);
   const [counting, setCounting] = useState(false);
+  const [chatbotOpen, setChatbotOpen] = useState(false);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -478,7 +654,7 @@ export default function Hero() {
           >
             <Words text="Plans Starting" delay={0.46} />
             <span className="inline-flex items-baseline gap-2 whitespace-nowrap">
-              <Words text="From ₹6999" delay={0.58} />
+              <Words text="From ₹9,999" delay={0.58} />
               <motion.span
                 className="inline-block font-black uppercase"
                 initial={{ y: "108%", opacity: 0 }}
@@ -505,7 +681,11 @@ export default function Hero() {
           >
             We build <span className="font-black text-[#070707]">Premium Storefronts</span> for brands that want speed, trust, and more sales.
           </p>
-          <MagneticCTA />
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <MagneticCTA />
+            <ChatbotCTA onOpen={() => setChatbotOpen(true)} />
+          </div>
         </motion.div>
       </motion.div>
 
@@ -600,6 +780,8 @@ export default function Hero() {
           ))}
         </div>
       </motion.div>
+
+      <ChatbotFormModal open={chatbotOpen} onClose={() => setChatbotOpen(false)} />
     </section>
   );
 }
