@@ -6,92 +6,121 @@ import Footer from "../components/Footer";
 const PROJECTS = [
   {
     id: "01",
+    name: "Confelion",
+    niche: "Clothing / Premium",
+    status: "Live Deployment",
+    followers: "7K+",
+    insta: "https://www.instagram.com/confelion_/",
+    web: "https://confelion.store/",
+    highlight: "Luxury-focused e-commerce deployment.",
+  },
+  {
+    id: "02",
     name: "Deazy.in",
     niche: "Clothing / Streetwear",
     status: "Under Development",
     followers: "154K+",
     insta: "https://www.instagram.com/crazysha01/",
     web: "https://deazy.in/",
-    highlight: "Engineered for massive influencer-led traffic spikes."
+    highlight: "Engineered for massive influencer-led traffic spikes.",
   },
   {
-    id: "02",
+    id: "03",
+    name: "Manish Fashion Hub",
+    niche: "Clothing / Fashion",
+    status: "Live Deployment",
+    followers: "84K+",
+    insta: "https://www.instagram.com/vickydewangan.29?igsh=cm9reGowZWtjOHVn",
+    web: "https://manishfashionhub.in/",
+    highlight: "Built for high-volume fashion sales and strong social traffic.",
+  },
+  {
+    id: "04",
     name: "Hopup Clothing",
     niche: "Clothing / Urban",
     status: "Live Deployment",
     followers: "34K+",
     insta: "https://www.instagram.com/hopup__/",
     web: "https://hopupclothing.in/",
-    highlight: "High-conversion storefront for high-volume sales."
+    highlight: "High-conversion storefront for high-volume sales.",
   },
   {
-    id: "03",
+    id: "05",
+    name: "LK Print Nation",
+    niche: "Clothing / Print",
+    status: "Live Deployment",
+    followers: "18K+",
+    insta: "https://www.instagram.com/lkprintnation/",
+    web: "https://lkprintnation.in/",
+    highlight: "Print-focused store experience designed for catalog-led selling.",
+  },
+  {
+    id: "06",
     name: "Zain Aesthetics",
     niche: "Clothing / Fashion",
     status: "Live Deployment",
     followers: "13.6K+",
     insta: "https://www.instagram.com/zainaesthetics.in/",
     web: "https://zainaesthetics.in/",
-    highlight: "Premium layout tailored for aesthetic brand identity."
+    highlight: "Premium layout tailored for aesthetic brand identity.",
   },
   {
-    id: "04",
-    name: "Confelion",
-    niche: "Clothing / Premium",
+    id: "07",
+    name: "VTG Clothing",
+    niche: "Clothing / Fashion",
     status: "Live Deployment",
-    followers: "3K+",
-    insta: "https://www.instagram.com/confelion_/",
-    web: "https://confelion.store/",
-    highlight: "Luxury-focused e-commerce deployment."
+    insta: "https://www.instagram.com/vtg_clothing_hub/",
+    web: "https://vtgclothing.in/",
+    highlight: "Fashion storefront built for clean browsing and product discovery.",
   },
   {
-    id: "05",
+    id: "08",
+    name: "Pearll.in",
+    niche: "Artificial Jewellery",
+    status: "Live Deployment",
+    web: "https://pearll.in/",
+    highlight: "Elegant jewellery storefront designed for premium presentation.",
+  },
+  {
+    id: "09",
+    name: "Orzia",
+    niche: "Diamond Jewellery",
+    status: "Live Deployment",
+    web: "https://orzia.store/",
+    highlight: "Minimal, high-trust jewellery store built for refined conversion.",
+  },
+  {
+    id: "10",
     name: "Haelo",
     niche: "Dropshipping",
     status: "Live Deployment",
     web: "https://haelo.shop/",
-    highlight: "Performance-first store for rapid product testing."
+    highlight: "Performance-first store for rapid product testing.",
   },
   {
-    id: "06",
+    id: "11",
     name: "TrulyEco",
     niche: "D2C Brand / Sustainable",
     status: "Legacy Deployment",
     web: "https://trulyeco.org/",
-    highlight: "Scalable architecture for direct-to-consumer retail."
+    highlight: "Scalable architecture for direct-to-consumer retail.",
   },
   {
-    id: "07",
-    name: "Mera Printers",
-    niche: "Printing Business",
-    status: "Legacy Deployment",
-    web: "https://meraprinters.com/",
-    highlight: "Industrial B2B platform for custom order management."
-  },
-  {
-    id: "08",
+    id: "12",
     name: "Devsocs",
     niche: "Digital Product",
     status: "Legacy Deployment",
     web: "https://devsocs.store/",
-    highlight: "High-performance technical landing page."
+    highlight: "High-performance technical landing page.",
   },
   {
-    id: "09",
-    name: "Mimito",
-    niche: "Kidswear",
-    status: "Legacy Deployment",
-    web: "https://mimito.in/",
-    highlight: "Clean, conversion-focused niche clothing store."
-  },
-  {
-    id: "10",
+    id: "13",
     name: "Dharmiq Hub",
     niche: "Pujan Path Items",
     status: "Legacy Deployment",
     web: "https://dharmiqhub.in/",
-    highlight: "Specialized spiritual e-commerce experience."
-  }
+    highlight: "Specialized spiritual e-commerce experience.",
+  },
 ];
 
 export default function WorkArchive() {
