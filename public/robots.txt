@@ -3,6 +3,10 @@ User-agent: *
 Allow: /
 Allow: /work
 Allow: /pricing
+Allow: /privacy-policy
+Allow: /terms
+Allow: /refund-cancellation-policy
+Allow: /delivery-scope-policy
 
 # Disallow everything else that might have existed before
 Disallow: /cgi-bin/

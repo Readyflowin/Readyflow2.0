@@ -9,117 +9,85 @@ const PROJECTS = [
     name: "Confelion",
     niche: "Clothing / Premium",
     status: "Live Deployment",
-    followers: "7K+",
     insta: "https://www.instagram.com/confelion_/",
     web: "https://confelion.store/",
-    highlight: "Luxury-focused e-commerce deployment.",
+    highlight: "Premium clothing storefront with a clean catalogue structure.",
+    image: "/Pastwork/confelion.png",
   },
   {
     id: "02",
     name: "Deazy.in",
     niche: "Clothing / Streetwear",
     status: "Under Development",
-    followers: "154K+",
     insta: "https://www.instagram.com/crazysha01/",
     web: "https://deazy.in/",
-    highlight: "Engineered for massive influencer-led traffic spikes.",
+    highlight: "Storefront structure for an Instagram-led streetwear brand.",
+    image: "/Pastwork/deazy%20(2).png",
   },
   {
     id: "03",
     name: "Manish Fashion Hub",
     niche: "Clothing / Fashion",
     status: "Live Deployment",
-    followers: "84K+",
     insta: "https://www.instagram.com/vickydewangan.29?igsh=cm9reGowZWtjOHVn",
     web: "https://manishfashionhub.in/",
-    highlight: "Built for high-volume fashion sales and strong social traffic.",
+    highlight: "Fashion storefront organised for product browsing and social traffic.",
+    image: "/Pastwork/manishfasion.png",
   },
   {
     id: "04",
-    name: "Hopup Clothing",
-    niche: "Clothing / Urban",
-    status: "Live Deployment",
-    followers: "34K+",
-    insta: "https://www.instagram.com/hopup__/",
-    web: "https://hopupclothing.in/",
-    highlight: "High-conversion storefront for high-volume sales.",
-  },
-  {
-    id: "05",
     name: "LK Print Nation",
     niche: "Clothing / Print",
     status: "Live Deployment",
-    followers: "18K+",
     insta: "https://www.instagram.com/lkprintnation/",
     web: "https://lkprintnation.in/",
-    highlight: "Print-focused store experience designed for catalog-led selling.",
+    highlight: "Printed clothing store organised for catalogue-led browsing.",
+    image: "/Pastwork/lkprint.png",
   },
   {
-    id: "06",
-    name: "Zain Aesthetics",
-    niche: "Clothing / Fashion",
-    status: "Live Deployment",
-    followers: "13.6K+",
-    insta: "https://www.instagram.com/zainaesthetics.in/",
-    web: "https://zainaesthetics.in/",
-    highlight: "Premium layout tailored for aesthetic brand identity.",
-  },
-  {
-    id: "07",
-    name: "VTG Clothing",
-    niche: "Clothing / Fashion",
-    status: "Live Deployment",
-    insta: "https://www.instagram.com/vtg_clothing_hub/",
-    web: "https://vtgclothing.in/",
-    highlight: "Fashion storefront built for clean browsing and product discovery.",
-  },
-  {
-    id: "08",
+    id: "05",
     name: "Pearll.in",
     niche: "Artificial Jewellery",
     status: "Live Deployment",
     web: "https://pearll.in/",
     highlight: "Elegant jewellery storefront designed for premium presentation.",
+    image: "/Pastwork/pearll.png",
   },
   {
-    id: "09",
-    name: "Orzia",
-    niche: "Diamond Jewellery",
-    status: "Live Deployment",
-    web: "https://orzia.store/",
-    highlight: "Minimal, high-trust jewellery store built for refined conversion.",
-  },
-  {
-    id: "10",
+    id: "06",
     name: "Haelo",
     niche: "Dropshipping",
     status: "Live Deployment",
     web: "https://haelo.shop/",
-    highlight: "Performance-first store for rapid product testing.",
+    highlight: "Product store structured for clear browsing and catalogue updates.",
+    image: "/Pastwork/haeloo.png",
   },
   {
-    id: "11",
+    id: "07",
     name: "TrulyEco",
     niche: "D2C Brand / Sustainable",
     status: "Legacy Deployment",
     web: "https://trulyeco.org/",
-    highlight: "Scalable architecture for direct-to-consumer retail.",
+    highlight: "Direct-to-consumer storefront for a sustainable product brand.",
+    image: "/Pastwork/Screenshot%202026-06-20%20011242.png",
   },
   {
-    id: "12",
+    id: "08",
     name: "Devsocs",
     niche: "Digital Product",
     status: "Legacy Deployment",
     web: "https://devsocs.store/",
-    highlight: "High-performance technical landing page.",
+    highlight: "Technical storefront for a digital product project.",
+    image: "/Pastwork/devsocs.png",
   },
   {
-    id: "13",
+    id: "09",
     name: "Dharmiq Hub",
     niche: "Pujan Path Items",
     status: "Legacy Deployment",
     web: "https://dharmiqhub.in/",
     highlight: "Specialized spiritual e-commerce experience.",
+    image: "/Pastwork/dharmiqhub.png",
   },
 ];
 
@@ -163,9 +131,6 @@ export default function WorkArchive() {
                   <div className="flex flex-wrap gap-3 mb-6">
                     <span className="px-3 py-1 rounded-full border border-black/5 text-[9px] font-black uppercase tracking-widest bg-white/50">{project.niche}</span>
                     <span className="px-3 py-1 rounded-full border border-black/5 text-[9px] font-black uppercase tracking-widest text-black/40 italic">{project.status}</span>
-                    {project.followers && (
-                      <span className="px-3 py-1 rounded-full bg-black text-[#1DFF8A] text-[9px] font-black uppercase tracking-widest">{project.followers} Followers</span>
-                    )}
                   </div>
                   <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-black/40 leading-relaxed max-w-md">
                     {project.highlight}
@@ -173,21 +138,36 @@ export default function WorkArchive() {
                 </div>
               </div>
 
-              <div className="flex gap-4 w-full md:w-auto">
-                <a 
-                  href={project.web} target="_blank" rel="noreferrer"
-                  className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 bg-[#070707] text-[#F4EFE6] rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#1DFF8A] hover:text-[#070707] transition-all"
+              <div className="w-full md:w-[22rem]">
+                <a
+                  href={project.web}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group/image block aspect-video overflow-hidden rounded-[1.5rem] border border-black/5 bg-white shadow-sm"
                 >
-                  Visit <Globe size={14} />
+                  <img
+                    src={project.image}
+                    alt={`${project.name} storefront screenshot`}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top transition duration-700 group-hover/image:scale-[1.035]"
+                  />
                 </a>
-                {project.insta && (
+                <div className="mt-4 flex gap-3">
                   <a 
-                    href={project.insta} target="_blank" rel="noreferrer"
-                    className="flex-1 md:flex-none flex items-center justify-center gap-3 px-8 py-4 border border-black/5 bg-white/50 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:border-black transition-all"
+                    href={project.web} target="_blank" rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-[#070707] text-[#F4EFE6] rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#1DFF8A] hover:text-[#070707] transition-all"
                   >
-                    Insta <Instagram size={14} />
+                    Visit <Globe size={14} />
                   </a>
-                )}
+                  {project.insta && (
+                    <a 
+                      href={project.insta} target="_blank" rel="noreferrer"
+                      className="flex-1 flex items-center justify-center gap-3 px-6 py-4 border border-black/5 bg-white/50 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:border-black transition-all"
+                    >
+                      Insta <Instagram size={14} />
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}

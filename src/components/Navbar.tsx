@@ -2,23 +2,33 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, Briefcase } from "lucide-react"; 
 import { Link, useLocation } from "react-router-dom"; 
+import { trackEvent, trackWhatsAppClick } from "../lib/metaPixel";
+import WhatsAppIcon from "./WhatsAppIcon";
+import { useLeadFormModal } from "./LeadFormModalContext";
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 
 const WA_NUMBER = "918602555840"; 
-const CONTACT_MSG = encodeURIComponent("Hi! I came from your website and want to discuss a project.");
+const CONTACT_MSG = encodeURIComponent(
+  "Hi Readyflow, I’m interested in the ₹11,999 Instagram Brand Shopify Launch. My brand sells ______ and I want to know the next steps.",
+);
 
 const NAV_LINKS = [
-  { name: "Services", path: "#services", type: "anchor" },
-  { name: "Reviews", path: "#work", type: "anchor" }, 
-  { name: "Pricing", path: "#pricing", type: "anchor" },
-  { name: "Contact", path: `https://wa.me/${WA_NUMBER}?text=${CONTACT_MSG}`, type: "external" },
+  { name: "Offer", path: "#offer", type: "anchor" },
+  { name: "Who It's For", path: "#fit", type: "anchor" },
+  { name: "Work", path: "#work", type: "anchor" },
+  { name: "FAQ", path: "#faq", type: "anchor" },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { openLeadFormModal } = useLeadFormModal();
+  const getHref = (path: string, type: string) => {
+    if (type === "external") return path;
+    return location.pathname === "/" ? path : `/${path}`;
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -45,7 +55,7 @@ export default function Navbar() {
           <div className="w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-[12deg] group-hover:scale-110">
             <img src="/icon.png" alt="ReadyFlow Logo" className="w-full h-full object-contain" />
           </div>
-          <span className="font-black tracking-tighter text-base md:text-xl uppercase text-[#070707]">
+          <span className="hidden font-black uppercase tracking-tighter text-[#070707] sm:inline sm:text-base md:text-xl">
             ReadyFlow
           </span>
         </Link>
@@ -55,8 +65,13 @@ export default function Navbar() {
           {NAV_LINKS.map((link) => (
             <li key={link.name}>
               <a 
-                href={location.pathname === "/" ? link.path : `/${link.path}`}
+                href={getHref(link.path, link.type)}
                 target={link.type === "external" ? "_blank" : "_self"}
+                onClick={() => {
+                  if (link.type === "external") {
+                    trackWhatsAppClick({ source: "desktop_navigation" });
+                  }
+                }}
                 className="group relative text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300 pb-1"
               >
                 {link.name}
@@ -69,20 +84,34 @@ export default function Navbar() {
 
         {/* 3. ACTION GROUP */}
         <div className="flex items-center gap-2 md:gap-4">
-          <Link 
-            to="/work"
-            className="md:hidden flex items-center gap-2 px-4 py-2 bg-[#070707] text-[#1DFF8A] rounded-full font-black text-[9px] uppercase tracking-[0.1em] transition-all active:scale-95"
+          <button
+            type="button"
+            onClick={() => {
+              trackEvent("OfferView", {
+                action: "cta_click",
+                source: "mobile_navigation_bar",
+              });
+              openLeadFormModal();
+            }}
+            className="flex whitespace-nowrap rounded-full bg-[#070707] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-[#1DFF8A] transition-all active:scale-95 md:hidden"
           >
-            Past Work <Briefcase size={10} />
-          </Link>
+            Check My Brand Fit <ArrowRight size={10} />
+          </button>
 
-          <Link 
-            to="/work"
+          <button
+            type="button"
+            onClick={() => {
+              trackEvent("OfferView", {
+                action: "cta_click",
+                source: "desktop_navigation_bar",
+              });
+              openLeadFormModal();
+            }}
             className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-[#1DFF8A] hover:text-[#070707] group"
           >
-            View Our Past Work
+            Check My Brand Fit
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </Link>
+          </button>
 
           <button 
             className="md:hidden p-2 text-[#070707] flex items-center justify-center"
@@ -113,10 +142,15 @@ export default function Navbar() {
               {NAV_LINKS.map((link, i) => (
                 <a 
                   key={link.name} 
-                  href={location.pathname === "/" ? link.path : `/${link.path}`}
+                  href={getHref(link.path, link.type)}
                   target={link.type === "external" ? "_blank" : "_self"}
                   className="text-5xl font-black text-[#070707] uppercase tracking-tighter leading-none border-b border-black/5 pb-4 hover:text-[#1DFF8A] transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (link.type === "external") {
+                      trackWhatsAppClick({ source: "mobile_navigation_menu" });
+                    }
+                  }}
                 >
                   <motion.span initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}>
                     {link.name}
@@ -126,11 +160,25 @@ export default function Navbar() {
               
               <Link
                 to="/work"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  trackEvent("PastWork_Click", { source: "mobile_navigation_menu" });
+                }}
                 className="w-full mt-8 py-6 bg-[#070707] text-[#1DFF8A] rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs flex items-center justify-center gap-3 shadow-2xl active:scale-95"
               >
-                View Past Work 
+                View Past Work <Briefcase size={13} />
               </Link>
+
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${CONTACT_MSG}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackWhatsAppClick({ source: "mobile_navigation_menu" })}
+                className="w-full rounded-[2rem] border border-black/10 py-5 text-center text-[10px] font-black uppercase tracking-[0.24em] text-[#070707]"
+              >
+                <WhatsAppIcon className="mr-2 inline-block h-4 w-4 align-middle" />
+                Continue on WhatsApp
+              </a>
             </div>
           </motion.div>
         )}

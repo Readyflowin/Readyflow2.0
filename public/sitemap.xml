@@ -20,4 +20,28 @@
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://readyflow.in/privacy-policy</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://readyflow.in/terms</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://readyflow.in/refund-cancellation-policy</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://readyflow.in/delivery-scope-policy</loc>
+    <lastmod>2026-06-20</lastmod>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
+  </url>
 </urlset>

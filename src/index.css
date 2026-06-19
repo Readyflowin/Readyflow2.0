@@ -8,6 +8,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-brand-ivory text-brand-ink antialiased overflow-x-hidden;
   }

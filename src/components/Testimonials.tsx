@@ -1,171 +1,178 @@
 import { motion, type Variants } from "framer-motion";
-import { Star, Instagram, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { trackEvent } from "../lib/metaPixel";
+
+const PROJECTS = [
+  {
+    name: "Confelion",
+    category: "Premium clothing",
+    status: "Live deployment",
+    url: "https://confelion.store/",
+    image: "/Pastwork/confelion.png",
+  },
+  {
+    name: "Deazy.in",
+    category: "Streetwear",
+    status: "Under development",
+    url: "https://deazy.in/",
+    image: "/Pastwork/deazy%20(2).png",
+  },
+  {
+    name: "Manish Fashion Hub",
+    category: "Fashion",
+    status: "Live deployment",
+    url: "https://manishfashionhub.in/",
+    image: "/Pastwork/manishfasion.png",
+  },
+  {
+    name: "LK Print Nation",
+    category: "Printed clothing",
+    status: "Live deployment",
+    url: "https://lkprintnation.in/",
+    image: "/Pastwork/lkprint.png",
+  },
+  {
+    name: "Pearll.in",
+    category: "Artificial jewellery",
+    status: "Live deployment",
+    url: "https://pearll.in/",
+    image: "/Pastwork/pearll.png",
+  },
+  {
+    name: "Haelo",
+    category: "Product store",
+    status: "Live deployment",
+    url: "https://haelo.shop/",
+    image: "/Pastwork/haeloo.png",
+  },
+  {
+    name: "TrulyEco",
+    category: "Sustainable D2C",
+    status: "Legacy deployment",
+    url: "https://trulyeco.org/",
+    image: "/Pastwork/Screenshot%202026-06-20%20011242.png",
+  },
+  {
+    name: "Devsocs",
+    category: "Digital product",
+    status: "Legacy deployment",
+    url: "https://devsocs.store/",
+    image: "/Pastwork/devsocs.png",
+  },
+  {
+    name: "Dharmiq Hub",
+    category: "Pujan products",
+    status: "Legacy deployment",
+    url: "https://dharmiqhub.in/",
+    image: "/Pastwork/dharmiqhub.png",
+  },
+];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-  }
+    transition: { staggerChildren: 0.05, delayChildren: 0.08 },
+  },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
-  }
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
 export default function Testimonials() {
   return (
-    <section 
-      className="relative pt-8 pb-24 bg-[#F4EFE6] overflow-hidden scroll-mt-20" 
+    <section
+      className="relative scroll-mt-32 overflow-hidden bg-[#F4EFE6] py-24 md:scroll-mt-36 md:py-32"
       id="work"
     >
-      <motion.div 
-        variants={containerVariants} 
-        initial="hidden" 
-        whileInView="visible" 
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="max-w-7xl mx-auto px-6 isolate" // 'isolate' creates a new stacking context
+        className="mx-auto max-w-7xl px-6"
       >
-        {/* Header Section */}
-        <div className="mb-12 text-center">
-          <motion.p variants={itemVariants} className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4">
-            Real People. Real Brands.
+        <div className="mb-14 flex flex-col justify-between gap-7 md:flex-row md:items-end">
+          <div className="max-w-4xl">
+            <motion.p
+              variants={itemVariants}
+              className="mb-4 text-[10px] font-black uppercase tracking-[0.4em] text-black/35"
+            >
+              Existing Readyflow project archive
+            </motion.p>
+            <motion.h2
+              variants={itemVariants}
+              className="text-4xl font-black uppercase leading-[0.92] tracking-tighter text-[#070707] md:text-7xl"
+            >
+              Real stores built for{" "}
+              <span className="text-black/25">Instagram-first brands</span>
+            </motion.h2>
+          </div>
+          <motion.p
+            variants={itemVariants}
+            className="max-w-sm text-sm font-medium leading-relaxed text-black/45"
+          >
+            Project screenshots from Readyflow’s product-brand archive —
+            fashion, jewellery, product stores and Instagram-first brands.
           </motion.p>
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-7xl font-black text-[#070707] uppercase tracking-tighter leading-tight">
-            Partners in growth <br /> 
-            <span className="font-serif font-light lowercase text-slate-500">from vision to scale</span>
-          </motion.h2>
         </div>
 
-        {/* The Robust Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(220px,auto)]">
-          
-          {/* Card 1: Naveen - TrulyEco (2x2) */}
-          <motion.div 
-            variants={itemVariants}
-            className="md:col-span-2 md:row-span-2 relative rounded-[2.5rem] overflow-hidden group cursor-default min-h-[456px] z-0 hover:z-10 transition-all"
-          >
-            <div className="absolute inset-0 bg-black/60 z-10 group-hover:bg-black/50 transition-colors duration-300" />
-            <img 
-              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070" 
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform" 
-              alt="TrulyEco Success"
-            />
-            <div className="relative z-20 h-full p-8 md:p-10 flex flex-col justify-end">
-              <p className="text-[10px] font-black text-[#1DFF8A] uppercase tracking-[0.3em] mb-4">Founder's Choice</p>
-              <h3 className="text-xl md:text-2xl font-black text-white mb-6 leading-tight">
-                "Readyflow team especially Aditya helped us in almost everything, Local SEO, GMB Website har chiz me. Nice guy and Recommend working with them."
-              </h3>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-black text-white uppercase text-xs tracking-widest">Naveen</p>
-                  <p className="text-white/40 text-[9px] font-bold uppercase tracking-widest">Founder, TrulyEco</p>
-                </div>
-                <div className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-[#1DFF8A] text-[9px] font-black uppercase tracking-widest">
-                  SEO Leader
-                </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {PROJECTS.map((project) => (
+            <motion.a
+              key={project.name}
+              variants={itemVariants}
+              href={project.url}
+              target="_blank"
+              rel="noreferrer"
+              className="group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white text-[#070707] transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <div className="relative aspect-video overflow-hidden bg-black/5">
+                <img
+                  src={project.image}
+                  alt={`${project.name} storefront screenshot`}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.035]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+                <span className="absolute left-4 top-4 rounded-full bg-[#070707]/85 px-3 py-2 text-[8px] font-black uppercase tracking-[0.2em] text-[#1DFF8A] backdrop-blur">
+                  {project.status}
+                </span>
+                <span className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#1DFF8A] text-[#070707] shadow-lg transition group-hover:rotate-45">
+                  <ArrowUpRight size={16} />
+                </span>
               </div>
-            </div>
-          </motion.div>
 
-          {/* Card 2: Manish - Confelion (2x1) */}
-          <motion.div 
-            variants={itemVariants}
-            whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-white rounded-[2.5rem] p-8 md:p-10 flex flex-col justify-between border border-black/5 hover:shadow-2xl hover:shadow-black/5 transition-all z-0 hover:z-10"
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center gap-3 px-4 py-2 bg-slate-50 rounded-full border border-black/5">
-                <Instagram size={16} className="text-pink-600" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">2.8K+ Followers</span>
+              <div className="p-6">
+                <h3 className="text-2xl font-black uppercase tracking-tighter">
+                  {project.name}
+                </h3>
+                <p className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-black/35">
+                  {project.category}
+                </p>
               </div>
-              <a href="https://www.instagram.com/confelion_/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-[#1DFF8A] hover:text-black transition-colors">
-                <ArrowUpRight size={18} />
-              </a>
-            </div>
-            <div>
-              <h3 className="text-xl md:text-2xl font-black text-[#070707] leading-tight mb-4">
-                "Ab me sirf content banane pe focus kar sakta hu, Thankyou Readyflow."
-              </h3>
-              <p className="font-black text-xs uppercase text-slate-400 tracking-wider">Manish — Founder, Confelion</p>
-            </div>
-          </motion.div>
-
-          {/* Card 3: Abhi - Hopup (1x1) */}
-          <motion.div 
-            variants={itemVariants}
-            whileHover={{ y: -5 }}
-            className="md:col-span-1 bg-[#070707] rounded-[2.5rem] p-8 flex flex-col justify-between group overflow-hidden relative z-0 hover:z-10"
-          >
-            <div className="relative z-10 flex justify-between items-center">
-              <span className="text-[10px] font-black text-[#1DFF8A] uppercase tracking-widest">36K+</span>
-              <Instagram size={18} className="text-[#1DFF8A]" />
-            </div>
-            <h3 className="relative z-10 text-sm md:text-base font-bold text-[#F4EFE6] leading-snug">
-              "Bhai, drop day par site crash ka darr rehta tha. ReadyFlow ne setup makkhan kar diya."
-            </h3>
-            <div className="relative z-10 flex justify-between items-end">
-              <p className="text-[9px] font-bold text-white/40 uppercase">Abhi — Hopup</p>
-              <a href="https://www.instagram.com/hopup__/" target="_blank" rel="noreferrer">
-                <ArrowUpRight size={14} className="text-[#1DFF8A]" />
-              </a>
-            </div>
-            <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#1DFF8A]/10 rounded-full blur-3xl pointer-events-none" />
-          </motion.div>
-
-          {/* Card 4: Mukesh Rajpurohit - Mimito (1x1) */}
-          <motion.div 
-            variants={itemVariants}
-            whileHover={{ y: -5 }}
-            className="md:col-span-1 bg-sky-50 rounded-[2.5rem] p-8 flex flex-col justify-between border border-sky-100 z-0 hover:z-10"
-          >
-             <ShieldCheck size={24} className="text-sky-600" />
-             <h4 className="text-[14px] font-bold text-slate-800 leading-tight">"Technical chizein hamesha sar ke upar se jati thi. Inhone bohot simple setup kiya."</h4>
-             <p className="text-[9px] font-bold text-sky-700/60 uppercase tracking-widest">Mukesh — Mimito.in</p>
-          </motion.div>
-
-          {/* Card 5: Raghav Gupta - Haelo (2x1) */}
-          <motion.div 
-            variants={itemVariants}
-            whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-slate-50 rounded-[2.5rem] p-8 md:p-10 flex items-center justify-between border border-black/5 z-0 hover:z-10"
-          >
-             <div className="max-w-[70%]">
-               <p className="text-base md:text-lg font-bold text-[#070707] leading-snug">"Launching fast was priority. ReadyFlow delivered storefront in record time."</p>
-               <p className="text-[10px] font-bold text-slate-400 uppercase mt-4 tracking-wider">Raghav Gupta — Haelo.shop</p>
-             </div>
-             <div className="flex text-[#FFE580]">
-               {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
-             </div>
-          </motion.div>
-
-          {/* Card 6: Zain Aesthetics (2x1) */}
-          <motion.div 
-            variants={itemVariants}
-            whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-white rounded-[2.5rem] p-8 md:p-10 flex flex-col justify-between border border-black/5 shadow-sm z-0 hover:z-10"
-          >
-             <div className="flex justify-between items-center">
-               <div className="flex items-center gap-2">
-                 <Instagram size={14} className="text-slate-400" />
-                 <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">13.2K Followers</span>
-               </div>
-               <a href="https://www.instagram.com/zainaesthetics.in/" target="_blank" rel="noreferrer">
-                <ArrowUpRight size={16} className="text-slate-400" />
-               </a>
-             </div>
-             <h3 className="text-lg md:text-xl font-black text-[#070707] leading-tight max-w-md mt-4">
-               "Amazing work, DM's ka poora hassle hi khatam ho gya and superfast work."
-             </h3>
-             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-4">Founder, Zain Aesthetics</p>
-          </motion.div>
-
+            </motion.a>
+          ))}
         </div>
+
+        <motion.div variants={itemVariants} className="mt-12 flex justify-center">
+          <Link
+            to="/work"
+            onClick={() =>
+              trackEvent("PastWork_Click", { source: "homepage_work_archive" })
+            }
+            className="inline-flex items-center gap-3 rounded-full bg-[#070707] px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-[#F4EFE6] transition hover:bg-[#1DFF8A] hover:text-[#070707]"
+          >
+            View Full Work Archive <ArrowRight size={14} />
+          </Link>
+        </motion.div>
       </motion.div>
     </section>
   );
