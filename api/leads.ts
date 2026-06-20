@@ -30,7 +30,14 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return;
   }
 
-  const payload = parseRequestBody(req.body);
+  let payload: unknown;
+  try {
+    payload = parseRequestBody(req.body);
+  } catch {
+    res.status(400).json({ ok: false, message: "Invalid request body." });
+    return;
+  }
+
   const protection = checkLeadProtection(req, payload);
   if (!protection.ok) {
     console.warn("[api/leads] Rejected lead submission:", protection.reason);
