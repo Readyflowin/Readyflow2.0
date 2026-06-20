@@ -1,5 +1,5 @@
-import { buildClearedAdminSessionCookie } from "../../server/adminAuth";
-import type { ApiRequest, ApiResponse } from "../../server/apiTypes";
+import { buildClearedAdminSessionCookie } from "../../server/adminAuth.js";
+import type { ApiRequest, ApiResponse } from "../../server/apiTypes.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Content-Type", "application/json");

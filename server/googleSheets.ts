@@ -1,5 +1,5 @@
 import { createSign, randomUUID } from "node:crypto";
-import { requireServerEnv } from "./env";
+import { requireServerEnv } from "./env.js";
 import {
   LEAD_STATUSES,
   type DashboardLead,
@@ -7,7 +7,7 @@ import {
   type PhotosReady,
   type ShopifyCostOkay,
   type StoredLead,
-} from "./leadTypes";
+} from "./leadTypes.js";
 
 const BASE_HEADERS = [
   "Timestamp",

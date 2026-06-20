@@ -5,7 +5,7 @@ import {
   type PhotosReady,
   type ShopifyCostOkay,
   type ValidationResult,
-} from "./leadTypes";
+} from "./leadTypes.js";
 
 type UnknownRecord = Record<string, unknown>;
 

@@ -1,5 +1,5 @@
-import { optionalServerEnv, requireServerEnv } from "./env";
-import type { StoredLead } from "./leadTypes";
+import { optionalServerEnv, requireServerEnv } from "./env.js";
+import type { StoredLead } from "./leadTypes.js";
 
 type ResendResponse = {
   id?: string;

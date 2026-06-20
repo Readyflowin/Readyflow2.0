@@ -1,4 +1,4 @@
-import { getHeader, type ApiRequest } from "./apiTypes";
+import { getHeader, type ApiRequest } from "./apiTypes.js";
 
 type UnknownRecord = Record<string, unknown>;
 

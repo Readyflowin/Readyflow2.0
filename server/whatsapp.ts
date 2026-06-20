@@ -1,4 +1,4 @@
-import type { LeadInput } from "./leadTypes";
+import type { LeadInput } from "./leadTypes.js";
 
 export function buildLeadWhatsAppMessage(lead: LeadInput): string {
   return [

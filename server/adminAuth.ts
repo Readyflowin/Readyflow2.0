@@ -4,8 +4,8 @@ import {
   randomBytes,
   timingSafeEqual,
 } from "node:crypto";
-import { getHeader, type ApiRequest } from "./apiTypes";
-import { requireServerEnv } from "./env";
+import { getHeader, type ApiRequest } from "./apiTypes.js";
+import { requireServerEnv } from "./env.js";
 
 const COOKIE_NAME = "readyflow_admin_session";
 const SESSION_DURATION_SECONDS = 24 * 60 * 60;

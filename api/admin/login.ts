@@ -3,14 +3,14 @@ import {
   createAdminSessionToken,
   isAdminRoute,
   validateAdminCredentials,
-} from "../../server/adminAuth";
+} from "../../server/adminAuth.js";
 import {
   getHeader,
   parseRequestBody,
   type ApiRequest,
   type ApiResponse,
-} from "../../server/apiTypes";
-import { ServerConfigurationError } from "../../server/env";
+} from "../../server/apiTypes.js";
+import { ServerConfigurationError } from "../../server/env.js";
 
 type LoginBody = {
   username?: unknown;

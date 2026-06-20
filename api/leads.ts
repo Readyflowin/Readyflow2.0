@@ -1,20 +1,20 @@
 import { randomUUID } from "node:crypto";
-import { ServerConfigurationError, requireServerEnv } from "../server/env";
-import { sendLeadEmails } from "../server/emails";
+import { ServerConfigurationError, requireServerEnv } from "../server/env.js";
+import { sendLeadEmails } from "../server/emails.js";
 import {
   GoogleSheetsError,
   saveLeadToGoogleSheets,
-} from "../server/googleSheets";
-import { checkLeadProtection } from "../server/leadProtection";
+} from "../server/googleSheets.js";
+import { checkLeadProtection } from "../server/leadProtection.js";
 import {
   getHeader,
   parseRequestBody,
   type ApiRequest,
   type ApiResponse,
-} from "../server/apiTypes";
-import type { StoredLead } from "../server/leadTypes";
-import { validateLeadPayload } from "../server/validateLead";
-import { buildWhatsAppUrl } from "../server/whatsapp";
+} from "../server/apiTypes.js";
+import type { StoredLead } from "../server/leadTypes.js";
+import { validateLeadPayload } from "../server/validateLead.js";
+import { buildWhatsAppUrl } from "../server/whatsapp.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Content-Type", "application/json");
@@ -39,7 +39,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   }
 
   const protection = checkLeadProtection(req, payload);
-  if (!protection.ok) {
+  if (protection.ok === false) {
     console.warn("[api/leads] Rejected lead submission:", protection.reason);
     res
       .status(protection.status)
@@ -48,7 +48,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   }
 
   const validation = validateLeadPayload(payload);
-  if (!validation.ok) {
+  if (validation.ok === false) {
     res.status(400).json({ ok: false, message: validation.message });
     return;
   }

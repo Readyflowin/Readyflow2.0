@@ -4,17 +4,17 @@ import {
   getQueryValue,
   type ApiRequest,
   type ApiResponse,
-} from "../../server/apiTypes";
-import { ServerConfigurationError, requireServerEnv } from "../../server/env";
+} from "../../server/apiTypes.js";
+import { ServerConfigurationError, requireServerEnv } from "../../server/env.js";
 import {
   sendFollowupEmail,
   type FollowupStage,
-} from "../../server/followupEmails";
+} from "../../server/followupEmails.js";
 import {
   markFollowupSent,
   readLeadsFromGoogleSheets,
-} from "../../server/googleSheets";
-import type { DashboardLead } from "../../server/leadTypes";
+} from "../../server/googleSheets.js";
+import type { DashboardLead } from "../../server/leadTypes.js";
 
 const HOUR_MS = 60 * 60 * 1000;
 

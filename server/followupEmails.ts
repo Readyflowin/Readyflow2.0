@@ -1,6 +1,6 @@
-import { requireServerEnv } from "./env";
-import { sendEmail } from "./emails";
-import type { DashboardLead } from "./leadTypes";
+import { requireServerEnv } from "./env.js";
+import { sendEmail } from "./emails.js";
+import type { DashboardLead } from "./leadTypes.js";
 
 export type FollowupStage = "24h" | "72h" | "7d";
 

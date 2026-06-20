@@ -1,19 +1,19 @@
-import { isAdminAuthenticated } from "../../server/adminAuth";
+import { isAdminAuthenticated } from "../../server/adminAuth.js";
 import {
   parseRequestBody,
   type ApiRequest,
   type ApiResponse,
-} from "../../server/apiTypes";
-import { ServerConfigurationError } from "../../server/env";
+} from "../../server/apiTypes.js";
+import { ServerConfigurationError } from "../../server/env.js";
 import {
   GoogleSheetsError,
   readLeadsFromGoogleSheets,
   updateLeadInGoogleSheets,
-} from "../../server/googleSheets";
+} from "../../server/googleSheets.js";
 import {
   LEAD_STATUSES,
   type LeadStatus,
-} from "../../server/leadTypes";
+} from "../../server/leadTypes.js";
 
 type UpdateBody = {
   leadId?: unknown;

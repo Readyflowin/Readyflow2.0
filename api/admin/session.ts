@@ -1,13 +1,13 @@
 import {
   isAdminAuthenticated,
   isAdminRoute,
-} from "../../server/adminAuth";
+} from "../../server/adminAuth.js";
 import {
   getQueryValue,
   type ApiRequest,
   type ApiResponse,
-} from "../../server/apiTypes";
-import { ServerConfigurationError } from "../../server/env";
+} from "../../server/apiTypes.js";
+import { ServerConfigurationError } from "../../server/env.js";
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Content-Type", "application/json");
