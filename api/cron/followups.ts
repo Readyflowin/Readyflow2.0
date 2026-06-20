@@ -5,18 +5,17 @@ import {
   type ApiRequest,
   type ApiResponse,
 } from "../../server/apiTypes.js";
+import {
+  nextDueEmailForLead,
+  sendSequenceEmail,
+} from "../../server/emailSequences.js";
 import { ServerConfigurationError, requireServerEnv } from "../../server/env.js";
 import {
-  sendFollowupEmail,
-  type FollowupStage,
-} from "../../server/followupEmails.js";
-import {
-  markFollowupSent,
+  markSequenceEmailSent,
   readLeadsFromGoogleSheets,
+  recordSequenceEmailError,
+  updateNextEmailDueInGoogleSheets,
 } from "../../server/googleSheets.js";
-import type { DashboardLead } from "../../server/leadTypes.js";
-
-const HOUR_MS = 60 * 60 * 1000;
 
 function secureEqual(left: string, right: string): boolean {
   const leftBuffer = Buffer.from(left);
@@ -40,21 +39,6 @@ function isAuthorized(req: ApiRequest): boolean {
   );
 }
 
-function dueStages(lead: DashboardLead, ageMs: number): FollowupStage[] {
-  const stages: FollowupStage[] = [];
-  if (ageMs >= 24 * HOUR_MS && lead.followup24hSent !== "Yes") {
-    stages.push("24h");
-  }
-  if (ageMs >= 72 * HOUR_MS && lead.followup72hSent !== "Yes") {
-    stages.push("72h");
-  }
-  if (ageMs >= 7 * 24 * HOUR_MS && lead.followup7dSent !== "Yes") {
-    stages.push("7d");
-  }
-  // Avoid sending multiple catch-up emails to an older lead in one cron run.
-  return stages.slice(0, 1);
-}
-
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Cache-Control", "no-store");
@@ -74,69 +58,56 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const leads = await readLeadsFromGoogleSheets();
     const summary = {
       checked: leads.length,
-      sent24h: 0,
-      sent72h: 0,
-      sent7d: 0,
+      sent: 0,
       skipped: 0,
-      skippedClosed: 0,
-      skippedLost: 0,
+      skippedPaused: 0,
+      skippedMissingEmail: 0,
+      skippedNotDue: 0,
       errors: 0,
+      sentTypes: {} as Record<string, number>,
     };
 
     for (const lead of leads) {
-      if (lead.status === "Closed") {
-        summary.skippedClosed += 1;
-        summary.skipped += 1;
-        continue;
-      }
-
-      if (lead.status === "Lost") {
-        summary.skippedLost += 1;
+      if (lead.emailPaused === "Yes") {
+        summary.skippedPaused += 1;
         summary.skipped += 1;
         continue;
       }
 
       if (!lead.email) {
+        summary.skippedMissingEmail += 1;
         summary.skipped += 1;
         continue;
       }
 
-      const timestamp = Date.parse(lead.timestamp);
-      if (!Number.isFinite(timestamp)) {
+      const dueEmail = nextDueEmailForLead(lead);
+      if (!dueEmail) {
+        summary.skippedNotDue += 1;
         summary.skipped += 1;
+        await updateNextEmailDueInGoogleSheets(lead).catch(() => undefined);
         continue;
       }
 
-      const stages = dueStages(lead, Date.now() - timestamp);
-      if (stages.length === 0) {
-        summary.skipped += 1;
-        continue;
-      }
-
-      for (const stage of stages) {
-        try {
-          await sendFollowupEmail(lead, stage);
-        } catch (error) {
-          summary.errors += 1;
-          console.error(
-            `[api/cron/followups] ${stage} follow-up email failed for row ${lead.rowIndex}:`,
-            error,
-          );
-          continue;
-        }
-
-        try {
-          await markFollowupSent(lead.rowIndex, stage);
-          if (stage === "24h") summary.sent24h += 1;
-          if (stage === "72h") summary.sent72h += 1;
-          if (stage === "7d") summary.sent7d += 1;
-        } catch (error) {
-          summary.errors += 1;
-          console.error(
-            `[api/cron/followups] ${stage} follow-up sent but Sheet update failed for row ${lead.rowIndex}:`,
-            error,
-          );
-        }
+      try {
+        await sendSequenceEmail(lead, dueEmail.type);
+        await markSequenceEmailSent(
+          { leadId: lead.leadId, rowIndex: lead.rowIndex },
+          dueEmail.type,
+        );
+        summary.sent += 1;
+        summary.sentTypes[dueEmail.type] =
+          (summary.sentTypes[dueEmail.type] || 0) + 1;
+      } catch (error) {
+        summary.errors += 1;
+        console.error(
+          `[api/cron/followups] ${dueEmail.type} failed for row ${lead.rowIndex}:`,
+          error,
+        );
+        await recordSequenceEmailError(
+          { leadId: lead.leadId, rowIndex: lead.rowIndex },
+          dueEmail.type,
+          error,
+        ).catch(() => undefined);
       }
     }
 

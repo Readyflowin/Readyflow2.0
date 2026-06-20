@@ -8,7 +8,11 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { trackEvent } from "../lib/metaPixel";
+import {
+  trackFormModalClose,
+  trackFormModalOpen,
+  type MetaPixelParams,
+} from "../lib/metaPixel";
 import LeadForm from "./LeadForm";
 import { LeadFormModalContext } from "./LeadFormModalContext";
 
@@ -23,26 +27,32 @@ const FOCUSABLE_SELECTOR = [
 
 export function LeadFormModalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const titleId = useId();
   const descriptionId = useId();
 
-  const openLeadFormModal = useCallback(() => {
+  const openLeadFormModal = useCallback((params?: MetaPixelParams) => {
     returnFocusRef.current =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+    setLeadSubmitted(false);
     setOpen(true);
-    trackEvent("FormModalOpen", {
-      form: "instagram_shopify_launch",
-    });
+    trackFormModalOpen(params);
   }, []);
 
   const closeModal = useCallback(() => {
+    if (!leadSubmitted) {
+      trackFormModalClose({
+        status: "abandoned",
+      });
+    }
+
     setOpen(false);
-  }, []);
+  }, [leadSubmitted]);
 
   useEffect(() => {
     if (!open) return;
@@ -157,7 +167,7 @@ export function LeadFormModalProvider({ children }: { children: ReactNode }) {
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-6">
-                <LeadForm />
+                <LeadForm onLeadSuccess={() => setLeadSubmitted(true)} />
               </div>
             </motion.div>
           </motion.div>

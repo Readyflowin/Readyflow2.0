@@ -1,17 +1,7 @@
 import type { LeadInput } from "./leadTypes.js";
 
 export function buildLeadWhatsAppMessage(lead: LeadInput): string {
-  return [
-    "Hi Readyflow, I filled the Shopify Launch form.",
-    "",
-    `Name: ${lead.name}`,
-    `Brand Instagram: ${lead.instagram}`,
-    `What I sell: ${lead.productType}`,
-    `Email: ${lead.email}`,
-    `WhatsApp: ${lead.whatsapp}`,
-    "",
-    "Please share the next steps for the ₹11,999 Instagram Brand Shopify Launch.",
-  ].join("\n");
+  return `Hi Readyflow, I filled the form for ${lead.instagram || "my brand"}. Please review my brand and share the ₹11,999 Shopify launch plan + 48-hour bonus details.`;
 }
 
 export function buildWhatsAppUrl(

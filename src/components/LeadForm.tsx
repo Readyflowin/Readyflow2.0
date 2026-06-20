@@ -1,7 +1,15 @@
 import { useRef, useState } from "react";
-import { CheckCircle2, LoaderCircle, Send } from "lucide-react";
+import { LoaderCircle, Send } from "lucide-react";
 import { Link } from "react-router-dom";
-import { trackEvent, trackLead, trackWhatsAppClick } from "../lib/metaPixel";
+import {
+  trackContact,
+  trackDuplicateLead,
+  trackFormStart,
+  trackFormSubmitAttempt,
+  trackFormSubmitError,
+  trackLead,
+  trackWhatsAppClick,
+} from "../lib/metaPixel";
 import WhatsAppIcon from "./WhatsAppIcon";
 
 type LeadFormValues = {
@@ -26,6 +34,7 @@ type LeadApiResponse = {
   ok?: boolean;
   message?: string;
   whatsappUrl?: string;
+  duplicate?: boolean;
 };
 
 const INITIAL_VALUES: LeadFormValues = {
@@ -67,7 +76,11 @@ function getAttribution(): Attribution {
   };
 }
 
-export default function LeadForm() {
+export default function LeadForm({
+  onLeadSuccess,
+}: {
+  onLeadSuccess?: () => void;
+}) {
   const [values, setValues] = useState<LeadFormValues>(INITIAL_VALUES);
   const [attribution] = useState<Attribution>(getAttribution);
   const [submitting, setSubmitting] = useState(false);
@@ -76,26 +89,32 @@ export default function LeadForm() {
   const [successNotice, setSuccessNotice] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const formStarted = useRef(false);
+  const validationErrorTracked = useRef(false);
   const formStartedAt = useRef(Date.now());
 
   const markFormStarted = () => {
     if (formStarted.current) return;
     formStarted.current = true;
-    trackEvent("FormStart", {
-      form: "instagram_shopify_launch",
-      source: attribution.utm_source || attribution.source,
+    trackFormStart({
+      form: "shopify_launch_lead_form",
     });
   };
 
   const updateValue = (field: keyof LeadFormValues, value: string) => {
     markFormStarted();
+    validationErrorTracked.current = false;
     setValues((current) => ({ ...current, [field]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    validationErrorTracked.current = false;
     setSubmitting(true);
     setError("");
+    trackFormSubmitAttempt({
+      form: "shopify_launch_lead_form",
+    });
+    let submitErrorTracked = false;
 
     try {
       const response = await fetch("/api/leads", {
@@ -112,6 +131,12 @@ export default function LeadForm() {
       const contentType = response.headers.get("content-type") || "";
 
       if (!contentType.toLowerCase().includes("application/json")) {
+        trackFormSubmitError({
+          form: "shopify_launch_lead_form",
+          error_type: "non_json_response",
+          status: response.status,
+        });
+        submitErrorTracked = true;
         throw new Error(
           "The lead API is not available in this dev server. Please run the project with `vercel dev` to test form submissions.",
         );
@@ -120,18 +145,36 @@ export default function LeadForm() {
       const result = (await response.json()) as LeadApiResponse;
 
       if (!response.ok || !result.ok || !result.whatsappUrl) {
+        trackFormSubmitError({
+          form: "shopify_launch_lead_form",
+          error_type: "api_error",
+          status: response.status,
+        });
+        submitErrorTracked = true;
         throw new Error(result.message || "Lead submission failed.");
       }
 
       setWhatsappUrl(result.whatsappUrl);
       setSuccessNotice(result.message || "");
+      onLeadSuccess?.();
+      if (result.duplicate) {
+        trackDuplicateLead({
+          status: "duplicate_or_updated",
+        });
+      }
       trackLead({
-        form: "instagram_shopify_launch",
+        form: "shopify_launch_lead_form",
         value: 11999,
         currency: "INR",
-        source: attribution.utm_source || attribution.source,
       });
     } catch (submitError) {
+      if (!submitErrorTracked) {
+        trackFormSubmitError({
+          form: "shopify_launch_lead_form",
+          error_type:
+            submitError instanceof TypeError ? "network_error" : "unknown_error",
+        });
+      }
       setError(
         submitError instanceof Error
           ? submitError.message
@@ -144,42 +187,59 @@ export default function LeadForm() {
 
   if (whatsappUrl) {
     return (
-      <div className="rounded-[2rem] border border-emerald-100 bg-white p-7 text-left shadow-[0_30px_90px_rgba(0,0,0,0.08)] md:p-12">
-        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-          <CheckCircle2 size={30} strokeWidth={2.5} />
-        </span>
-        <p className="mt-8 text-[10px] font-black uppercase tracking-[0.3em] text-emerald-700">
-          Submission received
+      <div className="rounded-[1.75rem] border border-emerald-100 bg-white p-5 text-left shadow-[0_24px_70px_rgba(0,0,0,0.08)] md:p-8">
+        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-emerald-700">
+          Thank you for filling the form.
         </p>
-        <h3 className="mt-3 text-3xl font-black tracking-tighter text-[#070707] md:text-5xl">
-          Your store request is ready
+        <h3 className="mt-2 text-3xl font-black tracking-tighter text-[#070707] md:text-4xl">
+          We’ve received your store request.
         </h3>
-        <p className="mt-5 max-w-2xl text-sm font-medium leading-relaxed text-black/55 md:text-base">
-          We’ve sent the package details to your email. Tap below to send your
-          filled details on WhatsApp so we can review your brand faster and
-          share the next step.
+        <p className="mt-3 text-sm font-semibold leading-relaxed text-black/55 md:text-base">
+          I’ll review your brand details and share the next step on WhatsApp.
         </p>
         {successNotice && (
-          <p className="mt-5 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-semibold leading-relaxed text-amber-800">
+          <p className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm font-semibold leading-relaxed text-amber-800">
             {successNotice}
           </p>
         )}
+
+        <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-emerald-800">
+            48-Hour Launch Bonus
+          </p>
+          <p className="mt-2 text-sm font-bold leading-relaxed text-[#070707] md:text-base">
+            Complete the WhatsApp step and confirm within 48 hours to unlock up
+            to 5 custom Shopify sections coded just for your brand — at no
+            extra setup fee.
+          </p>
+          <p className="mt-2 text-xs font-semibold leading-relaxed text-black/45">
+            Simple brand-specific launch sections only.
+          </p>
+        </div>
 
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noreferrer"
-          onClick={() =>
+          onClick={() => {
+            trackContact({
+              channel: "whatsapp",
+              source_section: "lead_success",
+            });
             trackWhatsAppClick({
-              source: "lead_form_success",
-              offer: "Instagram Brand Shopify Launch",
-            })
-          }
-          className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition hover:scale-[1.01] sm:w-auto"
+              source_section: "lead_success",
+              cta_label: "Continue on WhatsApp",
+              channel: "whatsapp",
+            });
+          }}
+          className="mt-5 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#25D366] px-6 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-white shadow-lg transition hover:scale-[1.01]"
         >
           <WhatsAppIcon className="h-5 w-5 shrink-0" />
-          Send My Details on WhatsApp
+          Continue on WhatsApp
         </a>
+        <p className="mt-3 text-center text-xs font-bold text-black/40">
+          Fastest response · No long call needed
+        </p>
       </div>
     );
   }
@@ -187,6 +247,14 @@ export default function LeadForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      onInvalidCapture={() => {
+        if (validationErrorTracked.current) return;
+        validationErrorTracked.current = true;
+        trackFormSubmitError({
+          form: "shopify_launch_lead_form",
+          error_type: "validation_error",
+        });
+      }}
       onFocus={markFormStarted}
       className="rounded-[2rem] border border-black/5 bg-white p-6 text-left shadow-[0_30px_90px_rgba(0,0,0,0.08)] md:p-10"
     >
@@ -252,8 +320,7 @@ export default function LeadForm() {
         </label>
 
         <label className={`${LABEL_CLASS} md:col-span-2`}>
-          Email {" "}
-          <span className="text-red-500">*</span>
+          Email <span className="text-red-500">*</span>
           <input
             required
             type="email"
@@ -264,7 +331,6 @@ export default function LeadForm() {
             className={INPUT_CLASS}
           />
         </label>
-
       </div>
 
       <p className="mt-6 text-[11px] font-medium leading-relaxed text-black/45">

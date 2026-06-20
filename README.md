@@ -76,13 +76,15 @@ the actual secret into `vercel.json` or frontend code.
 
 The endpoint:
 
-- Sends the 24-hour, 72-hour and 7-day templates when due
-- Skips Closed and Lost leads
-- Skips missing/invalid timestamps and missing email addresses
-- Skips stages already marked `Yes`
-- Marks each follow-up column only after Resend succeeds
-- Sends at most one outstanding follow-up per lead per daily run, preventing
-  older imported leads from receiving multiple catch-up emails at once
+- Sends the next due email for the lead's current status and sequence.
+- Skips paused leads and leads with missing email addresses.
+- Never sends Open emails to Interested, Closed Won or Closed Lost leads.
+- Never sends sales emails after Closed Won or Closed Lost.
+- Skips emails whose sent flag is already `Yes`.
+- Marks each sent flag only after Resend succeeds.
+- Sends at most one outstanding email per lead per cron run, preventing older
+  imported leads from receiving multiple catch-up emails at once.
+- Stores Resend failures in `Last Email Error` where possible.
 
 Test manually with an authorization header:
 
@@ -109,10 +111,261 @@ Do not put the secret into public links or frontend code.
 5. Confirm the lead appears, update its status/note, and save.
 6. Backdate a test row timestamp by at least 24 hours.
 7. Call the cron endpoint with `CRON_SECRET`.
-8. Verify the Resend delivery and the matching follow-up column becoming `Yes`.
-9. Set the lead to Closed or Lost and verify later cron calls skip it.
+8. Verify the Resend delivery and the matching sequence column becoming `Yes`.
+9. Set the lead to Interested, Closed Won and Closed Lost in test rows and
+   verify later cron calls send only the correct status-based emails.
 
 Avoid using a real customer email for cron testing.
+
+## Resend email templates
+
+Reusable email layout lives in `server/emailLayout.ts`. The lead confirmation,
+admin notification and follow-up emails all use the same centered 600px
+Readyflow layout with inline email-safe CSS, readable body text, a large CTA
+button and plain-text fallbacks.
+
+The email header uses `${SITE_URL}/icon.png` when `SITE_URL` is configured and
+keeps a text `READYFLOW` brand fallback beside it. Add a full horizontal email
+logo later if you want a more polished header image.
+
+Preview without sending real email by calling the exported builders in a local
+dev scratch file or server log:
+
+- `buildLeadEmail(lead, whatsappUrl, siteUrl)` in `server/emails.ts`
+- `buildAdminEmail(lead, dashboardUrl, siteUrl)` in `server/emails.ts`
+- `buildFollowupEmailHtml(template, whatsappUrl, siteUrl)` in
+  `server/followupEmails.ts`
+
+Copy the returned HTML into a browser or email preview tool. Keep all customer
+details out of screenshots and logs when previewing with real leads.
+
+## Status-based email automation
+
+Readyflow uses four lead statuses:
+
+- `Open` - default for every new form submission. Legacy `New` and `Contacted`
+  rows are treated as `Open` when read.
+- `Interested` - starts the warm decision-support sequence.
+- `Closed Won` - stops sales follow-ups and starts client onboarding emails.
+- `Closed Lost` - stops sales follow-ups and sends a polite closing email.
+
+Changing status from the hidden admin dashboard also updates `Status Changed At`
+and `Email Sequence`. Closed Won/Lost leads never restart the Open sequence from
+a duplicate form submission.
+
+The Google Sheet adds these email automation columns when missing:
+
+- Core: `Status`, `Status Changed At`, `Email Sequence`, `Email Paused`,
+  `Last Email Sent`, `Last Email Sent At`, `Next Email Due At`,
+  `Last Email Error`, `Email Notes`
+- Open: `Open Instant Sent`, `Open 8h Sent`, `Open 24h Sent`,
+  `Open Bonus Final Reminder Sent`, `Open 7d Sent`
+- Legacy compatibility: `Open 72h Sent` and old `Followup ... Sent` columns may
+  remain in existing Sheets but are not part of the active Open sequence.
+- Interested: `Interested Immediate Sent`, `Interested 8h Sent`,
+  `Interested 24h Sent`, `Interested Bonus Final Reminder Sent`,
+  `Interested 72h Sent`, `Interested 7d Sent`
+- Closed Won: `Closed Won Project Confirmed Sent`,
+  `Closed Won Content Checklist Sent`, `Closed Won Build Started Sent`,
+  `Closed Won Review Handoff Sent`, `Closed Won Support Reminder Sent`,
+  `Closed Won Review Request Sent`
+- Closed Lost: `Closed Lost Closing Email Sent`,
+  `Closed Lost Reactivation Email Sent`
+- Operational: `Project Confirmed At`, `Content Received At`,
+  `Build Started At`, `Project Delivered At`, `Support Ends At`,
+  `Review Requested At`, `Bonus Started At`, `Bonus Expires At`,
+  `Lost Reason`
+
+Open sequence:
+
+- Instant after successful lead save: `Your launch bonus is reserved`
+- 8 hours: `Don't miss your custom sections bonus`
+- 24 hours: `Make your Shopify store feel more unique`
+- 44 hours: `Your custom-section bonus ends soon`
+- 7 days: `Should I close this for now`
+
+The 48-Hour Launch Bonus message is: up to 5 custom Shopify sections coded just
+for your brand at no extra setup fee. Keep the scope note attached: simple
+brand-specific launch sections only. Do not use fake countdowns, guaranteed
+sales language, free custom development, unlimited claims or example section
+lists in the bonus copy.
+
+Interested sequence starts from `Status Changed At`. When a lead enters
+Interested, `Bonus Started At` is set to that moment and `Bonus Expires At` is
+set 48 hours later. Saving an already-Interested lead again does not reset the
+bonus window.
+
+- Immediate: `Your store plan is ready`
+- 8 hours: `Don't miss your custom sections bonus`
+- 24 hours: `Make your store stand out`
+- 44 hours: `Your custom-section bonus ends soon`
+- 72 hours: `Want to continue without the bonus?`
+- 7 days: `Should I close this for now?`
+
+The Interested 72-hour email must not imply the bonus is still active. It should
+say the bonus window has passed and the standard Rs. 11,999 setup can still move
+ahead.
+
+Closed Won behavior:
+
+- Stops Open and Interested sales emails.
+- Sets `Email Sequence` to `Closed Won Onboarding`.
+- Sends `Your Readyflow Shopify Launch is Confirmed` once.
+- Other onboarding emails are manual dashboard actions: content checklist,
+  build started, handoff, support reminder and review request.
+
+Closed Lost behavior:
+
+- Stops Open and Interested sales emails.
+- Sets `Email Sequence` to `Closed Lost`.
+- Sends `Closing the loop on [Brand Instagram]` once unless emails are paused.
+- The 30-day reactivation email is manual only.
+
+Dashboard actions:
+
+- Save status, internal note, email notes and lost reason.
+- Mark Open, Interested, Closed Won or Closed Lost.
+- Pause or resume emails per lead.
+- Send the next relevant Open, Interested, Closed Won or Closed Lost email from
+  protected admin-only actions.
+- View sent flags, bonus status, last email, next due email and last email
+  error.
+
+Cron behavior:
+
+- `/api/cron/followups` reads all leads, skips paused/missing-email leads,
+  sends at most one due email per lead per run, marks the matching sent flag
+  only after Resend succeeds, and writes failures to `Last Email Error`.
+- The current Vercel cron remains daily at `05:00 UTC`, so 8-hour, 24-hour and
+  44-hour reminders are approximate and send on the next cron run. Switch to
+  hourly only if your Vercel plan and quota comfortably support it.
+- Because cron is daily, hot leads should still be handled manually from the
+  admin dashboard. If hourly cron is enabled later, the 8-hour and 44-hour
+  follow-up timing becomes much more accurate.
+
+Manual send behavior:
+
+- `POST /api/admin/send-email` is protected by the existing admin session.
+- Public visitors cannot trigger emails.
+- The endpoint validates the lead, email type and status before sending.
+- Paused leads are blocked from manual sends unless a future override is added.
+
+Privacy and delivery rules:
+
+- Only first-party form-submitted lead data is used.
+- No visitor identification, scraping, enrichment or email tracking pixels are
+  added.
+- No secrets are exposed to the frontend.
+- Every HTML email keeps a plain-text fallback.
+- Lead save does not fail just because a Resend email fails; the error is
+  logged and stored in the Sheet where possible.
+
+## Meta Pixel tracking
+
+Readyflow tracks the public lead funnel only. The hidden admin dashboard is not
+wrapped in public Pixel tracking and admin actions must not send Meta events.
+
+Primary ad optimization event:
+
+- `Lead` — fires only after the lead API accepts the form submission.
+
+Secondary high-intent conversion:
+
+- `Contact` — fires only when a submitted lead clicks the success-screen
+  WhatsApp CTA.
+
+Warm and diagnostic events:
+
+- `PageView` — initial public page load and public SPA route changes.
+- `ViewContent` — first view of the Instagram Brand Shopify Launch offer
+  section.
+- `Readyflow_CTA_Click` — meaningful public CTA clicks.
+- `Readyflow_FormModalOpen` — lead modal opened, with CTA source context.
+- `Readyflow_FormModalClose` — lead modal abandoned before successful lead.
+- `Readyflow_FormStart` — first form interaction per modal session.
+- `Readyflow_FormSubmitAttempt` — submit attempt before the API request.
+- `Readyflow_FormSubmitError` — validation, network, API or non-JSON errors.
+- `Readyflow_WhatsAppClick` — WhatsApp clicks. Generic WhatsApp clicks are
+  diagnostic only; they do not fire `Contact`.
+- `Readyflow_ExternalProjectClick` — public project/live-site clicks.
+- `Readyflow_InstagramClick` — public Instagram outbound clicks.
+- `Readyflow_DuplicateLead` — duplicate/update response from the lead API.
+
+Privacy rule: never send personal data to Meta Pixel. Do not send name, email,
+phone, WhatsApp number, Instagram handle, free-text product type, requirement
+text, `fbclid`, or full URLs with query strings. Pixel params should stay to
+safe funnel metadata such as `page_path`, `section`, `cta_label`, `channel`,
+`status`, `error_type`, `value`, `currency`, `offer` and `package_price`.
+
+## GA4 tracking
+
+GA4 is used for privacy-safe analytics, SEO page tracking and funnel diagnostics.
+Meta Pixel remains the ad-optimization tracker for Meta campaigns.
+
+Configure GA4 with a public Vite env variable:
+
+```text
+VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7
+```
+
+Add this exact variable in:
+
+- Local `.env.local`
+- Vercel Production environment
+- Vercel Preview environment
+- Vercel Development environment
+
+The app loads GA4 from `src/lib/ga4.ts` only when the env var exists and the
+current route is public. It uses `send_page_view: false` and sends explicit
+SPA `page_view` events through `GA4RouteTracker`, so route changes are tracked
+without relying on full URLs.
+
+Tracked GA4 events:
+
+- `page_view`
+- `view_offer`
+- `cta_click`
+- `form_modal_open`
+- `form_modal_close`
+- `form_start`
+- `form_submit_attempt`
+- `generate_lead`
+- `form_submit_error`
+- `whatsapp_click`
+- `contact`
+- `external_project_click`
+- `instagram_click`
+
+Allowed GA4 params are limited to safe funnel metadata: `page_path`,
+`page_title`, `offer`, `package_price`, `value`, `currency`, `section`,
+`cta_label`, `destination`, `source_section`, `channel`, `form_name`,
+`error_type`, `status`, `destination_type` and `project_category`.
+
+Privacy rules:
+
+- Do not send name, email, phone, WhatsApp number, Instagram handle,
+  requirement text, product free-text, `fbclid`, query strings or full URLs.
+- `page_path` is always taken from `window.location.pathname`.
+- Admin/private dashboard routes are excluded.
+- Admin WhatsApp buttons, status changes and email actions are not tracked.
+- No Google Tag Manager, heavy analytics library, visitor identification,
+  scraping, enrichment or email tracking pixels are used.
+
+Test in GA4 Realtime:
+
+1. Set `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7` in local `.env.local` and the
+   relevant Vercel Production, Preview and Development environments.
+2. Deploy or run the public site locally.
+3. Open the public homepage, navigate to `/work`, open the lead modal, and click
+   a public CTA.
+4. In GA4, open Reports > Realtime and confirm events appear.
+
+Test in GA4 DebugView:
+
+1. Use the Google Analytics Debugger browser extension or add GA debug mode in
+   the browser tooling.
+2. Repeat the public funnel actions.
+3. Open Admin > DebugView and confirm only safe event params appear.
 
 ## Production checklist
 
@@ -120,7 +373,8 @@ Before running ads:
 
 - Replace exposed Resend API key if it was ever shared or committed.
 - Change the admin password.
-- Set all Vercel env variables.
+- Set all Vercel env variables for Production, Preview and Development,
+  including `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7`.
 - Verify the Resend sender domain.
 - Share Google Sheet with the service account email as Editor.
 - Submit one test lead.
@@ -129,8 +383,9 @@ Before running ads:
 - Confirm lead email.
 - Confirm WhatsApp prefilled message.
 - Confirm admin dashboard login.
-- Mark test lead Closed.
-- Confirm follow-up cron skips Closed leads.
+- Mark a test lead Interested and confirm the immediate Interested email.
+- Mark a test lead Closed Won and confirm sales follow-ups stop.
+- Mark a test lead Closed Lost and confirm sales follow-ups stop.
 - Test Meta Pixel events in Events Manager.
 - Check mobile page at 390px width.
 - Confirm policy links work.

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight, Briefcase } from "lucide-react"; 
 import { Link, useLocation } from "react-router-dom"; 
-import { trackEvent, trackWhatsAppClick } from "../lib/metaPixel";
+import { trackCTAClick, trackWhatsAppClick } from "../lib/metaPixel";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
@@ -69,7 +69,11 @@ export default function Navbar() {
                 target={link.type === "external" ? "_blank" : "_self"}
                 onClick={() => {
                   if (link.type === "external") {
-                    trackWhatsAppClick({ source: "desktop_navigation" });
+                    trackWhatsAppClick({
+                      source_section: "desktop_navigation",
+                      cta_label: link.name,
+                      channel: "whatsapp",
+                    });
                   }
                 }}
                 className="group relative text-[10px] font-black uppercase tracking-[0.3em] text-[#070707]/40 hover:text-[#070707] transition-colors duration-300 pb-1"
@@ -87,11 +91,16 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => {
-              trackEvent("OfferView", {
-                action: "cta_click",
-                source: "mobile_navigation_bar",
+              const ctaParams = {
+                cta_label: "Check My Brand Fit",
+                section: "navbar",
+                destination: "lead_form_modal",
+              };
+              trackCTAClick(ctaParams);
+              openLeadFormModal({
+                cta_label: ctaParams.cta_label,
+                source_section: ctaParams.section,
               });
-              openLeadFormModal();
             }}
             className="flex whitespace-nowrap rounded-full bg-[#070707] px-3 py-2 text-[8px] font-black uppercase tracking-[0.08em] text-[#1DFF8A] transition-all active:scale-95 md:hidden"
           >
@@ -101,11 +110,16 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => {
-              trackEvent("OfferView", {
-                action: "cta_click",
-                source: "desktop_navigation_bar",
+              const ctaParams = {
+                cta_label: "Check My Brand Fit",
+                section: "navbar",
+                destination: "lead_form_modal",
+              };
+              trackCTAClick(ctaParams);
+              openLeadFormModal({
+                cta_label: ctaParams.cta_label,
+                source_section: ctaParams.section,
               });
-              openLeadFormModal();
             }}
             className="hidden md:flex items-center gap-3 px-6 py-2.5 bg-[#070707] text-[#F4EFE6] rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-[#1DFF8A] hover:text-[#070707] group"
           >
@@ -148,7 +162,11 @@ export default function Navbar() {
                   onClick={() => {
                     setMobileMenuOpen(false);
                     if (link.type === "external") {
-                      trackWhatsAppClick({ source: "mobile_navigation_menu" });
+                      trackWhatsAppClick({
+                        source_section: "mobile_navigation_menu",
+                        cta_label: link.name,
+                        channel: "whatsapp",
+                      });
                     }
                   }}
                 >
@@ -162,7 +180,11 @@ export default function Navbar() {
                 to="/work"
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  trackEvent("PastWork_Click", { source: "mobile_navigation_menu" });
+                  trackCTAClick({
+                    cta_label: "View Past Work",
+                    section: "mobile_navigation_menu",
+                    destination: "/work",
+                  });
                 }}
                 className="w-full mt-8 py-6 bg-[#070707] text-[#1DFF8A] rounded-[2rem] font-black uppercase tracking-[0.3em] text-xs flex items-center justify-center gap-3 shadow-2xl active:scale-95"
               >
@@ -173,7 +195,13 @@ export default function Navbar() {
                 href={`https://wa.me/${WA_NUMBER}?text=${CONTACT_MSG}`}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => trackWhatsAppClick({ source: "mobile_navigation_menu" })}
+                onClick={() =>
+                  trackWhatsAppClick({
+                    source_section: "mobile_navigation_menu",
+                    cta_label: "Continue on WhatsApp",
+                    channel: "whatsapp",
+                  })
+                }
                 className="w-full rounded-[2rem] border border-black/10 py-5 text-center text-[10px] font-black uppercase tracking-[0.24em] text-[#070707]"
               >
                 <WhatsAppIcon className="mr-2 inline-block h-4 w-4 align-middle" />

@@ -1,8 +1,11 @@
 import { randomUUID } from "node:crypto";
 import { ServerConfigurationError, requireServerEnv } from "../server/env.js";
-import { sendLeadEmails } from "../server/emails.js";
+import { sendAdminLeadNotification } from "../server/emails.js";
+import { sendSequenceEmail } from "../server/emailSequences.js";
 import {
   GoogleSheetsError,
+  markSequenceEmailSent,
+  recordSequenceEmailError,
   saveLeadToGoogleSheets,
 } from "../server/googleSheets.js";
 import { checkLeadProtection } from "../server/leadProtection.js";
@@ -58,8 +61,36 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     ...validation.data,
     timestamp,
     userAgent: getHeader(req.headers, "user-agent"),
-    status: "New",
+    status: "Open",
+    statusChangedAt: timestamp,
+    emailSequence: "Open",
+    emailPaused: "No",
+    lastEmailSent: "",
+    lastEmailSentAt: "",
+    nextEmailDueAt: timestamp,
+    lastEmailError: "",
+    emailNotes: "",
     internalNote: "",
+    openInstantSent: "No",
+    open8hSent: "No",
+    open24hSent: "No",
+    open72hSent: "No",
+    openBonusFinalReminderSent: "No",
+    open7dSent: "No",
+    interestedImmediateSent: "No",
+    interested8hSent: "No",
+    interested24hSent: "No",
+    interestedBonusFinalReminderSent: "No",
+    interested72hSent: "No",
+    interested7dSent: "No",
+    closedWonProjectConfirmedSent: "No",
+    closedWonContentChecklistSent: "No",
+    closedWonBuildStartedSent: "No",
+    closedWonReviewHandoffSent: "No",
+    closedWonSupportReminderSent: "No",
+    closedWonReviewRequestSent: "No",
+    closedLostClosingEmailSent: "No",
+    closedLostReactivationEmailSent: "No",
     followup24hSent: "No",
     followup72hSent: "No",
     followup7dSent: "No",
@@ -67,6 +98,14 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     lastContactedAt: "",
     closedAt: "",
     lostReason: "",
+    projectConfirmedAt: "",
+    contentReceivedAt: "",
+    buildStartedAt: "",
+    projectDeliveredAt: "",
+    supportEndsAt: "",
+    reviewRequestedAt: "",
+    bonusStartedAt: "",
+    bonusExpiresAt: "",
   };
 
   try {
@@ -80,11 +119,23 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (!saveResult.duplicate) {
       try {
-        await sendLeadEmails(lead, whatsappUrl);
+        await sendAdminLeadNotification(lead);
+      } catch (emailError) {
+        console.error("[api/leads] Admin notification failed:", emailError);
+      }
+
+      try {
+        await sendSequenceEmail({ ...lead, rowIndex: 0 }, "open_instant");
+        await markSequenceEmailSent({ leadId: lead.leadId }, "open_instant");
       } catch (emailError) {
         emailWarning =
           "Your request was saved. If email does not arrive, continue on WhatsApp.";
         console.error("[api/leads] Lead saved but email failed:", emailError);
+        await recordSequenceEmailError(
+          { leadId: lead.leadId },
+          "open_instant",
+          emailError,
+        ).catch(() => undefined);
       }
     } else {
       console.info(

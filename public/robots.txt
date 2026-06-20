@@ -1,17 +1,18 @@
-# ReadyFlow 2.0 // Clean Index Protocol
+# Readyflow robots.txt
+# Public site: https://readyflow.site
+
 User-agent: *
 Allow: /
-Allow: /work
-Allow: /pricing
-Allow: /privacy-policy
-Allow: /terms
-Allow: /refund-cancellation-policy
-Allow: /delivery-scope-policy
 
-# Disallow everything else that might have existed before
+# Server/API and private utility paths should not be crawled.
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/
 Disallow: /cgi-bin/
 Disallow: /temp/
 Disallow: /old/
 
-# Pointing to the new source of truth
-Sitemap: https://readyflow.in/sitemap.xml
+# Avoid indexing tracking/query-string variants of the same SPA pages.
+Disallow: /*?*
+
+Sitemap: https://readyflow.site/sitemap.xml

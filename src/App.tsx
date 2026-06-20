@@ -10,6 +10,7 @@ import { FitSection, OfferSection } from "./components/Pricing";
 import PainOutcome from "./components/PainOutcome";
 import Footer from "./components/Footer";
 import MetaPixelRouteTracker from "./components/MetaPixelRouteTracker";
+import GA4RouteTracker from "./components/GA4RouteTracker";
 import FAQAndCTA from "./components/FAQAndCTA";
 import { LeadFormModalProvider } from "./components/LeadFormModal";
 import SEO from "./components/SEO";
@@ -69,6 +70,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
     <LeadFormModalProvider>
       <ScrollToTop />
       <MetaPixelRouteTracker />
+      <GA4RouteTracker />
       <main className="relative min-h-screen bg-[#F4EFE6] font-sans selection:bg-indigo-100 selection:text-indigo-900">
         <Navbar />
         {children}

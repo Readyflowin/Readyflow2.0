@@ -9,7 +9,7 @@ import {
   Smartphone,
   Store,
 } from "lucide-react";
-import { trackEvent } from "../lib/metaPixel";
+import { trackCTAClick } from "../lib/metaPixel";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
@@ -165,9 +165,16 @@ function PrimaryCTA() {
     <motion.button
       type="button"
       onClick={() => {
-        trackEvent("HeroCTA_Click", { destination: "store_plan" });
-        trackEvent("OfferView", { action: "cta_click", source: "hero" });
-        openLeadFormModal();
+        const ctaParams = {
+          cta_label: "Check My Brand Fit",
+          section: "hero",
+          destination: "lead_form_modal",
+        };
+        trackCTAClick(ctaParams);
+        openLeadFormModal({
+          cta_label: ctaParams.cta_label,
+          source_section: ctaParams.section,
+        });
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -285,7 +292,11 @@ export default function Hero() {
             <a
               href="#work"
               onClick={() =>
-                trackEvent("PastWork_Click", { source: "hero_secondary_cta" })
+                trackCTAClick({
+                  cta_label: "View Real Stores",
+                  section: "hero",
+                  destination: "work_section",
+                })
               }
               className="flex items-center justify-center gap-3 rounded-full border border-black/10 bg-white/70 px-7 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#070707] transition hover:border-black/25 hover:bg-white"
             >

@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowUpRight, Layers3, Route, ShoppingBag } from "lucide-react";
-import { trackEvent } from "../lib/metaPixel";
+import { trackCTAClick } from "../lib/metaPixel";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
 const CARDS = [
@@ -106,13 +106,16 @@ export default function PainOutcome() {
           <button
             type="button"
             onClick={() => {
-              trackEvent("OfferView", {
-                action: "cta_click",
-                source: "pain_outcome",
-                value: 11999,
-                currency: "INR",
+              const ctaParams = {
+                cta_label: "Check My Brand Fit",
+                section: "pain_outcome",
+                destination: "lead_form_modal",
+              };
+              trackCTAClick(ctaParams);
+              openLeadFormModal({
+                cta_label: ctaParams.cta_label,
+                source_section: ctaParams.section,
               });
-              openLeadFormModal();
             }}
             className="inline-flex items-center justify-center gap-3 rounded-full bg-[#070707] px-8 py-5 text-[10px] font-black uppercase tracking-[0.23em] text-[#F4EFE6] transition hover:bg-[#1DFF8A] hover:text-[#070707]"
           >

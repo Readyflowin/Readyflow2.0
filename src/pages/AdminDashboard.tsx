@@ -12,15 +12,78 @@ import {
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
-const STATUSES = [
-  "New",
-  "Contacted",
-  "Interested",
-  "Closed",
-  "Lost",
-] as const;
+const STATUSES = ["Open", "Interested", "Closed Won", "Closed Lost"] as const;
 
 type LeadStatus = (typeof STATUSES)[number];
+type YesNo = "Yes" | "No";
+
+type EmailAction = {
+  type: string;
+  label: string;
+  status: LeadStatus;
+};
+
+const EMAIL_ACTIONS: EmailAction[] = [
+  { type: "open_instant", label: "Open Instant", status: "Open" },
+  { type: "open_8h", label: "Open 8h", status: "Open" },
+  { type: "open_24h", label: "Open 24h", status: "Open" },
+  {
+    type: "open_bonus_final_reminder",
+    label: "Bonus Final",
+    status: "Open",
+  },
+  { type: "open_7d", label: "Open 7d", status: "Open" },
+  {
+    type: "interested_immediate",
+    label: "Interested Now",
+    status: "Interested",
+  },
+  { type: "interested_8h", label: "Interested 8h", status: "Interested" },
+  { type: "interested_24h", label: "Interested 24h", status: "Interested" },
+  {
+    type: "interested_bonus_final_reminder",
+    label: "Bonus Final",
+    status: "Interested",
+  },
+  { type: "interested_72h", label: "Interested 72h", status: "Interested" },
+  { type: "interested_7d", label: "Interested 7d", status: "Interested" },
+  {
+    type: "closed_won_project_confirmed",
+    label: "Project Confirmed",
+    status: "Closed Won",
+  },
+  {
+    type: "closed_won_content_checklist",
+    label: "Content Checklist",
+    status: "Closed Won",
+  },
+  {
+    type: "closed_won_build_started",
+    label: "Build Started",
+    status: "Closed Won",
+  },
+  { type: "closed_won_handoff", label: "Handoff", status: "Closed Won" },
+  {
+    type: "closed_won_support_reminder",
+    label: "Support Reminder",
+    status: "Closed Won",
+  },
+  {
+    type: "closed_won_review_request",
+    label: "Review Request",
+    status: "Closed Won",
+  },
+  {
+    type: "closed_lost_closing",
+    label: "Closing Email",
+    status: "Closed Lost",
+  },
+  {
+    type: "closed_lost_reactivation",
+    label: "30-Day Reactivation",
+    status: "Closed Lost",
+  },
+];
 
 type AdminLead = {
   rowIndex: number;
@@ -35,12 +98,42 @@ type AdminLead = {
   email: string;
   requirement: string;
   status: LeadStatus;
+  statusChangedAt: string;
+  emailSequence: string;
+  emailPaused: YesNo;
+  lastEmailSent: string;
+  lastEmailSentAt: string;
+  nextEmailDueAt: string;
+  lastEmailError: string;
+  emailNotes: string;
   internalNote: string;
   source: string;
   utm_campaign: string;
   lastContactedAt: string;
   closedAt: string;
   lostReason: string;
+  openInstantSent: YesNo;
+  open8hSent: YesNo;
+  open24hSent: YesNo;
+  open72hSent: YesNo;
+  openBonusFinalReminderSent: YesNo;
+  open7dSent: YesNo;
+  interestedImmediateSent: YesNo;
+  interested8hSent: YesNo;
+  interested24hSent: YesNo;
+  interestedBonusFinalReminderSent: YesNo;
+  interested72hSent: YesNo;
+  interested7dSent: YesNo;
+  closedWonProjectConfirmedSent: YesNo;
+  closedWonContentChecklistSent: YesNo;
+  closedWonBuildStartedSent: YesNo;
+  closedWonReviewHandoffSent: YesNo;
+  closedWonSupportReminderSent: YesNo;
+  closedWonReviewRequestSent: YesNo;
+  closedLostClosingEmailSent: YesNo;
+  closedLostReactivationEmailSent: YesNo;
+  bonusStartedAt: string;
+  bonusExpiresAt: string;
 };
 
 type ApiResult = {
@@ -73,7 +166,7 @@ async function fetchSessionState(pathname: string): Promise<SessionState> {
 }
 
 function formatDate(value: string): string {
-  if (!value) return "—";
+  if (!value) return "-";
   const date = new Date(value);
   return Number.isNaN(date.getTime())
     ? value
@@ -92,18 +185,106 @@ function whatsappUrl(lead: AdminLead): string {
 
 function copyText(lead: AdminLead): string {
   return [
-    "New Readyflow Lead",
+    "Readyflow Lead",
     "",
     `Name: ${lead.name}`,
     `Brand Instagram: ${lead.instagram}`,
-    `What they sell: ${lead.productType}`,
+    `Product: ${lead.productType}`,
     `WhatsApp: ${lead.whatsapp}`,
     `Email: ${lead.email}`,
-    `Requirement: ${lead.requirement || "—"}`,
+    `Requirement: ${lead.requirement || "-"}`,
     `Status: ${lead.status}`,
-    `Source: ${lead.source || "—"}`,
-    `UTM Campaign: ${lead.utm_campaign || "—"}`,
+    `Email Sequence: ${lead.emailSequence || "-"}`,
+    `Email Paused: ${lead.emailPaused}`,
+    `Last Email: ${lead.lastEmailSent || "-"}`,
+    `Next Email Due: ${lead.nextEmailDueAt || "-"}`,
+    `Source: ${lead.source || "-"}`,
+    `UTM Campaign: ${lead.utm_campaign || "-"}`,
   ].join("\n");
+}
+
+function emailFlagForAction(lead: AdminLead, type: string): YesNo {
+  const flags: Record<string, YesNo> = {
+    open_instant: lead.openInstantSent,
+    open_8h: lead.open8hSent,
+    open_24h: lead.open24hSent,
+    open_72h: lead.open72hSent,
+    open_bonus_final_reminder: lead.openBonusFinalReminderSent,
+    open_7d: lead.open7dSent,
+    interested_immediate: lead.interestedImmediateSent,
+    interested_8h: lead.interested8hSent,
+    interested_24h: lead.interested24hSent,
+    interested_bonus_final_reminder: lead.interestedBonusFinalReminderSent,
+    interested_72h: lead.interested72hSent,
+    interested_7d: lead.interested7dSent,
+    closed_won_project_confirmed: lead.closedWonProjectConfirmedSent,
+    closed_won_content_checklist: lead.closedWonContentChecklistSent,
+    closed_won_build_started: lead.closedWonBuildStartedSent,
+    closed_won_handoff: lead.closedWonReviewHandoffSent,
+    closed_won_support_reminder: lead.closedWonSupportReminderSent,
+    closed_won_review_request: lead.closedWonReviewRequestSent,
+    closed_lost_closing: lead.closedLostClosingEmailSent,
+    closed_lost_reactivation: lead.closedLostReactivationEmailSent,
+  };
+  return flags[type] || "No";
+}
+
+function bonusStatus(lead: AdminLead): {
+  label: string;
+  detail: string;
+  className: string;
+} {
+  if (lead.status !== "Open" && lead.status !== "Interested") {
+    return {
+      label: "Not active",
+      detail: "Bonus applies to Open and Interested leads only.",
+      className: "border-black/10 bg-white text-black/45",
+    };
+  }
+
+  const startAt =
+    lead.status === "Interested"
+      ? Date.parse(lead.bonusStartedAt || lead.statusChangedAt)
+      : Date.parse(lead.timestamp);
+  const expiryAt =
+    lead.status === "Interested" && lead.bonusExpiresAt
+      ? Date.parse(lead.bonusExpiresAt)
+      : startAt + 48 * 60 * 60 * 1000;
+
+  if (!Number.isFinite(startAt) || !Number.isFinite(expiryAt)) {
+    return {
+      label: "Unknown",
+      detail: "Missing bonus timing.",
+      className: "border-black/10 bg-white text-black/45",
+    };
+  }
+
+  const expiryText = formatDate(new Date(expiryAt).toISOString());
+  const startText = formatDate(new Date(startAt).toISOString());
+  const remainingMs = expiryAt - Date.now();
+
+  if (remainingMs <= 0) {
+    return {
+      label: "Expired",
+      detail: `Started ${startText} · expired ${expiryText}`,
+      className: "border-black/10 bg-white text-black/45",
+    };
+  }
+
+  const endingSoonWindow = lead.status === "Interested" ? 6 : 8;
+  if (remainingMs <= endingSoonWindow * 60 * 60 * 1000) {
+    return {
+      label: "Ending Soon",
+      detail: `Started ${startText} · expires ${expiryText}`,
+      className: "border-amber-200 bg-amber-50 text-amber-800",
+    };
+  }
+
+  return {
+    label: lead.status === "Interested" ? "Active" : "Reserved",
+    detail: `Started ${startText} · expires ${expiryText}`,
+    className: "border-emerald-200 bg-emerald-50 text-emerald-800",
+  };
 }
 
 function LoginScreen({
@@ -158,7 +339,7 @@ function LoginScreen({
           Readyflow Leads
         </h1>
         <p className="mt-3 text-sm font-medium leading-relaxed text-white/45">
-          Sign in to manage enquiries and follow-up status.
+          Sign in to manage enquiries and status-based email follow-ups.
         </p>
 
         <form onSubmit={submit} className="mt-8 space-y-5">
@@ -207,7 +388,98 @@ function LoginScreen({
   );
 }
 
-function LeadEditor({
+function EmailSequencePanel({
+  lead,
+  onSaved,
+}: {
+  lead: AdminLead;
+  onSaved: (lead: AdminLead) => void;
+}) {
+  const [sendingType, setSendingType] = useState("");
+  const [message, setMessage] = useState("");
+  const actions = EMAIL_ACTIONS.filter((action) => action.status === lead.status);
+
+  const sendEmail = async (emailType: string) => {
+    setSendingType(emailType);
+    setMessage("");
+    try {
+      const response = await fetch("/api/admin/send-email", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          leadId: lead.leadId || undefined,
+          rowIndex: lead.rowIndex,
+          emailType,
+        }),
+      });
+      const result = (await response.json()) as ApiResult;
+      if (!response.ok || !result.ok || !result.lead) {
+        setMessage(result.message || "Email send failed.");
+        return;
+      }
+      onSaved(result.lead);
+      setMessage("Email sent");
+    } catch {
+      setMessage("Email send failed.");
+    } finally {
+      setSendingType("");
+    }
+  };
+
+  return (
+    <div className="mt-4 rounded-2xl border border-black/5 bg-black/[0.025] p-4">
+      <div className="grid gap-2 text-xs font-semibold text-black/60 sm:grid-cols-2 xl:grid-cols-3">
+        <p>Sequence: {lead.emailSequence || "-"}</p>
+        <p>Paused: {lead.emailPaused}</p>
+        <p>Last email: {lead.lastEmailSent || "-"}</p>
+        <p>Last sent: {formatDate(lead.lastEmailSentAt)}</p>
+        <p>Next due: {formatDate(lead.nextEmailDueAt)}</p>
+        <p>Status changed: {formatDate(lead.statusChangedAt)}</p>
+      </div>
+      {lead.lastEmailError && (
+        <p className="mt-3 rounded-xl border border-red-100 bg-red-50 px-3 py-2 text-xs font-bold text-red-700">
+          {lead.lastEmailError}
+        </p>
+      )}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {actions.map((action) => {
+          const sent = emailFlagForAction(lead, action.type) === "Yes";
+          return (
+            <button
+              key={action.type}
+              type="button"
+              disabled={Boolean(sendingType) || !lead.email}
+              onClick={() => void sendEmail(action.type)}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-2 text-[8px] font-black uppercase tracking-wider disabled:opacity-45 ${
+                sent
+                  ? "border border-emerald-200 bg-emerald-50 text-emerald-700"
+                  : "border border-black/10 bg-white text-black/70"
+              }`}
+            >
+              {sendingType === action.type && (
+                <LoaderCircle size={11} className="animate-spin" />
+              )}
+              {sent ? "Sent: " : "Send "}
+              {action.label}
+            </button>
+          );
+        })}
+      </div>
+      {message && (
+        <p
+          className={`mt-3 text-xs font-bold ${
+            message === "Email sent" ? "text-emerald-700" : "text-red-600"
+          }`}
+        >
+          {message}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function LeadCard({
   lead,
   onSaved,
 }: {
@@ -216,23 +488,30 @@ function LeadEditor({
 }) {
   const [status, setStatus] = useState<LeadStatus>(lead.status);
   const [internalNote, setInternalNote] = useState(lead.internalNote);
+  const [emailPaused, setEmailPaused] = useState<YesNo>(lead.emailPaused);
+  const [emailNotes, setEmailNotes] = useState(lead.emailNotes);
   const [lostReason, setLostReason] = useState(lead.lostReason);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState(false);
   const waUrl = whatsappUrl(lead);
+  const launchBonus = bonusStatus(lead);
 
   useEffect(() => {
     setStatus(lead.status);
     setInternalNote(lead.internalNote);
+    setEmailPaused(lead.emailPaused);
+    setEmailNotes(lead.emailNotes);
     setLostReason(lead.lostReason);
   }, [lead]);
 
   const save = async (options?: {
     status?: LeadStatus;
+    emailPaused?: YesNo;
     markContacted?: boolean;
   }) => {
     const nextStatus = options?.status || status;
+    const nextEmailPaused = options?.emailPaused || emailPaused;
     setSaving(true);
     setMessage("");
 
@@ -247,21 +526,20 @@ function LeadEditor({
           status: nextStatus,
           internalNote,
           lostReason,
+          emailPaused: nextEmailPaused,
+          emailNotes,
           markContacted: options?.markContacted || undefined,
         }),
       });
       const result = (await response.json()) as ApiResult;
       if (!response.ok || !result.ok || !result.lead) {
-        setMessage(
-          response.status === 401
-            ? "Session expired. Refresh and sign in again."
-            : "Could not save changes.",
-        );
+        setMessage(result.message || "Could not save changes.");
         return;
       }
       onSaved(result.lead);
       setStatus(result.lead.status);
-      setMessage("Saved");
+      setEmailPaused(result.lead.emailPaused);
+      setMessage(result.message || "Saved");
     } catch {
       setMessage("Could not save changes.");
     } finally {
@@ -269,17 +547,10 @@ function LeadEditor({
     }
   };
 
-  const markContacted = () => {
-    void save({ status: "Contacted", markContacted: true });
-  };
-
   const openWhatsApp = () => {
     if (!waUrl) return;
     window.open(waUrl, "_blank", "noreferrer");
-    void save({
-      status: status === "New" ? "Contacted" : status,
-      markContacted: true,
-    });
+    void save({ markContacted: true });
   };
 
   const copy = async () => {
@@ -293,7 +564,7 @@ function LeadEditor({
   };
 
   return (
-    <div className="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-sm">
+    <article className="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-[9px] font-black uppercase tracking-[0.2em] text-black/30">
@@ -318,19 +589,34 @@ function LeadEditor({
         </select>
       </div>
 
-      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2">
+      {(lead.status === "Open" || lead.status === "Interested") && (
+        <div
+          className={`mt-4 rounded-2xl border px-4 py-3 ${launchBonus.className}`}
+        >
+          <p className="text-[9px] font-black uppercase tracking-[0.18em]">
+            Bonus status: {launchBonus.label}
+          </p>
+          <p className="mt-1 text-xs font-bold">{launchBonus.detail}</p>
+        </div>
+      )}
+
+      <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-4">
         {[
           ["Product", lead.productType],
+          ["Photos", lead.photosReady],
+          ["Shopify costs", lead.shopifyCostOkay],
+          ["Source", lead.utm_campaign || lead.source],
           ["WhatsApp", lead.whatsapp],
           ["Email", lead.email],
-          ["Source", lead.utm_campaign || lead.source],
+          ["Last contacted", formatDate(lead.lastContactedAt)],
+          ["Closed at", formatDate(lead.closedAt)],
         ].map(([label, value]) => (
           <div key={label} className="rounded-xl bg-black/[0.025] p-3">
             <dt className="text-[9px] font-black uppercase tracking-[0.16em] text-black/30">
               {label}
             </dt>
             <dd className="mt-1 break-words font-semibold text-black/70">
-              {value || "—"}
+              {value || "-"}
             </dd>
           </div>
         ))}
@@ -347,28 +633,43 @@ function LeadEditor({
         </div>
       )}
 
-      <label className="mt-5 block text-[9px] font-black uppercase tracking-[0.18em] text-black/35">
-        Internal note
-        <textarea
-          rows={3}
-          value={internalNote}
-          onChange={(event) => setInternalNote(event.target.value)}
-          className={`${INPUT_CLASS} mt-2 resize-y`}
-          placeholder="Add private context or next action."
-        />
-      </label>
+      <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <label className="block text-[9px] font-black uppercase tracking-[0.18em] text-black/35">
+          Internal note
+          <textarea
+            rows={3}
+            value={internalNote}
+            onChange={(event) => setInternalNote(event.target.value)}
+            className={`${INPUT_CLASS} mt-2 resize-y`}
+            placeholder="Add private context or next action."
+          />
+        </label>
 
-      {status === "Lost" && (
+        <label className="block text-[9px] font-black uppercase tracking-[0.18em] text-black/35">
+          Email notes
+          <textarea
+            rows={3}
+            value={emailNotes}
+            onChange={(event) => setEmailNotes(event.target.value)}
+            className={`${INPUT_CLASS} mt-2 resize-y`}
+            placeholder="Reason for pause, next email context, manual notes."
+          />
+        </label>
+      </div>
+
+      {status === "Closed Lost" && (
         <label className="mt-4 block text-[9px] font-black uppercase tracking-[0.18em] text-black/35">
           Lost reason
           <input
             value={lostReason}
             onChange={(event) => setLostReason(event.target.value)}
             className={`${INPUT_CLASS} mt-2`}
-            placeholder="Budget, timing, not ready..."
+            placeholder="Budget, timing, not ready, not interested..."
           />
         </label>
       )}
+
+      <EmailSequencePanel lead={lead} onSaved={onSaved} />
 
       <div className="mt-5 flex flex-wrap gap-2">
         <button
@@ -382,15 +683,28 @@ function LeadEditor({
           ) : (
             <Save size={13} />
           )}
-          Save
+          Save status / notes
         </button>
+        {STATUSES.filter((option) => option !== status).map((option) => (
+          <button
+            key={option}
+            type="button"
+            onClick={() => void save({ status: option })}
+            disabled={saving}
+            className="rounded-full border border-black/10 bg-white px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] disabled:opacity-50"
+          >
+            Mark {option}
+          </button>
+        ))}
         <button
           type="button"
-          onClick={markContacted}
+          onClick={() =>
+            void save({ emailPaused: emailPaused === "Yes" ? "No" : "Yes" })
+          }
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-emerald-700 disabled:opacity-50"
+          className="rounded-full border border-amber-200 bg-amber-50 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-amber-800 disabled:opacity-50"
         >
-          Mark Contacted
+          {emailPaused === "Yes" ? "Resume Emails" : "Pause Emails"}
         </button>
         {waUrl ? (
           <button
@@ -426,214 +740,19 @@ function LeadEditor({
       {message && (
         <p
           className={`mt-4 text-xs font-bold ${
-            message === "Saved" ? "text-emerald-700" : "text-red-600"
+            message === "Saved" || message.includes("saved")
+              ? "text-emerald-700"
+              : "text-red-600"
           }`}
         >
           {message}
         </p>
       )}
-    </div>
+    </article>
   );
 }
 
-function DesktopLeadRow({
-  lead,
-  onSaved,
-}: {
-  lead: AdminLead;
-  onSaved: (lead: AdminLead) => void;
-}) {
-  const [status, setStatus] = useState<LeadStatus>(lead.status);
-  const [internalNote, setInternalNote] = useState(lead.internalNote);
-  const [lostReason, setLostReason] = useState(lead.lostReason);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState("");
-  const waUrl = whatsappUrl(lead);
-
-  useEffect(() => {
-    setStatus(lead.status);
-    setInternalNote(lead.internalNote);
-    setLostReason(lead.lostReason);
-  }, [lead]);
-
-  const save = async (options?: {
-    status?: LeadStatus;
-    markContacted?: boolean;
-  }) => {
-    const nextStatus = options?.status || status;
-    setSaving(true);
-    setMessage("");
-    try {
-      const response = await fetch("/api/admin/leads", {
-        method: "PATCH",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          leadId: lead.leadId || undefined,
-          rowIndex: lead.rowIndex,
-          status: nextStatus,
-          internalNote,
-          lostReason,
-          markContacted: options?.markContacted || undefined,
-        }),
-      });
-      const result = (await response.json()) as ApiResult;
-      if (!response.ok || !result.ok || !result.lead) {
-        setMessage("Save failed");
-        return;
-      }
-      onSaved(result.lead);
-      setStatus(result.lead.status);
-      setMessage("Saved");
-    } catch {
-      setMessage("Save failed");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const markContacted = () => {
-    void save({ status: "Contacted", markContacted: true });
-  };
-
-  const openWhatsApp = () => {
-    if (!waUrl) return;
-    window.open(waUrl, "_blank", "noreferrer");
-    void save({
-      status: status === "New" ? "Contacted" : status,
-      markContacted: true,
-    });
-  };
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(copyText(lead));
-      setMessage("Copied");
-    } catch {
-      setMessage("Copy failed");
-    }
-  };
-
-  return (
-    <tr className="border-t border-black/5 align-top">
-      <td className="min-w-40 p-4 text-xs font-semibold text-black/50">
-        {formatDate(lead.timestamp)}
-      </td>
-      <td className="min-w-56 p-4">
-        <p className="font-black">{lead.name || "Unnamed lead"}</p>
-        <p className="mt-1 text-xs font-bold text-[#0A8F50]">
-          {lead.instagram || "—"}
-        </p>
-        <p className="mt-2 text-xs text-black/45">
-          {lead.productType || "—"}
-        </p>
-      </td>
-      <td className="min-w-56 p-4 text-xs font-semibold leading-relaxed text-black/60">
-        <p>Source: {lead.utm_campaign || lead.source || "—"}</p>
-        {lead.requirement && <p>Requirement: {lead.requirement}</p>}
-      </td>
-      <td className="min-w-52 p-4 text-xs font-semibold text-black/60">
-        <p>{lead.whatsapp || "—"}</p>
-        <p className="mt-1 break-all">{lead.email || "—"}</p>
-      </td>
-      <td className="min-w-44 p-4">
-        <select
-          value={status}
-          onChange={(event) => setStatus(event.target.value as LeadStatus)}
-          className="w-full rounded-xl border border-black/10 bg-[#F4EFE6] px-3 py-2 text-xs font-black"
-          aria-label={`Status for ${lead.name}`}
-        >
-          {STATUSES.map((option) => (
-            <option key={option}>{option}</option>
-          ))}
-        </select>
-        {status === "Lost" && (
-          <input
-            value={lostReason}
-            onChange={(event) => setLostReason(event.target.value)}
-            className={`${INPUT_CLASS} mt-2`}
-            placeholder="Lost reason"
-          />
-        )}
-      </td>
-      <td className="min-w-64 p-4">
-        <textarea
-          rows={3}
-          value={internalNote}
-          onChange={(event) => setInternalNote(event.target.value)}
-          className={`${INPUT_CLASS} resize-y`}
-          aria-label={`Internal note for ${lead.name}`}
-        />
-      </td>
-      <td className="min-w-48 p-4">
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => void save()}
-            disabled={saving}
-            className="inline-flex items-center gap-1 rounded-full bg-[#070707] px-3 py-2 text-[8px] font-black uppercase tracking-wider text-white"
-          >
-            {saving ? (
-              <LoaderCircle size={11} className="animate-spin" />
-            ) : (
-              <Save size={11} />
-            )}
-            Save
-          </button>
-          <button
-            type="button"
-            onClick={markContacted}
-            disabled={saving}
-            className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-[8px] font-black uppercase tracking-wider text-emerald-700"
-          >
-            Mark Contacted
-          </button>
-          {waUrl && (
-            <button
-              type="button"
-              onClick={openWhatsApp}
-              className="rounded-full bg-[#25D366] px-3 py-2 text-[8px] font-black uppercase tracking-wider text-white"
-            >
-              WhatsApp
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={copy}
-            className="rounded-full border border-black/10 px-3 py-2 text-[8px] font-black uppercase tracking-wider"
-          >
-            Copy
-          </button>
-          {lead.email && (
-            <a
-              href={`mailto:${lead.email}`}
-              className="rounded-full border border-black/10 px-3 py-2 text-[8px] font-black uppercase tracking-wider"
-            >
-              Email
-            </a>
-          )}
-        </div>
-        {message && (
-          <p
-            className={`mt-2 text-[10px] font-bold ${
-              message === "Saved" || message === "Copied"
-                ? "text-emerald-700"
-                : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
-        )}
-      </td>
-    </tr>
-  );
-}
-
-function Dashboard({
-  onLogout,
-}: {
-  onLogout: () => Promise<void>;
-}) {
+function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
   const [leads, setLeads] = useState<AdminLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -688,7 +807,13 @@ function Dashboard({
         statusFilter === "All" || lead.status === statusFilter;
       const matchesSearch =
         !query ||
-        [lead.name, lead.email, lead.whatsapp, lead.instagram]
+        [
+          lead.name,
+          lead.email,
+          lead.whatsapp,
+          lead.instagram,
+          lead.productType,
+        ]
           .join(" ")
           .toLowerCase()
           .includes(query);
@@ -734,7 +859,7 @@ function Dashboard({
           </div>
         </header>
 
-        <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+        <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
           {(["Total", ...STATUSES] as const).map((status) => (
             <div
               key={status}
@@ -757,7 +882,7 @@ function Dashboard({
             <input
               value={search}
               onChange={(event) => setSearch(event.target.value)}
-              placeholder="Search name, email, WhatsApp or Instagram"
+              placeholder="Search name, email, WhatsApp, product or Instagram"
               className={`${INPUT_CLASS} pl-11`}
             />
           </label>
@@ -777,7 +902,8 @@ function Dashboard({
         </section>
 
         <p className="mt-4 rounded-2xl border border-black/5 bg-white/70 px-4 py-3 text-xs font-bold text-black/45">
-          Closed/Lost leads are skipped from follow-up automation.
+          Closed Won and Closed Lost stop sales follow-ups. Paused emails are
+          skipped by cron until resumed.
         </p>
 
         {loading ? (
@@ -796,42 +922,15 @@ function Dashboard({
             </p>
           </div>
         ) : (
-          <>
-            <section className="mt-6 grid gap-4 xl:hidden">
-              {filtered.map((lead) => (
-                <LeadEditor
-                  key={lead.leadId || lead.rowIndex}
-                  lead={lead}
-                  onSaved={updateLocalLead}
-                />
-              ))}
-            </section>
-
-            <section className="mt-6 hidden overflow-x-auto rounded-[1.75rem] border border-black/5 bg-white xl:block">
-              <table className="w-full border-collapse text-left">
-                <thead className="bg-black/[0.025]">
-                  <tr className="text-[9px] font-black uppercase tracking-[0.16em] text-black/35">
-                    <th className="p-4">Timestamp</th>
-                    <th className="p-4">Lead</th>
-                    <th className="p-4">Qualification</th>
-                    <th className="p-4">Contact</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4">Internal note</th>
-                    <th className="p-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((lead) => (
-                    <DesktopLeadRow
-                      key={lead.leadId || lead.rowIndex}
-                      lead={lead}
-                      onSaved={updateLocalLead}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </section>
-          </>
+          <section className="mt-6 grid gap-4">
+            {filtered.map((lead) => (
+              <LeadCard
+                key={lead.leadId || lead.rowIndex}
+                lead={lead}
+                onSaved={updateLocalLead}
+              />
+            ))}
+          </section>
         )}
       </div>
     </main>

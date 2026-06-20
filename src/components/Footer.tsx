@@ -7,7 +7,11 @@ import {
   MapPin,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { trackEvent, trackWhatsAppClick } from "../lib/metaPixel";
+import {
+  trackCTAClick,
+  trackInstagramClick,
+  trackWhatsAppClick,
+} from "../lib/metaPixel";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
@@ -75,13 +79,16 @@ export default function Footer() {
           <motion.button
             type="button"
             onClick={() => {
-              trackEvent("OfferView", {
-                action: "cta_click",
-                source: "footer",
-                value: 11999,
-                currency: "INR",
+              const ctaParams = {
+                cta_label: "Check My Brand Fit",
+                section: "footer",
+                destination: "lead_form_modal",
+              };
+              trackCTAClick(ctaParams);
+              openLeadFormModal({
+                cta_label: ctaParams.cta_label,
+                source_section: ctaParams.section,
               });
-              openLeadFormModal();
             }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -121,7 +128,18 @@ export default function Footer() {
               </p>
               <ul className="space-y-4">
                 <li>
-                  <a href={INSTA_URL} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-xs font-black uppercase tracking-widest hover:text-[#0A8F50]">
+                  <a
+                    href={INSTA_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() =>
+                      trackInstagramClick({
+                        source_section: "footer",
+                        destination_type: "instagram",
+                      })
+                    }
+                    className="flex items-center gap-3 text-xs font-black uppercase tracking-widest hover:text-[#0A8F50]"
+                  >
                     <Instagram size={14} /> Instagram
                   </a>
                 </li>
@@ -130,7 +148,13 @@ export default function Footer() {
                     href={`https://wa.me/${WA_NUMBER}?text=${OFFER_MSG}`}
                     target="_blank"
                     rel="noreferrer"
-                    onClick={() => trackWhatsAppClick({ source: "footer_social" })}
+                    onClick={() =>
+                      trackWhatsAppClick({
+                        source_section: "footer_social",
+                        cta_label: "WhatsApp",
+                        channel: "whatsapp",
+                      })
+                    }
                     className="flex items-center gap-3 text-xs font-black uppercase tracking-widest hover:text-[#0A8F50]"
                   >
                     <WhatsAppIcon className="h-4 w-4 shrink-0" /> WhatsApp

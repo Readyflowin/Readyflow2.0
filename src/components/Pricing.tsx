@@ -7,7 +7,7 @@ import {
   Clock3,
   X,
 } from "lucide-react";
-import { trackEvent } from "../lib/metaPixel";
+import { trackCTAClick, trackViewContent } from "../lib/metaPixel";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
 const INCLUDED = [
@@ -58,9 +58,8 @@ export function OfferSection() {
   useEffect(() => {
     if (!inView || offerViewed.current) return;
     offerViewed.current = true;
-    trackEvent("OfferView", {
-      action: "section_view",
-      source: "instagram_shopify_offer",
+    trackViewContent({
+      content_name: "Instagram Brand Shopify Launch",
       value: 11999,
       currency: "INR",
     });
@@ -133,13 +132,16 @@ export function OfferSection() {
                 <button
                   type="button"
                   onClick={() => {
-                    trackEvent("OfferView", {
-                      action: "cta_click",
-                      source: "offer_card",
-                      value: 11999,
-                      currency: "INR",
+                    const ctaParams = {
+                      cta_label: "Get My Store Plan",
+                      section: "offer",
+                      destination: "lead_form_modal",
+                    };
+                    trackCTAClick(ctaParams);
+                    openLeadFormModal({
+                      cta_label: ctaParams.cta_label,
+                      source_section: ctaParams.section,
                     });
-                    openLeadFormModal();
                   }}
                   className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-[#1DFF8A] px-6 py-5 text-[11px] font-black uppercase tracking-[0.24em] text-[#070707] transition hover:scale-[1.01]"
                 >

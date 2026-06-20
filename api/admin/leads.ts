@@ -1,5 +1,10 @@
 import { isAdminAuthenticated } from "../../server/adminAuth.js";
 import {
+  getSequenceDefinition,
+  sendSequenceEmail,
+  type SequenceEmailType,
+} from "../../server/emailSequences.js";
+import {
   parseRequestBody,
   type ApiRequest,
   type ApiResponse,
@@ -7,7 +12,9 @@ import {
 import { ServerConfigurationError } from "../../server/env.js";
 import {
   GoogleSheetsError,
+  markSequenceEmailSent,
   readLeadsFromGoogleSheets,
+  recordSequenceEmailError,
   updateLeadInGoogleSheets,
 } from "../../server/googleSheets.js";
 import {
@@ -22,7 +29,16 @@ type UpdateBody = {
   internalNote?: unknown;
   lostReason?: unknown;
   markContacted?: unknown;
+  emailPaused?: unknown;
+  emailNotes?: unknown;
 };
+
+function automaticEmailForStatus(status: LeadStatus): SequenceEmailType | null {
+  if (status === "Interested") return "interested_immediate";
+  if (status === "Closed Won") return "closed_won_project_confirmed";
+  if (status === "Closed Lost") return "closed_lost_closing";
+  return null;
+}
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   res.setHeader("Content-Type", "application/json");
@@ -62,29 +78,77 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       const lostReason =
         typeof body?.lostReason === "string" ? body.lostReason : undefined;
       const markContacted = body?.markContacted === true;
+      const emailPaused =
+        body?.emailPaused === "Yes" || body?.emailPaused === "No"
+          ? body.emailPaused
+          : undefined;
+      const emailNotes =
+        typeof body?.emailNotes === "string" ? body.emailNotes : undefined;
 
       if (
         (!leadId && !rowIndex) ||
         (!status &&
           internalNote === undefined &&
           lostReason === undefined &&
+          emailPaused === undefined &&
+          emailNotes === undefined &&
           !markContacted)
       ) {
         res.status(400).json({ ok: false, message: "Invalid lead update." });
         return;
       }
 
-      const lead = await updateLeadInGoogleSheets(
+      const update = await updateLeadInGoogleSheets(
         { leadId: leadId || undefined, rowIndex },
-        { status, internalNote, lostReason, markContacted },
+        {
+          status,
+          internalNote,
+          lostReason,
+          markContacted,
+          emailPaused,
+          emailNotes,
+        },
       );
 
-      if (!lead) {
+      if (!update) {
         res.status(404).json({ ok: false, message: "Lead not found." });
         return;
       }
 
-      res.status(200).json({ ok: true, lead });
+      let lead = update.lead;
+      let message = "";
+      const automaticEmail =
+        update.statusChanged && lead.emailPaused !== "Yes"
+          ? automaticEmailForStatus(lead.status)
+          : null;
+
+      if (automaticEmail && lead.email) {
+        const definition = getSequenceDefinition(automaticEmail);
+        if (lead[definition.flag] !== "Yes") {
+          try {
+            await sendSequenceEmail(lead, automaticEmail);
+            lead =
+              (await markSequenceEmailSent(
+                { leadId: lead.leadId, rowIndex: lead.rowIndex },
+                automaticEmail,
+              )) || lead;
+          } catch (emailError) {
+            message =
+              "Status saved, but the automatic email could not be sent.";
+            console.error(
+              `[api/admin/leads] Automatic ${automaticEmail} email failed:`,
+              emailError,
+            );
+            await recordSequenceEmailError(
+              { leadId: lead.leadId, rowIndex: lead.rowIndex },
+              automaticEmail,
+              emailError,
+            ).catch(() => undefined);
+          }
+        }
+      }
+
+      res.status(200).json({ ok: true, lead, message });
       return;
     }
 

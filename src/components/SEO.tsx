@@ -31,7 +31,7 @@ function setOg(property: string, content: string) {
 }
 
 function setCanonical(path: string) {
-  const url = `https://readyflow.in${path}`;
+  const url = `https://readyflow.site${path}`;
   let element = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (!element) {
     element = document.createElement("link");

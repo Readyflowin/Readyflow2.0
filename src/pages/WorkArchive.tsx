@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import { Instagram, Globe, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import {
+  trackExternalProjectClick,
+  trackInstagramClick,
+} from "../lib/metaPixel";
 
 const PROJECTS = [
   {
@@ -143,6 +147,13 @@ export default function WorkArchive() {
                   href={project.web}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() =>
+                    trackExternalProjectClick({
+                      source_section: "work_archive",
+                      project_category: project.niche,
+                      destination_type: "live_site",
+                    })
+                  }
                   className="group/image block aspect-video overflow-hidden rounded-[1.5rem] border border-black/5 bg-white shadow-sm"
                 >
                   <img
@@ -155,6 +166,13 @@ export default function WorkArchive() {
                 <div className="mt-4 flex gap-3">
                   <a 
                     href={project.web} target="_blank" rel="noreferrer"
+                    onClick={() =>
+                      trackExternalProjectClick({
+                        source_section: "work_archive",
+                        project_category: project.niche,
+                        destination_type: "live_site",
+                      })
+                    }
                     className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-[#070707] text-[#F4EFE6] rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#1DFF8A] hover:text-[#070707] transition-all"
                   >
                     Visit <Globe size={14} />
@@ -162,6 +180,12 @@ export default function WorkArchive() {
                   {project.insta && (
                     <a 
                       href={project.insta} target="_blank" rel="noreferrer"
+                      onClick={() =>
+                        trackInstagramClick({
+                          source_section: "work_archive",
+                          destination_type: "instagram",
+                        })
+                      }
                       className="flex-1 flex items-center justify-center gap-3 px-6 py-4 border border-black/5 bg-white/50 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:border-black transition-all"
                     >
                       Insta <Instagram size={14} />

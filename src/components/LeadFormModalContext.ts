@@ -1,7 +1,9 @@
 import { createContext, useContext } from "react";
 
+import type { MetaPixelParams } from "../lib/metaPixel";
+
 export type LeadFormModalContextValue = {
-  openLeadFormModal: () => void;
+  openLeadFormModal: (params?: MetaPixelParams) => void;
 };
 
 export const LeadFormModalContext =

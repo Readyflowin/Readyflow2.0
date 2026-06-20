@@ -1,7 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { trackEvent } from "../lib/metaPixel";
+import { trackCTAClick, trackExternalProjectClick } from "../lib/metaPixel";
 
 const PROJECTS = [
   {
@@ -132,6 +132,13 @@ export default function Testimonials() {
               href={project.url}
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                trackExternalProjectClick({
+                  source_section: "homepage_work",
+                  project_category: project.category,
+                  destination_type: "live_site",
+                })
+              }
               className="group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white text-[#070707] transition hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="relative aspect-video overflow-hidden bg-black/5">
@@ -166,7 +173,11 @@ export default function Testimonials() {
           <Link
             to="/work"
             onClick={() =>
-              trackEvent("PastWork_Click", { source: "homepage_work_archive" })
+              trackCTAClick({
+                cta_label: "View Full Work Archive",
+                section: "work_preview",
+                destination: "/work",
+              })
             }
             className="inline-flex items-center gap-3 rounded-full bg-[#070707] px-8 py-5 text-[10px] font-black uppercase tracking-[0.25em] text-[#F4EFE6] transition hover:bg-[#1DFF8A] hover:text-[#070707]"
           >

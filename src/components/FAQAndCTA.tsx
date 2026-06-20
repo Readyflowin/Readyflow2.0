@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { trackEvent } from "../lib/metaPixel";
+import { trackCTAClick } from "../lib/metaPixel";
 import { useLeadFormModal } from "./LeadFormModalContext";
 
 const FAQS = [
@@ -129,13 +129,16 @@ export default function FAQAndCTA() {
           <button
             type="button"
             onClick={() => {
-              trackEvent("OfferView", {
-                action: "cta_click",
-                source: "final_cta",
-                value: 11999,
-                currency: "INR",
+              const ctaParams = {
+                cta_label: "Get My Store Plan",
+                section: "final_cta",
+                destination: "lead_form_modal",
+              };
+              trackCTAClick(ctaParams);
+              openLeadFormModal({
+                cta_label: ctaParams.cta_label,
+                source_section: ctaParams.section,
               });
-              openLeadFormModal();
             }}
             className="mt-10 inline-flex items-center justify-center gap-3 rounded-full bg-[#070707] px-8 py-5 text-[11px] font-black uppercase tracking-[0.22em] text-[#F4EFE6] transition hover:bg-[#1DFF8A] hover:text-[#070707]"
           >
