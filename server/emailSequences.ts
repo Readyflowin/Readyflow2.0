@@ -102,7 +102,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Open Instant",
     delayMs: 0,
     auto: true,
-    subject: () => "Your launch bonus is reserved",
+    subject: (lead) => `Got your request for ${brand(lead)}`,
     preheader: () =>
       "We received your store request. Continue on WhatsApp to claim the next step.",
     ctaLabel: "Continue on WhatsApp",
@@ -124,7 +124,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Open 8h",
     delayMs: 8 * HOUR_MS,
     auto: true,
-    subject: () => "Don’t miss your custom sections bonus",
+    subject: (lead) => `Quick question about ${brand(lead)}`,
     preheader: () => "Your Readyflow launch bonus is still available.",
     ctaLabel: "Claim bonus on WhatsApp",
     whatsappMessage: (lead) =>
@@ -144,7 +144,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Open 24h",
     delayMs: DAY_MS,
     auto: true,
-    subject: () => "Make your Shopify store feel more unique",
+    subject: (lead) => `An idea for ${brand(lead)}`,
     preheader: () =>
       "The bonus can help your store feel more brand-specific at launch.",
     ctaLabel: "See what fits my brand",
@@ -167,7 +167,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     delayMs: 44 * HOUR_MS,
     expiresAfterMs: 48 * HOUR_MS,
     auto: true,
-    subject: () => "Your custom-section bonus ends soon",
+    subject: (lead) => `Checking in about ${brand(lead)}`,
     preheader: () => "You’re close to missing the 48-hour launch bonus.",
     ctaLabel: "Complete WhatsApp step",
     whatsappMessage: (lead) =>
@@ -206,7 +206,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Interested Immediate",
     delayMs: 0,
     auto: true,
-    subject: () => "Your store plan is ready",
+    subject: (lead) => `Next steps for ${brand(lead)}`,
     preheader: () => "The 48-Hour Launch Bonus is open for your brand.",
     ctaLabel: "Complete onboarding on WhatsApp",
     whatsappMessage: (lead) =>
@@ -227,7 +227,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Interested 8h",
     delayMs: 8 * HOUR_MS,
     auto: true,
-    subject: () => "Don’t miss your custom sections bonus",
+    subject: (lead) => `Quick follow-up on ${brand(lead)}`,
     preheader: () => "Your bonus is still active.",
     ctaLabel: "Claim bonus on WhatsApp",
     whatsappMessage: (lead) =>
@@ -247,7 +247,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Interested 24h",
     delayMs: DAY_MS,
     auto: true,
-    subject: () => "Make your store stand out",
+    subject: (lead) => `One thought for ${brand(lead)}`,
     preheader: () =>
       "Custom-coded sections can help your launch feel more unique.",
     ctaLabel: "Complete onboarding now",
@@ -269,7 +269,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     delayMs: 44 * HOUR_MS,
     expiresAfterMs: 48 * HOUR_MS,
     auto: true,
-    subject: () => "Your custom-section bonus ends soon",
+    subject: () => "Are you still interested in moving ahead?",
     preheader: () => "You’re close to losing the 48-hour bonus.",
     ctaLabel: "Complete onboarding now",
     whatsappMessage: (lead) =>
@@ -289,7 +289,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     label: "Interested 72h",
     delayMs: 3 * DAY_MS,
     auto: true,
-    subject: () => "Want to continue without the bonus?",
+    subject: () => "Do you still want to move ahead?",
     preheader: () =>
       "The bonus window has passed, but your store plan can still move ahead.",
     ctaLabel: "Continue with the store plan",
@@ -506,7 +506,7 @@ function buildSequenceBody(
       )
     : "";
 
-  return `${paragraphs}${bonusHtml}${bulletHtml}<p style="margin:12px 0 0;color:#6b7280;font-size:14px;line-height:1.65">- Aditya, Readyflow</p>`;
+  return `${paragraphs}${bonusHtml}${bulletHtml}`;
 }
 
 export function buildSequenceEmailHtml(
@@ -526,6 +526,7 @@ export function buildSequenceEmailHtml(
     bodyHtml: buildSequenceBody(definition, lead),
     ctaLabel: definition.ctaLabel,
     ctaUrl,
+    signature: "Aditya",
     footerNote:
       "You received this because you submitted a Readyflow store request. Reply to this email or continue on WhatsApp.",
     logoUrl: `${siteUrl}/icon.png`,

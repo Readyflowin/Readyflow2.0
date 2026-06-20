@@ -31,6 +31,23 @@ GOOGLE_SHEETS_CLIENT_EMAIL
 GOOGLE_SHEETS_ID
 ```
 
+## Plain-text SMTP confirmation script
+
+[`scripts/send_confirmation_email.py`](scripts/send_confirmation_email.py)
+sends a personalized form confirmation as strict plain text. It contains no
+HTML, CSS, images, tracking pixels, or attachments, and includes only the URL
+configured in `CONFIRMATION_URL`.
+
+Set the SMTP variables shown in `.env.example`, then run:
+
+```bash
+python scripts/send_confirmation_email.py customer@example.com "Customer"
+```
+
+Use `SMTP_USE_SSL=true` for implicit TLS, usually on port 465. Leave it false
+for STARTTLS, usually on port 587. The sender address must be verified by the
+SMTP provider.
+
 The Google service-account email must have editor access to the configured
 spreadsheet.
 

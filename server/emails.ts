@@ -180,6 +180,7 @@ export function buildLeadEmail(
     bodyHtml,
     ctaLabel: "Send My Details on WhatsApp",
     ctaUrl: whatsappUrl,
+    signature: "Aditya",
     footerNote:
       "You received this because you submitted a Readyflow store request. Reply to this email or continue on WhatsApp.",
     logoUrl: `${siteUrl}/icon.png`,
@@ -231,7 +232,7 @@ export async function sendLeadEmails(lead: StoredLead, whatsappUrl: string) {
     }),
     sendResendEmail({
       to: lead.email,
-      subject: "Your Shopify Launch Plan from Readyflow",
+      subject: "Got your Shopify store request",
       html: buildLeadEmail(lead, whatsappUrl, siteUrl),
       text: buildLeadText(lead, whatsappUrl),
     }),

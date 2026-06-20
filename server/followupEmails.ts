@@ -38,7 +38,7 @@ function templateFor(
 
   if (stage === "24h") {
     return {
-      subject: "Quick check - should I review your brand?",
+      subject: `Quick question about ${brand}`,
       heading: "Should I review your brand?",
       paragraphs: [
         `Hey ${name},`,
@@ -53,7 +53,7 @@ function templateFor(
 
   if (stage === "72h") {
     return {
-      subject: "Your store plan is still pending",
+      subject: `Still thinking about the store for ${brand}?`,
       heading: "Your store plan is still open",
       paragraphs: [
         `Hey ${name},`,
@@ -91,9 +91,10 @@ export function buildFollowupEmailHtml(
     previewText: template.heading,
     eyebrow: "Readyflow follow-up",
     title: template.heading,
-    bodyHtml: `${paragraphs}<p style="margin:10px 0 0;color:#6b7280;font-size:14px;line-height:1.65">- Aditya, Readyflow</p>`,
+    bodyHtml: paragraphs,
     ctaLabel: template.cta,
     ctaUrl: whatsappUrl,
+    signature: "Aditya",
     footerNote:
       "You received this because you submitted a Readyflow store request. Reply to this email or continue on WhatsApp.",
     logoUrl: `${normalizeSiteUrl(siteUrl)}/icon.png`,
