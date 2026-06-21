@@ -10,6 +10,7 @@ import ShopifyStoreSetupIndia, { FAQS as setupFaqs } from "./pages/ShopifyStoreS
 import ClothingBrandWebsite, { FAQS as clothingFaqs } from "./pages/ClothingBrandWebsite";
 import JewelleryEcommerceWebsite, { FAQS as jewelleryFaqs } from "./pages/JewelleryEcommerceWebsite";
 import InstagramBrandShopifyStore, { FAQS as instagramFaqs } from "./pages/InstagramBrandShopifyStore";
+import ShopifyVsWooCommerceIndia, { FAQS as shopifyVsWooCommerceFaqs } from "./pages/ShopifyVsWooCommerceIndia";
 import HomePage from "./pages/HomePage";
 
 const PAGE_COMPONENTS = {
@@ -20,6 +21,7 @@ const PAGE_COMPONENTS = {
   clothing_brand_website: ClothingBrandWebsite,
   jewellery_ecommerce_website: JewelleryEcommerceWebsite,
   instagram_brand_shopify_store: InstagramBrandShopifyStore,
+  shopify_vs_woocommerce_india: ShopifyVsWooCommerceIndia,
 } as const;
 
 const PAGE_FAQS: Record<string, readonly SeoFaq[]> = {
@@ -29,6 +31,7 @@ const PAGE_FAQS: Record<string, readonly SeoFaq[]> = {
   clothing_brand_website: clothingFaqs,
   jewellery_ecommerce_website: jewelleryFaqs,
   instagram_brand_shopify_store: instagramFaqs,
+  shopify_vs_woocommerce_india: shopifyVsWooCommerceFaqs,
 };
 
 function escapeAttribute(value: string): string {

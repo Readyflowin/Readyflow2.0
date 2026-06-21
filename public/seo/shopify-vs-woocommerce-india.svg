@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Shopify and WooCommerce comparison for Indian product brands</title>
+  <desc id="desc">An editorial diagram contrasting a simpler hosted Shopify path with a more configurable WooCommerce path.</desc>
+  <rect width="1200" height="675" fill="#f4efe6"/>
+  <path d="M0 95C196 48 318 151 526 100s377-17 674-56v631H0Z" fill="#d9f7e8"/>
+  <rect x="83" y="122" width="470" height="434" rx="28" fill="#fffdf9" stroke="#151515" stroke-width="3"/>
+  <rect x="647" y="122" width="470" height="434" rx="28" fill="#151515"/>
+  <text x="125" y="194" fill="#087746" font-family="Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="3">HOSTED COMMERCE</text>
+  <text x="125" y="258" fill="#111111" font-family="Georgia, serif" font-size="56" font-weight="700">Shopify</text>
+  <path d="M128 310h380" stroke="#d7d0c5" stroke-width="2"/>
+  <circle cx="149" cy="356" r="10" fill="#1dff8a"/><text x="178" y="364" fill="#343434" font-family="Arial, sans-serif" font-size="24">Launch with a smaller stack</text>
+  <circle cx="149" cy="411" r="10" fill="#1dff8a"/><text x="178" y="419" fill="#343434" font-family="Arial, sans-serif" font-size="24">Hosting and core upkeep included</text>
+  <circle cx="149" cy="466" r="10" fill="#1dff8a"/><text x="178" y="474" fill="#343434" font-family="Arial, sans-serif" font-size="24">Built for day-to-day store admin</text>
+  <text x="689" y="194" fill="#1dff8a" font-family="Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="3">OPEN-SOURCE STACK</text>
+  <text x="689" y="258" fill="#ffffff" font-family="Georgia, serif" font-size="46" font-weight="700">WooCommerce</text>
+  <path d="M692 310h380" stroke="#464646" stroke-width="2"/>
+  <circle cx="713" cy="356" r="10" fill="#ffffff"/><text x="742" y="364" fill="#f4efe6" font-family="Arial, sans-serif" font-size="24">More control over the stack</text>
+  <circle cx="713" cy="411" r="10" fill="#ffffff"/><text x="742" y="419" fill="#f4efe6" font-family="Arial, sans-serif" font-size="24">WordPress and hosting required</text>
+  <circle cx="713" cy="466" r="10" fill="#ffffff"/><text x="742" y="474" fill="#f4efe6" font-family="Arial, sans-serif" font-size="24">Best with technical support</text>
+  <text x="600" y="627" text-anchor="middle" fill="#111111" font-family="Arial, sans-serif" font-size="24" font-weight="700">The better platform depends on how much control — and maintenance — your brand wants to own.</text>
+</svg>

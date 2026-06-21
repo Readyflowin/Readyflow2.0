@@ -1,7 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Check,
+  CheckCircle2,
+  ChevronDown,
   Clipboard,
+  CircleAlert,
+  Clock3,
   ExternalLink,
   LoaderCircle,
   LogOut,
@@ -9,6 +13,7 @@ import {
   RefreshCw,
   Save,
   Search,
+  Send,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import SEO from "../components/SEO";
@@ -148,6 +153,13 @@ type ApiResult = {
 
 type SessionState = "checking" | "not-found" | "login" | "dashboard" | "error";
 
+type ActionNotice = {
+  id: number;
+  tone: "success" | "error" | "pending";
+  title: string;
+  detail?: string;
+};
+
 const INPUT_CLASS =
   "w-full rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-[#070707] outline-none transition focus:border-[#1DFF8A] focus:ring-4 focus:ring-[#1DFF8A]/10";
 
@@ -175,6 +187,44 @@ function formatDate(value: string): string {
         dateStyle: "medium",
         timeStyle: "short",
       }).format(date);
+}
+
+function actionLabel(type: string): string {
+  return type
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+}
+
+function ActionToast({ notice }: { notice: ActionNotice | null }) {
+  if (!notice) return null;
+  const icon =
+    notice.tone === "success" ? (
+      <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+    ) : notice.tone === "error" ? (
+      <CircleAlert className="h-5 w-5 text-red-600" />
+    ) : (
+      <LoaderCircle className="h-5 w-5 animate-spin text-[#087746]" />
+    );
+  const color =
+    notice.tone === "success"
+      ? "border-emerald-200 bg-emerald-50"
+      : notice.tone === "error"
+        ? "border-red-200 bg-red-50"
+        : "border-black/10 bg-white";
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={`fixed right-5 top-5 z-[200] flex w-[min(420px,calc(100vw-40px))] items-start gap-3 rounded-2xl border p-4 shadow-xl ${color}`}
+    >
+      {icon}
+      <div>
+        <p className="text-sm font-black text-[#070707]">{notice.title}</p>
+        {notice.detail && <p className="mt-1 text-xs font-semibold leading-5 text-black/60">{notice.detail}</p>}
+      </div>
+    </div>
+  );
 }
 
 function whatsappUrl(lead: AdminLead): string {
@@ -400,17 +450,30 @@ function LoginScreen({
 function EmailSequencePanel({
   lead,
   onSaved,
+  onNotice,
 }: {
   lead: AdminLead;
   onSaved: (lead: AdminLead) => void;
+  onNotice: (notice: Omit<ActionNotice, "id">) => void;
 }) {
   const [sendingType, setSendingType] = useState("");
   const [message, setMessage] = useState("");
+  const [messageKind, setMessageKind] = useState<"success" | "error" | "">("");
   const actions = EMAIL_ACTIONS.filter((action) => action.status === lead.status);
+  const nextAction = actions.find(
+    (action) => emailFlagForAction(lead, action.type) !== "Yes",
+  );
+  const emailBlocked = !lead.email || lead.emailPaused === "Yes";
 
   const sendEmail = async (emailType: string) => {
     setSendingType(emailType);
-    setMessage("");
+    onNotice({
+      tone: "pending",
+      title: `Sending ${actionLabel(emailType)} email`,
+      detail: `Sending to ${lead.email || "this lead"} through Resend...`,
+    });
+    setMessage("Sending email through Resend…");
+    setMessageKind("");
     try {
       const response = await fetch("/api/admin/send-email", {
         method: "POST",
@@ -424,20 +487,110 @@ function EmailSequencePanel({
       });
       const result = (await response.json()) as ApiResult;
       if (!response.ok || !result.ok || !result.lead) {
+        onNotice({
+          tone: "error",
+          title: "Email was not sent",
+          detail:
+            result.message || "Try again after checking the lead and email setup.",
+        });
         setMessage(result.message || "Email send failed.");
+        setMessageKind("error");
         return;
       }
       onSaved(result.lead);
-      setMessage("Email sent");
+      onNotice({
+        tone: "success",
+        title: "Email sent successfully",
+        detail: `${actionLabel(emailType)} was accepted by Resend and logged against ${lead.email}.`,
+      });
+      setMessage("Email accepted by Resend and recorded in this lead’s sequence.");
+      setMessageKind("success");
     } catch {
+      onNotice({
+        tone: "error",
+        title: "Email was not sent",
+        detail: "The dashboard could not reach the email service. Please try again.",
+      });
       setMessage("Email send failed.");
+      setMessageKind("error");
     } finally {
       setSendingType("");
     }
   };
 
   return (
-    <div className="mt-4 rounded-2xl border border-black/5 bg-black/[0.025] p-4">
+    <>
+      <section className="rounded-2xl border border-black/8 bg-[#fbfaf7] p-4 sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-black/40">Email activity</p>
+            <h4 className="mt-1 text-lg font-black tracking-tight text-[#070707]">
+              {lead.lastEmailSent
+                ? `${actionLabel(lead.lastEmailSent)} sent`
+                : "No email sent yet"}
+            </h4>
+            <p className="mt-1 text-xs font-semibold text-black/55">
+              {lead.lastEmailSentAt
+                ? `Sent ${formatDate(lead.lastEmailSentAt)} to ${lead.email}.`
+                : lead.email
+                  ? `Ready to email ${lead.email}.`
+                  : "This lead has no email address."}
+            </p>
+          </div>
+          <div className={`inline-flex items-center gap-2 self-start rounded-full border px-3 py-2 text-[10px] font-black uppercase tracking-wider ${lead.emailPaused === "Yes" ? "border-amber-200 bg-amber-50 text-amber-800" : "border-emerald-200 bg-emerald-50 text-emerald-700"}`}>
+            <Clock3 size={13} />
+            {lead.emailPaused === "Yes"
+              ? "Emails paused"
+              : lead.nextEmailDueAt
+                ? `Next due ${formatDate(lead.nextEmailDueAt)}`
+                : "Sequence complete"}
+          </div>
+        </div>
+        {lead.lastEmailError && (
+          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-3 py-3 text-xs font-bold text-red-700">
+            Last delivery error: {lead.lastEmailError}
+          </div>
+        )}
+        {nextAction && !emailBlocked ? (
+          <button
+            type="button"
+            onClick={() => void sendEmail(nextAction.type)}
+            disabled={Boolean(sendingType)}
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#087746] px-5 py-3 text-xs font-black uppercase tracking-[0.12em] text-white transition hover:bg-[#065f39] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          >
+            {sendingType === nextAction.type ? <LoaderCircle size={16} className="animate-spin" /> : <Send size={16} />}
+            {sendingType === nextAction.type
+              ? "Sending email..."
+              : `Send next email: ${nextAction.label}`}
+          </button>
+        ) : (
+          <p className="mt-5 rounded-xl border border-black/8 bg-white px-4 py-3 text-xs font-bold text-black/55">
+            {lead.emailPaused === "Yes"
+              ? "Resume emails before sending another follow-up."
+              : !lead.email
+                ? "Add an email address before sending a follow-up."
+                : "All emails for this lead’s current sequence are recorded as sent."}
+          </p>
+        )}
+        <details className="group mt-5 border-t border-black/8 pt-4">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-black text-black/60">
+            View full email sequence
+            <ChevronDown size={16} className="transition group-open:rotate-180" />
+          </summary>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {actions.map((action) => {
+              const sent = emailFlagForAction(lead, action.type) === "Yes";
+              return (
+                <button key={action.type} type="button" disabled={Boolean(sendingType) || emailBlocked} onClick={() => void sendEmail(action.type)} className={`flex items-center justify-between rounded-xl border px-3 py-3 text-left text-xs font-bold transition disabled:opacity-45 ${sent ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-black/10 bg-white text-black/70 hover:border-[#087746]"}`}>
+                  <span>{action.label}</span>
+                  <span className="text-[9px] font-black uppercase tracking-wider">{sendingType === action.type ? "Sending..." : sent ? "Sent" : "Send"}</span>
+                </button>
+              );
+            })}
+          </div>
+        </details>
+      </section>
+      <div className="hidden">
       <div className="grid gap-2 text-xs font-semibold text-black/60 sm:grid-cols-2 xl:grid-cols-3">
         <p>Sequence: {lead.emailSequence || "-"}</p>
         <p>Paused: {lead.emailPaused}</p>
@@ -469,39 +622,52 @@ function EmailSequencePanel({
               {sendingType === action.type && (
                 <LoaderCircle size={11} className="animate-spin" />
               )}
-              {sent ? "Sent: " : "Send "}
-              {action.label}
+              {sendingType === action.type
+                ? "Sending…"
+                : sent
+                  ? `Sent: ${action.label}`
+                  : `Send ${action.label}`}
             </button>
           );
         })}
       </div>
       {message && (
         <p
+          role="status"
+          aria-live="polite"
           className={`mt-3 text-xs font-bold ${
-            message === "Email sent" ? "text-emerald-700" : "text-red-600"
+            messageKind === "success"
+              ? "text-emerald-700"
+              : messageKind === "error"
+                ? "text-red-600"
+                : "text-black/55"
           }`}
         >
           {message}
         </p>
       )}
-    </div>
+      </div>
+    </>
   );
 }
 
 function LeadCard({
   lead,
   onSaved,
+  onNotice,
 }: {
   lead: AdminLead;
   onSaved: (lead: AdminLead) => void;
+  onNotice: (notice: Omit<ActionNotice, "id">) => void;
 }) {
   const [status, setStatus] = useState<LeadStatus>(lead.status);
   const [internalNote, setInternalNote] = useState(lead.internalNote);
   const [emailPaused, setEmailPaused] = useState<YesNo>(lead.emailPaused);
   const [emailNotes, setEmailNotes] = useState(lead.emailNotes);
   const [lostReason, setLostReason] = useState(lead.lostReason);
-  const [saving, setSaving] = useState(false);
+  const [savingAction, setSavingAction] = useState("");
   const [message, setMessage] = useState("");
+  const [messageKind, setMessageKind] = useState<"success" | "error" | "">("");
   const [copied, setCopied] = useState(false);
   const waUrl = whatsappUrl(lead);
   const launchBonus = bonusStatus(lead);
@@ -518,11 +684,20 @@ function LeadCard({
     status?: LeadStatus;
     emailPaused?: YesNo;
     markContacted?: boolean;
+    action?: string;
+    progressMessage?: string;
+    successMessage?: string;
   }) => {
     const nextStatus = options?.status || status;
     const nextEmailPaused = options?.emailPaused || emailPaused;
-    setSaving(true);
-    setMessage("");
+    const action = options?.action || "save";
+    setSavingAction(action);
+    setMessage(options?.progressMessage || "Saving changes…");
+    setMessageKind("");
+    onNotice({
+      tone: "pending",
+      title: options?.progressMessage || "Saving lead changes",
+    });
 
     try {
       const response = await fetch("/api/admin/leads", {
@@ -542,39 +717,69 @@ function LeadCard({
       });
       const result = (await response.json()) as ApiResult;
       if (!response.ok || !result.ok || !result.lead) {
+        onNotice({
+          tone: "error",
+          title: "Lead was not updated",
+          detail: result.message || "Please try again.",
+        });
         setMessage(result.message || "Could not save changes.");
+        setMessageKind("error");
         return;
       }
       onSaved(result.lead);
       setStatus(result.lead.status);
       setEmailPaused(result.lead.emailPaused);
-      setMessage(result.message || "Saved");
+      setMessage(result.message || options?.successMessage || "Saved");
+      setMessageKind("success");
+      onNotice({
+        tone: "success",
+        title: result.message || options?.successMessage || "Lead updated",
+        detail: `${result.lead.name || "This lead"} is now ${result.lead.status}.`,
+      });
     } catch {
+      onNotice({
+        tone: "error",
+        title: "Lead was not updated",
+        detail: "The dashboard could not save this change. Please try again.",
+      });
       setMessage("Could not save changes.");
+      setMessageKind("error");
     } finally {
-      setSaving(false);
+      setSavingAction("");
     }
   };
 
   const openWhatsApp = () => {
     if (!waUrl) return;
     window.open(waUrl, "_blank", "noreferrer");
-    void save({ markContacted: true });
+    void save({
+      markContacted: true,
+      action: "whatsapp",
+      progressMessage: "WhatsApp opened — recording this contact…",
+      successMessage: "WhatsApp opened and contact recorded.",
+    });
   };
 
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(copyText(lead));
       setCopied(true);
+      onNotice({
+        tone: "success",
+        title: "Lead details copied",
+        detail: "You can paste them into WhatsApp, email, or your notes.",
+      });
       window.setTimeout(() => setCopied(false), 1600);
     } catch {
+      onNotice({ tone: "error", title: "Could not copy lead details" });
       setMessage("Could not copy lead details.");
+      setMessageKind("error");
     }
   };
 
   return (
-    <article className="rounded-[1.75rem] border border-black/5 bg-white p-5 shadow-sm">
-      <div className="flex flex-wrap items-start justify-between gap-4">
+    <article className="rounded-2xl border border-black/8 bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-black/8 pb-5">
         <div>
           <p className="text-[9px] font-black uppercase tracking-[0.2em] text-black/30">
             {formatDate(lead.timestamp)}
@@ -586,16 +791,19 @@ function LeadCard({
             {lead.instagram || "No Instagram handle"}
           </p>
         </div>
-        <select
-          value={status}
-          onChange={(event) => setStatus(event.target.value as LeadStatus)}
-          className="rounded-full border border-black/10 bg-[#F4EFE6] px-4 py-2 text-xs font-black"
-          aria-label={`Status for ${lead.name}`}
-        >
-          {STATUSES.map((option) => (
-            <option key={option}>{option}</option>
-          ))}
-        </select>
+        <label className="text-[10px] font-black uppercase tracking-[0.15em] text-black/40">
+          Lead status
+          <select
+            value={status}
+            onChange={(event) => setStatus(event.target.value as LeadStatus)}
+            className="mt-1 block rounded-lg border border-black/10 bg-[#fbfaf7] px-4 py-2.5 text-xs font-black normal-case tracking-normal text-[#070707]"
+            aria-label={`Status for ${lead.name}`}
+          >
+            {STATUSES.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
       {(lead.status === "Open" || lead.status === "Interested") && (
@@ -612,15 +820,11 @@ function LeadCard({
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 xl:grid-cols-4">
         {[
           ["Product", lead.productType],
-          ["Photos", lead.photosReady],
-          ["Shopify costs", lead.shopifyCostOkay],
-          ["Source", lead.utm_campaign || lead.source],
           ["WhatsApp", lead.whatsapp],
           ["Email", lead.email],
-          ["Last contacted", formatDate(lead.lastContactedAt)],
-          ["Closed at", formatDate(lead.closedAt)],
+          ["Source", lead.utm_campaign || lead.source],
         ].map(([label, value]) => (
-          <div key={label} className="rounded-xl bg-black/[0.025] p-3">
+          <div key={label} className="rounded-xl border border-black/5 bg-[#fbfaf7] p-3">
             <dt className="text-[9px] font-black uppercase tracking-[0.16em] text-black/30">
               {label}
             </dt>
@@ -642,7 +846,12 @@ function LeadCard({
         </div>
       )}
 
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
+      <details className="group mt-5 rounded-2xl border border-black/8 bg-[#fbfaf7] p-4">
+        <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-black uppercase tracking-[0.14em] text-black/55">
+          Notes and lead context
+          <ChevronDown size={16} className="transition group-open:rotate-180" />
+        </summary>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
         <label className="block text-[9px] font-black uppercase tracking-[0.18em] text-black/35">
           Internal note
           <textarea
@@ -677,51 +886,88 @@ function LeadCard({
           />
         </label>
       )}
+      </details>
 
-      <EmailSequencePanel lead={lead} onSaved={onSaved} />
+      <div className="mt-5">
+        <EmailSequencePanel lead={lead} onSaved={onSaved} onNotice={onNotice} />
+      </div>
 
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-5 border-t border-black/8 pt-5">
+        <p className="mb-3 text-[10px] font-black uppercase tracking-[0.18em] text-black/40">Lead controls</p>
+      <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={() => void save()}
-          disabled={saving}
+          onClick={() => void save({ action: "save" })}
+          disabled={Boolean(savingAction)}
           className="inline-flex items-center gap-2 rounded-full bg-[#070707] px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-[#F4EFE6] disabled:opacity-50"
         >
-          {saving ? (
+          {savingAction === "save" ? (
             <LoaderCircle size={13} className="animate-spin" />
           ) : (
             <Save size={13} />
           )}
-          Save status / notes
+          {savingAction === "save" ? "Saving…" : "Save status / notes"}
         </button>
+        <div className="hidden">
         {STATUSES.filter((option) => option !== status).map((option) => (
           <button
             key={option}
             type="button"
-            onClick={() => void save({ status: option })}
-            disabled={saving}
-            className="rounded-full border border-black/10 bg-white px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] disabled:opacity-50"
+            onClick={() =>
+              void save({
+                status: option,
+                action: `status-${option}`,
+                progressMessage: `Marking ${option}…`,
+                successMessage: `Marked ${option}.`,
+              })
+            }
+            disabled={Boolean(savingAction)}
+            className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] disabled:opacity-50"
           >
-            Mark {option}
+            {savingAction === `status-${option}` && (
+              <LoaderCircle size={13} className="animate-spin" />
+            )}
+            {savingAction === `status-${option}` ? "Saving…" : `Mark ${option}`}
           </button>
         ))}
+        </div>
         <button
           type="button"
           onClick={() =>
-            void save({ emailPaused: emailPaused === "Yes" ? "No" : "Yes" })
+            void save({
+              emailPaused: emailPaused === "Yes" ? "No" : "Yes",
+              action: "email-pause",
+              progressMessage:
+                emailPaused === "Yes" ? "Resuming emails…" : "Pausing emails…",
+              successMessage:
+                emailPaused === "Yes" ? "Emails resumed." : "Emails paused.",
+            })
           }
-          disabled={saving}
-          className="rounded-full border border-amber-200 bg-amber-50 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-amber-800 disabled:opacity-50"
+          disabled={Boolean(savingAction)}
+          className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-amber-800 disabled:opacity-50"
         >
-          {emailPaused === "Yes" ? "Resume Emails" : "Pause Emails"}
+          {savingAction === "email-pause" && (
+            <LoaderCircle size={13} className="animate-spin" />
+          )}
+          {savingAction === "email-pause"
+            ? "Saving…"
+            : emailPaused === "Yes"
+              ? "Resume Emails"
+              : "Pause Emails"}
         </button>
         {waUrl ? (
           <button
             type="button"
             onClick={openWhatsApp}
+            disabled={Boolean(savingAction)}
             className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-white"
           >
-            WhatsApp <ExternalLink size={12} />
+            {savingAction === "whatsapp" ? (
+              <LoaderCircle size={12} className="animate-spin" />
+            ) : (
+              <ExternalLink size={12} />
+            )}
+            {savingAction === "whatsapp" ? "Recording…" : "WhatsApp"}
           </button>
         ) : (
           <span className="inline-flex cursor-not-allowed items-center rounded-full bg-black/5 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-black/25">
@@ -745,13 +991,18 @@ function LeadCard({
           </a>
         )}
       </div>
+      </div>
 
       {message && (
         <p
+          role="status"
+          aria-live="polite"
           className={`mt-4 text-xs font-bold ${
-            message === "Saved" || message.includes("saved")
+            messageKind === "success"
               ? "text-emerald-700"
-              : "text-red-600"
+              : messageKind === "error"
+                ? "text-red-600"
+                : "text-black/55"
           }`}
         >
           {message}
@@ -761,15 +1012,33 @@ function LeadCard({
   );
 }
 
-function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
+function Dashboard({ onLogout }: { onLogout: () => Promise<boolean> }) {
   const [leads, setLeads] = useState<AdminLead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [actionMessage, setActionMessage] = useState("");
+  const [actionNotice, setActionNotice] = useState<ActionNotice | null>(null);
+  const noticeTimer = useRef<number | null>(null);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"All" | LeadStatus>("All");
 
+  const showNotice = useCallback((notice: Omit<ActionNotice, "id">) => {
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+    setActionNotice({ ...notice, id: Date.now() });
+    if (notice.tone !== "pending") {
+      noticeTimer.current = window.setTimeout(() => setActionNotice(null), 6000);
+    }
+  }, []);
+
+  useEffect(() => () => {
+    if (noticeTimer.current) window.clearTimeout(noticeTimer.current);
+  }, []);
+
   const loadLeads = useCallback(async () => {
     setLoading(true);
+    setRefreshing(true);
     setError("");
     try {
       const response = await fetch("/api/admin/leads", {
@@ -789,8 +1058,19 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
       setError("Unable to load leads.");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
+
+  const logout = async () => {
+    setLoggingOut(true);
+    setActionMessage("Signing out…");
+    const loggedOut = await onLogout();
+    if (!loggedOut) {
+      setLoggingOut(false);
+      setActionMessage("Could not sign out. Please try again.");
+    }
+  };
 
   useEffect(() => {
     void loadLeads();
@@ -847,6 +1127,7 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
         noindex
       />
       <main className="min-h-screen bg-[#F4EFE6] px-4 py-6 text-[#070707] sm:px-6 lg:px-10">
+      <ActionToast notice={actionNotice} />
       <div className="mx-auto max-w-[1500px]">
         <header className="flex flex-col gap-5 rounded-[2rem] bg-[#070707] p-6 text-[#F4EFE6] shadow-xl sm:flex-row sm:items-center sm:justify-between md:p-8">
           <div>
@@ -861,19 +1142,40 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
             <button
               type="button"
               onClick={() => void loadLeads()}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em]"
+              disabled={loading || refreshing || loggingOut}
+              className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] disabled:opacity-50"
             >
-              <RefreshCw size={13} /> Refresh
+              <RefreshCw
+                size={13}
+                className={refreshing ? "animate-spin" : undefined}
+              />
+              {refreshing ? "Refreshing…" : "Refresh"}
             </button>
             <button
               type="button"
-              onClick={() => void onLogout()}
-              className="inline-flex items-center gap-2 rounded-full bg-[#1DFF8A] px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-[#070707]"
+              onClick={() => void logout()}
+              disabled={loggingOut}
+              className="inline-flex items-center gap-2 rounded-full bg-[#1DFF8A] px-4 py-3 text-[9px] font-black uppercase tracking-[0.16em] text-[#070707] disabled:opacity-50"
             >
-              <LogOut size={13} /> Logout
+              {loggingOut ? (
+                <LoaderCircle size={13} className="animate-spin" />
+              ) : (
+                <LogOut size={13} />
+              )}
+              {loggingOut ? "Signing out…" : "Logout"}
             </button>
           </div>
         </header>
+
+        {actionMessage && (
+          <p
+            role="status"
+            aria-live="polite"
+            className="mt-3 text-xs font-bold text-black/55"
+          >
+            {actionMessage}
+          </p>
+        )}
 
         <section className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
           {(["Total", ...STATUSES] as const).map((status) => (
@@ -922,7 +1224,7 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
           skipped by cron until resumed.
         </p>
 
-        {loading ? (
+        {loading && leads.length === 0 ? (
           <div className="flex min-h-72 items-center justify-center">
             <LoaderCircle size={34} className="animate-spin text-[#0A8F50]" />
           </div>
@@ -944,6 +1246,7 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
                 key={lead.leadId || lead.rowIndex}
                 lead={lead}
                 onSaved={updateLocalLead}
+                onNotice={showNotice}
               />
             ))}
           </section>
@@ -972,12 +1275,18 @@ export default function AdminDashboard() {
     };
   }, [pathname]);
 
-  const logout = async () => {
-    await fetch("/api/admin/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    setState("login");
+  const logout = async (): Promise<boolean> => {
+    try {
+      const response = await fetch("/api/admin/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) return false;
+      setState("login");
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   if (state === "checking") {

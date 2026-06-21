@@ -7,6 +7,7 @@ import ShopifyStoreSetupIndia from "./pages/ShopifyStoreSetupIndia";
 import ClothingBrandWebsite from "./pages/ClothingBrandWebsite";
 import JewelleryEcommerceWebsite from "./pages/JewelleryEcommerceWebsite";
 import InstagramBrandShopifyStore from "./pages/InstagramBrandShopifyStore";
+import ShopifyVsWooCommerceIndia from "./pages/ShopifyVsWooCommerceIndia";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const PricingPage = lazy(() => import("./pages/pricingpage"));
@@ -42,6 +43,7 @@ export function AppRoutes() {
       <Route path="/clothing-brand-website" element={<PublicRoute><ClothingBrandWebsite /></PublicRoute>} />
       <Route path="/jewellery-ecommerce-website" element={<PublicRoute><JewelleryEcommerceWebsite /></PublicRoute>} />
       <Route path="/instagram-brand-shopify-store" element={<PublicRoute><InstagramBrandShopifyStore /></PublicRoute>} />
+      <Route path="/shopify-vs-woocommerce-india" element={<PublicRoute><ShopifyVsWooCommerceIndia /></PublicRoute>} />
       <Route path="*" element={<DeferredRoute><AdminDashboard /></DeferredRoute>} />
     </Routes>
   );

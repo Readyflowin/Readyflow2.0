@@ -55,6 +55,33 @@ export const HOME_STATIC_ROUTE = route({
 
 export const PUBLISHED_SEO_ROUTES = [
   route({
+    path: "/shopify-vs-woocommerce-india",
+    pageId: "shopify_vs_woocommerce_india",
+    title: "Shopify vs WooCommerce India: Which Is Better?",
+    description:
+      "Compare Shopify vs WooCommerce in India with real costs, hosting, payments, COD, SEO, and setup effort for small product brands.",
+    h1: "Shopify vs WooCommerce in India",
+    pageType: "article",
+    category: "Ecommerce Platform Guide",
+    author: "Readyflow Editorial Desk",
+    publishedDate: "2026-06-21",
+    updatedDate: "2026-06-21",
+    readingTime: "15 min read",
+    sitemapInclude: true,
+    indexable: true,
+    ogImage: "/seo/shopify-vs-woocommerce-india.svg",
+    ctaSource: "seo_shopify_vs_woocommerce_india",
+    schemaId: "shopify-vs-woocommerce-india-schema",
+    relatedPaths: [
+      "/shopify-store-setup-india",
+      "/shopify-store-setup-cost-india",
+      "/ecommerce-website-development-india",
+      "/instagram-brand-shopify-store",
+      "/clothing-brand-website",
+      "/jewellery-ecommerce-website",
+    ],
+  }),
+  route({
     path: "/shopify-store-setup-india",
     pageId: "shopify_store_setup_india",
     title: "Shopify Store Setup in India for Instagram Brands | Readyflow",
@@ -201,7 +228,6 @@ export const PUBLISHED_SEO_ROUTES = [
 ] as const satisfies readonly SeoRoute[];
 
 export const PLANNED_SEO_ROUTES = [
-  "/shopify-vs-woocommerce-india",
   "/shopify-vs-wordpress-ecommerce-india",
   "/how-to-setup-shopify-store-india",
   "/shopify-store-launch-checklist-india",
