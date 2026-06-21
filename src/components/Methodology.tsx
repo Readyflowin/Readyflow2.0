@@ -86,7 +86,7 @@ export default function Methodology() {
             variants={itemVariants}
             className="text-4xl font-black uppercase leading-[0.92] tracking-tighter text-[#070707] md:text-7xl"
           >
-            From Instagram catalogue <br />
+            From product catalogue <br />
             <span className="text-black/25">to a structured Shopify store</span>
           </motion.h2>
         </div>

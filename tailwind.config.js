@@ -13,7 +13,7 @@ export default {
       fontFamily: {
         // Pairing a bold tech sans with an elegant serif
         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-        serif: ['"Cormorant Garamond"', 'serif'],
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
       },
     },
   },

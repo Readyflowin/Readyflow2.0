@@ -11,6 +11,7 @@ import {
   Search,
 } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const STATUSES = ["Open", "Interested", "Closed Won", "Closed Lost"] as const;
 
@@ -329,7 +330,14 @@ function LoginScreen({
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#070707] px-5 py-12 text-[#F4EFE6]">
+    <>
+      <SEO
+        title="Private workspace | Readyflow"
+        description="Private Readyflow workspace."
+        canonicalPath={null}
+        noindex
+      />
+      <main className="flex min-h-screen items-center justify-center bg-[#070707] px-5 py-12 text-[#F4EFE6]">
       <div className="w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.045] p-7 shadow-2xl backdrop-blur md:p-10">
         <img src="/icon.png" alt="Readyflow" className="h-12 w-12 rounded-xl" />
         <p className="mt-8 text-[9px] font-black uppercase tracking-[0.35em] text-[#1DFF8A]">
@@ -384,7 +392,8 @@ function LoginScreen({
           </button>
         </form>
       </div>
-    </main>
+      </main>
+    </>
   );
 }
 
@@ -830,7 +839,14 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
   };
 
   return (
-    <main className="min-h-screen bg-[#F4EFE6] px-4 py-6 text-[#070707] sm:px-6 lg:px-10">
+    <>
+      <SEO
+        title="Private workspace | Readyflow"
+        description="Private Readyflow workspace."
+        canonicalPath={null}
+        noindex
+      />
+      <main className="min-h-screen bg-[#F4EFE6] px-4 py-6 text-[#070707] sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1500px]">
         <header className="flex flex-col gap-5 rounded-[2rem] bg-[#070707] p-6 text-[#F4EFE6] shadow-xl sm:flex-row sm:items-center sm:justify-between md:p-8">
           <div>
@@ -933,7 +949,8 @@ function Dashboard({ onLogout }: { onLogout: () => Promise<void> }) {
           </section>
         )}
       </div>
-    </main>
+      </main>
+    </>
   );
 }
 
@@ -965,45 +982,54 @@ export default function AdminDashboard() {
 
   if (state === "checking") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#070707] text-[#1DFF8A]">
-        <LoaderCircle size={36} className="animate-spin" />
-      </main>
+      <>
+        <SEO title="Private workspace | Readyflow" description="Private Readyflow workspace." canonicalPath={null} noindex />
+        <main className="flex min-h-screen items-center justify-center bg-[#070707] text-[#1DFF8A]">
+          <LoaderCircle size={36} className="animate-spin" />
+        </main>
+      </>
     );
   }
 
   if (state === "not-found") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#F4EFE6] px-6 text-center">
-        <div>
-          <p className="text-7xl font-black">404</p>
-          <p className="mt-3 text-sm font-bold text-black/45">
-            This page does not exist.
-          </p>
-        </div>
-      </main>
+      <>
+        <SEO title="Page not found | Readyflow" description="This page does not exist." canonicalPath={null} noindex />
+        <main className="flex min-h-screen items-center justify-center bg-[#F4EFE6] px-6 text-center">
+          <div>
+            <p className="text-7xl font-black">404</p>
+            <p className="mt-3 text-sm font-bold text-black/45">
+              This page does not exist.
+            </p>
+          </div>
+        </main>
+      </>
     );
   }
 
   if (state === "error") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#070707] px-6 text-center text-[#F4EFE6]">
-        <div>
-          <p className="text-2xl font-black">Dashboard unavailable</p>
-          <p className="mt-3 text-sm text-white/45">
-            Check the server configuration and try again.
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setState("checking");
-              void checkSession();
-            }}
-            className="mt-6 rounded-full bg-[#1DFF8A] px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#070707]"
-          >
-            Retry
-          </button>
-        </div>
-      </main>
+      <>
+        <SEO title="Private workspace | Readyflow" description="Private Readyflow workspace." canonicalPath={null} noindex />
+        <main className="flex min-h-screen items-center justify-center bg-[#070707] px-6 text-center text-[#F4EFE6]">
+          <div>
+            <p className="text-2xl font-black">Dashboard unavailable</p>
+            <p className="mt-3 text-sm text-white/45">
+              Check the server configuration and try again.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setState("checking");
+                void checkSession();
+              }}
+              className="mt-6 rounded-full bg-[#1DFF8A] px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-[#070707]"
+            >
+              Retry
+            </button>
+          </div>
+        </main>
+      </>
     );
   }
 

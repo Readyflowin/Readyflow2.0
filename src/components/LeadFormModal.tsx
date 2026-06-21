@@ -28,6 +28,7 @@ const FOCUSABLE_SELECTOR = [
 export function LeadFormModalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [modalParams, setModalParams] = useState<MetaPixelParams>({});
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
@@ -40,6 +41,7 @@ export function LeadFormModalProvider({ children }: { children: ReactNode }) {
         ? document.activeElement
         : null;
     setLeadSubmitted(false);
+    setModalParams(params || {});
     setOpen(true);
     trackFormModalOpen(params);
   }, []);
@@ -140,15 +142,15 @@ export function LeadFormModalProvider({ children }: { children: ReactNode }) {
                     id={titleId}
                     className="mt-2 text-2xl font-black tracking-tighter text-[#070707] sm:text-4xl"
                   >
-                    Check if your brand fits the ₹11,999 launch
+                    Get Your ₹11,999 Shopify Launch Plan
                   </h2>
                   <p
                     id={descriptionId}
                     className="mt-3 max-w-xl text-xs font-medium leading-relaxed text-black/50 sm:text-sm"
                   >
-                    Share your Instagram page and product details. We’ll email
-                    the package breakdown and open WhatsApp with your details
-                    filled.
+                    Share your brand details. We’ll review your product count,
+                    content readiness and setup needs before sending the right
+                    launch breakdown.
                   </p>
                   <p className="mt-3 text-[9px] font-black uppercase tracking-[0.22em] text-black/35">
                     Takes less than 60 seconds
@@ -167,7 +169,14 @@ export function LeadFormModalProvider({ children }: { children: ReactNode }) {
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-6">
-                <LeadForm onLeadSuccess={() => setLeadSubmitted(true)} />
+                <LeadForm
+                  onLeadSuccess={() => setLeadSubmitted(true)}
+                  leadSource={
+                    typeof modalParams.cta_source === "string"
+                      ? modalParams.cta_source
+                      : undefined
+                  }
+                />
               </div>
             </motion.div>
           </motion.div>

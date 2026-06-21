@@ -112,7 +112,7 @@ export default function Testimonials() {
               className="text-4xl font-black uppercase leading-[0.92] tracking-tighter text-[#070707] md:text-7xl"
             >
               Real stores built for{" "}
-              <span className="text-black/25">Instagram-first brands</span>
+              <span className="text-black/32">social-first product brands</span>
             </motion.h2>
           </div>
           <motion.p
@@ -120,7 +120,7 @@ export default function Testimonials() {
             className="max-w-sm text-sm font-medium leading-relaxed text-black/45"
           >
             Project screenshots from Readyflow’s product-brand archive —
-            fashion, jewellery, product stores and Instagram-first brands.
+            fashion, jewellery, product stores and social-first brands.
           </motion.p>
         </div>
 
@@ -131,7 +131,7 @@ export default function Testimonials() {
               variants={itemVariants}
               href={project.url}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               onClick={() =>
                 trackExternalProjectClick({
                   source_section: "homepage_work",

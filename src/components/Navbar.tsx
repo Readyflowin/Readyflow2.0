@@ -194,7 +194,7 @@ export default function Navbar() {
               <a
                 href={`https://wa.me/${WA_NUMBER}?text=${CONTACT_MSG}`}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() =>
                   trackWhatsAppClick({
                     source_section: "mobile_navigation_menu",

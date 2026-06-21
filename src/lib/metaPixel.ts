@@ -26,6 +26,12 @@ const PUBLIC_PATHS = new Set([
   "/terms",
   "/refund-cancellation-policy",
   "/delivery-scope-policy",
+  "/shopify-store-setup-india",
+  "/shopify-store-setup-cost-india",
+  "/ecommerce-website-development-india",
+  "/clothing-brand-website",
+  "/jewellery-ecommerce-website",
+  "/instagram-brand-shopify-store",
 ]);
 
 const SAFE_PARAM_KEYS = new Set([
@@ -44,6 +50,7 @@ const SAFE_PARAM_KEYS = new Set([
   "status",
   "project_category",
   "source_section",
+  "cta_source",
   "destination_type",
   "form",
 ]);

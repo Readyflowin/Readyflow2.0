@@ -17,6 +17,94 @@
   }
 }
 
+@layer components {
+  .editorial-shell {
+    @apply bg-[#fffdf9] text-[#171717];
+  }
+
+  .editorial-kicker {
+    @apply text-[10px] font-black uppercase tracking-[0.28em] text-[#087746];
+  }
+
+  .editorial-headline {
+    @apply font-serif text-5xl font-extrabold leading-[0.94] tracking-[-0.035em] text-[#111] sm:text-6xl lg:text-7xl;
+  }
+
+  .editorial-deck {
+    @apply max-w-3xl text-lg font-medium leading-8 text-black/62 md:text-xl md:leading-9;
+  }
+
+  .editorial-copy {
+    @apply mx-auto w-full min-w-0 max-w-[760px];
+  }
+
+  .editorial-copy > p,
+  .editorial-copy section > p {
+    @apply mb-6 text-[17px] font-normal leading-8 text-black/76 md:text-[18px] md:leading-9;
+  }
+
+  .editorial-copy > h2,
+  .editorial-copy section > h2 {
+    @apply mb-5 mt-14 font-serif text-3xl font-extrabold leading-tight tracking-[-0.025em] text-[#151515] md:text-4xl;
+  }
+
+  .editorial-copy > h3,
+  .editorial-copy section > h3 {
+    @apply mb-3 mt-9 text-xl font-extrabold leading-snug tracking-tight text-[#171717] md:text-2xl;
+  }
+
+  .editorial-copy > ul,
+  .editorial-copy > ol,
+  .editorial-copy section > ul,
+  .editorial-copy section > ol {
+    @apply mb-7 space-y-3 pl-6 text-[16px] leading-8 text-black/72 md:text-[17px];
+  }
+
+  .editorial-copy > ul,
+  .editorial-copy section > ul {
+    @apply list-disc;
+  }
+
+  .editorial-copy > ol,
+  .editorial-copy section > ol {
+    @apply list-decimal;
+  }
+
+  .editorial-rule {
+    @apply my-14 border-0 border-t border-black/12;
+  }
+
+  .editorial-caption {
+    @apply mt-3 text-xs font-medium leading-5 text-black/45;
+  }
+
+  .editorial-pullquote {
+    @apply my-10 border-y border-black/12 py-7 font-serif text-2xl font-bold leading-snug tracking-[-0.015em] text-black/80 md:text-3xl;
+  }
+
+  .editorial-note {
+    @apply my-9 border-l-4 border-[#087746] bg-[#eef8f1] px-5 py-5 text-[15px] font-semibold leading-7 text-black/68;
+  }
+
+  .editorial-copy .checklist-list {
+    @apply list-none space-y-3 pl-0;
+  }
+
+  .editorial-copy .checklist-list li {
+    @apply relative pl-8;
+  }
+
+  .editorial-copy .checklist-list li::before {
+    @apply absolute left-0 top-2 h-4 w-4 rounded-full bg-[#087746];
+    content: "";
+  }
+
+  .editorial-copy .checklist-list li::after {
+    @apply absolute left-[5px] top-[9px] h-1.5 w-2.5 rotate-[-45deg] border-b-2 border-l-2 border-white;
+    content: "";
+  }
+}
+
 /* 1. Live Gradient Text Animation */
 @keyframes gradient-shift {
   0% { background-position: 0% 50%; }

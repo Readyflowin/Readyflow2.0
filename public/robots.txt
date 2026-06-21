@@ -1,5 +1,5 @@
 # Readyflow robots.txt
-# Public site: https://readyflow.site
+# Public site: https://www.readyflow.site
 
 User-agent: *
 Allow: /
@@ -12,7 +12,4 @@ Disallow: /cgi-bin/
 Disallow: /temp/
 Disallow: /old/
 
-# Avoid indexing tracking/query-string variants of the same SPA pages.
-Disallow: /*?*
-
-Sitemap: https://readyflow.site/sitemap.xml
+Sitemap: https://www.readyflow.site/sitemap.xml

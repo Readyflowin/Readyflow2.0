@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Mobile-first jewellery storefront mockup</title>
+  <desc id="desc">An original Readyflow illustration of a jewellery store product and collection experience on mobile.</desc>
+  <rect width="1200" height="630" fill="#f5efe6"/>
+  <circle cx="1080" cy="95" r="235" fill="#e8d3b3"/>
+  <circle cx="126" cy="570" r="205" fill="#d6e5d5"/>
+  <rect x="365" y="47" width="400" height="538" rx="54" fill="#1a1918"/>
+  <rect x="379" y="61" width="372" height="510" rx="41" fill="#fffdf9"/>
+  <rect x="490" y="79" width="142" height="10" rx="5" fill="#1a1918"/>
+  <text x="414" y="129" fill="#956423" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">AURUM EDIT</text>
+  <rect x="414" y="160" width="302" height="208" rx="18" fill="#e6d5b8"/>
+  <circle cx="565" cy="250" r="72" fill="none" stroke="#a77835" stroke-width="14"/>
+  <circle cx="565" cy="178" r="20" fill="#cda85a"/>
+  <circle cx="565" cy="178" r="10" fill="#fff8dd"/>
+  <rect x="414" y="394" width="190" height="14" rx="7" fill="#1a1918"/>
+  <rect x="414" y="420" width="118" height="10" rx="5" fill="#1a1918" opacity=".33"/>
+  <rect x="414" y="458" width="302" height="58" rx="29" fill="#956423"/>
+  <text x="497" y="493" fill="#fffdf9" font-family="Arial,sans-serif" font-size="16" font-weight="700">VIEW DETAILS</text>
+  <rect x="72" y="148" width="235" height="204" rx="26" fill="#fffdf9" stroke="#1a1918" stroke-width="3"/>
+  <text x="101" y="191" fill="#1a1918" font-family="Arial,sans-serif" font-size="16" font-weight="700">Details build trust</text>
+  <text x="101" y="228" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Close-up images</text>
+  <text x="101" y="257" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Material + size</text>
+  <text x="101" y="286" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Care + delivery</text>
+  <rect x="867" y="263" width="238" height="150" rx="26" fill="#1c3f32"/>
+  <text x="895" y="309" fill="#cae7ce" font-family="Arial,sans-serif" font-size="13" font-weight="700">INSTAGRAM → SHOPIFY</text>
+  <text x="895" y="344" fill="#fffdf9" font-family="Arial,sans-serif" font-size="18">Inspect, trust,</text>
+  <text x="895" y="371" fill="#fffdf9" font-family="Arial,sans-serif" font-size="18">then buy or ask.</text>
+</svg>

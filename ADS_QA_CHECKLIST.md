@@ -131,7 +131,7 @@ Timing note:
 ## Meta Events Manager Test
 
 1. Open Meta Events Manager > Data Sources > Pixel > Test Events.
-2. Enter `https://readyflow.site`.
+2. Enter `https://www.readyflow.site`.
 3. Load homepage and confirm `PageView`.
 4. Scroll to offer section and confirm `ViewContent`.
 5. Click hero CTA and confirm `Readyflow_CTA_Click`.
@@ -154,7 +154,7 @@ Meta optimization:
 
 1. Confirm `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7` is configured in local `.env.local`, Vercel Production, Vercel Preview and Vercel Development, then redeploy.
 2. Open GA4 > Reports > Realtime.
-3. Visit `https://readyflow.site` and confirm `page_view`.
+3. Visit `https://www.readyflow.site` and confirm `page_view`.
 4. Click a CTA and confirm `cta_click` and `form_modal_open`.
 5. Submit a test lead and confirm `generate_lead`.
 6. Click final WhatsApp CTA and confirm `contact` and `whatsapp_click`.
@@ -184,7 +184,7 @@ Expected GA4 events:
 - Vercel Preview env vars are configured, including `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7`.
 - Vercel Development env vars are configured, including `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7`.
 - Redeploy after env changes.
-- `https://readyflow.site` loads over HTTPS.
+- `https://www.readyflow.site` loads over HTTPS.
 - `/api/leads` works in production.
 - Google Sheet is shared with the service account as Editor.
 - Resend sender/domain is verified.

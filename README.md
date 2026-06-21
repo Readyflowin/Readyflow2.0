@@ -12,6 +12,222 @@ vercel dev
 The plain Vite command (`npm run dev`) serves the frontend only and does not
 execute files inside `/api`.
 
+## Static SEO rendering
+
+`npm run build` now runs Vite and then pre-renders the homepage plus published
+SEO registry routes into physical HTML files under `dist/<slug>/index.html`.
+This keeps the existing React client, lead modal, Vercel APIs, analytics, and
+hidden admin route intact while shipping article HTML, route-specific metadata,
+JSON-LD, and internal links before JavaScript runs.
+
+The source of truth is `src/lib/seoRoutes.ts`. Only registry entries marked
+published and indexable are pre-rendered and written to the generated
+`dist/sitemap.xml`; planned routes remain out of the sitemap and have no
+generated page. The deployed canonical host is currently
+`https://www.readyflow.site` because the apex host redirects there in Vercel.
+Set server-side `SITE_URL` to that same host for email assets and links.
+
+## SEO pricing page
+
+Readyflow's Shopify pricing-intent landing page is available at:
+
+```text
+/shopify-store-setup-cost-india
+```
+
+SEO configuration:
+
+- Title: `Shopify Store Setup Cost in India | Readyflow`
+- Meta description explains the ₹11,999 Readyflow setup fee and separate
+  Shopify, domain, app, and third-party costs.
+- Canonical: `https://www.readyflow.site/shopify-store-setup-cost-india`
+- Sitemap entry: generated as `dist/sitemap.xml`
+- CTA source: `seo_shopify_store_setup_cost_india`
+- CTA section labels: `hero`, `quick_cost_answer`, `cost_table`,
+  `included_scope`, `separate_costs`, `faq`, and `final_cta`
+- Structured data: `WebPage`, `Service`, `FAQPage`, `BreadcrumbList`, and
+  `Organization`
+- Layout strategy: editorial article presentation with a narrow reading column,
+  serif headlines, portfolio figures and captions; commercial utilities such
+  as the cost table and lead CTAs remain embedded where purchase intent needs
+  them.
+
+The planned cluster pages referenced in the research brief are not linked until
+their routes exist, preventing broken navigation and duplicate placeholder
+pages.
+
+## SEO Shopify store setup article
+
+Readyflow's Shopify setup service-intent article is available at:
+
+```text
+/shopify-store-setup-india
+```
+
+SEO configuration:
+
+- Title: `Shopify Store Setup in India for Instagram Brands | Readyflow`
+- Meta description: `Readyflow helps Indian Instagram-first brands launch
+  mobile-first Shopify stores. Get theme setup, products, payments, policies,
+  WhatsApp flow and more for ₹11,999.`
+- Canonical: `https://www.readyflow.site/shopify-store-setup-india`
+- Internal links: `/shopify-store-setup-cost-india`,
+  `/ecommerce-website-development-india`, and `/work`. Other brief-specified
+  cluster routes are deliberately omitted until those routes exist.
+- Trusted external links: official Shopify pricing, domain, and
+  payment-provider guidance; official WhatsApp click-to-chat documentation.
+- Sitemap entry: generated as `dist/sitemap.xml`
+- CTA source: `seo_shopify_store_setup_india`
+- CTA section labels: `hero`, `article_mid_intro`, `included_scope`,
+  `pricing_scope`, `process`, `instagram_seller_section`, `faq`, and
+  `final_cta`
+- Tracking: the pricing/scope section fires the existing `ViewContent` /
+  `view_offer` path once it enters view. CTAs use the existing modal and
+  privacy-safe Meta/GA4 event plumbing.
+- Structured data: `BlogPosting`, `WebPage`, `FAQPage`, `BreadcrumbList`, and
+  `Organization`. No ratings, reviews, Product, or Offer claims are added.
+- Visuals: the page uses four responsive, inline SVG editorial illustrations
+  created for this article (hero, store structure, setup process, social-to-
+  store flow). They have accessible labels and captions, carry no third-party
+  license burden, and do not repeat existing portfolio images.
+
+## SEO ecommerce development page
+
+Readyflow's broad ecommerce service-intent page is available at:
+
+```text
+/ecommerce-website-development-india
+```
+
+SEO configuration:
+
+- Title: `Ecommerce Website Development in India for Small Brands`
+- Meta description positions Readyflow around Shopify-focused ecommerce setup
+  for small product brands and Instagram-first sellers.
+- Canonical: `https://www.readyflow.site/ecommerce-website-development-india`
+- Internal link: `/shopify-store-setup-cost-india`
+- Trusted sources: official Shopify builder, pricing, product and shipping
+  guidance; official WooCommerce overview; official WhatsApp click-to-chat
+  guidance.
+- Proof visuals: optimized derivatives of approved assets already in
+  `public/Pastwork`, stored in `public/seo`.
+- Sitemap entry: generated as `dist/sitemap.xml`
+- CTA source: `seo_ecommerce_website_development_india`
+- CTA section labels: `hero`, `platform_choice`, `included_scope`,
+  `cost_clarity`, `process`, `proof`, `faq`, and `final_cta`
+- Structured data: `WebPage`, `Service`, `FAQPage`, `BreadcrumbList`, and
+  `Organization`
+- Layout strategy: article-first service guide with a lead image, byline,
+  in-flow platform analysis, portfolio figures and captions; qualification
+  CTAs remain available without turning every section into a card.
+
+Unbuilt cluster routes such as the Shopify setup service, platform comparison,
+Instagram transition, launch checklist, and niche pages remain unlinked to
+avoid broken navigation.
+
+## SEO clothing brand website article
+
+Readyflow's apparel-specific editorial article is available at:
+
+```text
+/clothing-brand-website
+```
+
+SEO configuration:
+
+- Title: `Clothing Brand Website Design in India for Shopify Stores | Readyflow`
+- Meta description: `Explore what a clothing brand website in India should
+  include, from collections and size charts to trust pages and mobile-first
+  Shopify setup with Readyflow.`
+- Canonical: `https://www.readyflow.site/clothing-brand-website`
+- Sitemap entry: generated from the published route registry into
+  `dist/sitemap.xml`.
+- CTA source: `seo_clothing_brand_website`
+- CTA section labels: `hero`, `article_mid_intro`,
+  `clothing_website_essentials`, `product_page_anatomy`, `included_scope`,
+  `content_prep`, `faq`, and `final_cta`.
+- Internal links: the three published Shopify/ecommerce article routes. Planned
+  Instagram, checklist, comparison, and jewellery routes remain unlinked until
+  they are actually published.
+- Trusted external links: official Shopify documentation for collections,
+  product variants, store policies, and manual payments.
+- Structured data: generated `BlogPosting`, `WebPage`, `BreadcrumbList`,
+  `FAQPage`, `Organization`, and a bounded service graph that matches the
+  visible launch scope. No rating, review, Product, or Offer claims are used.
+- Visuals: five original SVG visuals (hero, store structure, product-page
+  anatomy, Instagram flow, and apparel-content checklist), authored in the
+  project with accessible labels and captions. `public/seo/clothing-brand-
+  storefront.svg` is the stable social-preview asset; no third-party or scraped
+  images are used.
+
+## SEO jewellery ecommerce website article
+
+Readyflow's jewellery-specific editorial article is available at:
+
+```text
+/jewellery-ecommerce-website
+```
+
+SEO configuration:
+
+- Title: `Jewellery Ecommerce Website Design for Indian Brands | Readyflow`
+- Meta description: `See what a jewellery ecommerce website should include for
+  Indian brands, from product details and trust sections to Shopify setup with
+  Readyflow.`
+- Canonical: `https://www.readyflow.site/jewellery-ecommerce-website`
+- Sitemap entry: generated from the published route registry into
+  `dist/sitemap.xml`.
+- CTA source: `seo_jewellery_ecommerce_website`
+- CTA section labels: `hero`, `article_mid_intro`,
+  `jewellery_website_essentials`, `product_page_anatomy`, `included_scope`,
+  `content_prep`, `faq`, and `final_cta`.
+- Internal links: published Shopify setup, pricing, ecommerce development, and
+  clothing-brand articles. Planned pages remain unlinked to avoid dead ends.
+- Trusted external links: official Shopify documentation for products,
+  variants, collections, policies, and manual payments.
+- Structured data: generated `BlogPosting`, `WebPage`, `BreadcrumbList`,
+  `FAQPage`, `Organization`, and a bounded service graph matching the visible
+  launch scope. No rating, review, Product, or Offer claims are used.
+- Visuals: five original SVG illustrations—hero, site architecture,
+  product-confidence anatomy, mobile social-to-store flow, and a content
+  checklist. The stable social-preview asset is
+  `public/seo/jewellery-storefront.svg`; no third-party or scraped images are
+  used.
+
+## SEO Instagram Brand Shopify Store article
+
+Readyflow's Instagram-to-Shopify transition guide is available at:
+
+```text
+/instagram-brand-shopify-store
+```
+
+SEO configuration:
+
+- Title: `Turn Your Instagram Brand Into a Shopify Store in India | Readyflow`
+- Meta description: `Turn your Instagram brand into a proper Shopify store.
+  Readyflow helps Indian product businesses launch mobile-first stores with
+  product pages, WhatsApp flow and ₹11,999 setup.`
+- Canonical: `https://www.readyflow.site/instagram-brand-shopify-store`
+- Sitemap entry: generated from the published route registry into
+  `dist/sitemap.xml`.
+- CTA source: `seo_instagram_brand_shopify_store`
+- CTA section labels: `hero`, `instagram_problem`, `article_mid_intro`,
+  `channel_flow`, `included_scope`, `cost_clarity`, `process`,
+  `content_prep`, `faq`, and `final_cta`.
+- Internal links: published Shopify setup, pricing, ecommerce development,
+  clothing, and jewellery guides. Planned checklist and comparison routes stay
+  unlinked until published.
+- Trusted external links: official Shopify collections and manual-payments
+  documentation, plus official WhatsApp click-to-chat guidance.
+- Structured data: generated `BlogPosting`, `WebPage`, `BreadcrumbList`,
+  `FAQPage`, `Organization`, and a bounded service graph matching visible
+  launch scope. No rating, review, Product, or Offer claims are used.
+- Visuals: four original SVG illustrations—Instagram-to-store hero, channel
+  flow, product-page example, and content-prep checklist—with accessible labels
+  and captions. `public/seo/instagram-to-shopify-store.svg` is the stable
+  social-preview asset; no third-party or scraped images are used.
+
 Required server environment variables belong in `.env.local` and must not use
 the `VITE_` prefix:
 

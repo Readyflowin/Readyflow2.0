@@ -10,6 +10,30 @@
   ],
   "rewrites": [
     {
+      "source": "/shopify-store-setup-india",
+      "destination": "/shopify-store-setup-india/index.html"
+    },
+    {
+      "source": "/shopify-store-setup-cost-india",
+      "destination": "/shopify-store-setup-cost-india/index.html"
+    },
+    {
+      "source": "/ecommerce-website-development-india",
+      "destination": "/ecommerce-website-development-india/index.html"
+    },
+    {
+      "source": "/clothing-brand-website",
+      "destination": "/clothing-brand-website/index.html"
+    },
+    {
+      "source": "/jewellery-ecommerce-website",
+      "destination": "/jewellery-ecommerce-website/index.html"
+    },
+    {
+      "source": "/instagram-brand-shopify-store",
+      "destination": "/instagram-brand-shopify-store/index.html"
+    },
+    {
       "source": "/((?!api/|assets/|src/|node_modules/|@|__vite|.*\\..*).*)",
       "destination": "/index.html"
     }

@@ -63,7 +63,7 @@ export default function PainOutcome() {
             variants={itemVariants}
             className="text-4xl font-black uppercase leading-[0.92] tracking-tighter text-[#070707] md:text-7xl"
           >
-            Instagram gets attention.{" "}
+            Your social pages create attention.{" "}
             <span className="text-black/25">
               Your store should make buying feel simple.
             </span>

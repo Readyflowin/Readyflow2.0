@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Mobile-first clothing brand storefront mockup</title>
+  <desc id="desc">An original Readyflow illustration of a clothing collection browsing experience on a phone.</desc>
+  <rect width="1200" height="630" fill="#ebe5db"/>
+  <circle cx="1048" cy="102" r="230" fill="#cfdfd0"/>
+  <circle cx="125" cy="575" r="210" fill="#e4b796" opacity=".62"/>
+  <rect x="352" y="49" width="412" height="535" rx="53" fill="#151515"/>
+  <rect x="366" y="64" width="384" height="505" rx="42" fill="#fffdf8"/>
+  <rect x="489" y="80" width="139" height="10" rx="5" fill="#151515"/>
+  <text x="399" y="130" fill="#087746" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">NORTHLINE</text>
+  <text x="399" y="160" fill="#151515" font-family="Arial,sans-serif" font-size="13">NEW DROP</text>
+  <rect x="399" y="180" width="318" height="191" rx="18" fill="#c49170"/>
+  <path d="M492 343c15-79 50-127 96-127s80 48 96 127" fill="#443229"/>
+  <path d="M510 342c15-52 42-81 78-81s63 29 78 81" fill="#f5d9bf"/>
+  <rect x="399" y="394" width="186" height="14" rx="7" fill="#151515"/>
+  <rect x="399" y="421" width="117" height="10" rx="5" fill="#151515" opacity=".34"/>
+  <rect x="399" y="458" width="318" height="62" rx="31" fill="#087746"/>
+  <text x="496" y="495" fill="#fffdf8" font-family="Arial,sans-serif" font-size="17" font-weight="700">SHOP COLLECTION</text>
+  <rect x="76" y="151" width="226" height="202" rx="26" fill="#fffdf8" stroke="#151515" stroke-width="3"/>
+  <text x="104" y="195" fill="#151515" font-family="Arial,sans-serif" font-size="16" font-weight="700">Built for the browse</text>
+  <text x="104" y="230" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Collections</text>
+  <text x="104" y="260" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Size + fit clarity</text>
+  <text x="104" y="290" fill="#5a5a5a" font-family="Arial,sans-serif" font-size="14">Mobile checkout</text>
+  <rect x="867" y="260" width="236" height="155" rx="26" fill="#087746"/>
+  <text x="895" y="309" fill="#dff2e1" font-family="Arial,sans-serif" font-size="14" font-weight="700">INSTAGRAM → STORE</text>
+  <text x="895" y="344" fill="#fffdf8" font-family="Arial,sans-serif" font-size="18">A clearer way to</text>
+  <text x="895" y="371" fill="#fffdf8" font-family="Arial,sans-serif" font-size="18">browse and buy.</text>
+</svg>

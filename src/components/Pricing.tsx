@@ -34,9 +34,9 @@ const SEPARATE = [
 ];
 
 const GOOD_FIT = [
-  "You already sell or plan to sell physical products on Instagram",
+  "You sell or plan to sell physical products through social channels or offline",
   "You have product photos ready or almost ready",
-  "You want a clean product store instead of only DMs/highlights",
+  "You want a clean product store instead of only chats, posts or highlights",
   "You are okay with Shopify subscription and domain being separate",
   "You want a fast, mobile-first launch",
 ];
@@ -46,7 +46,7 @@ const NOT_A_FIT = [
   "Your photos/content are not ready",
   "You need ad management, not store setup",
   "You want a custom-coded platform",
-  "You want Shopify subscription/domain included inside the setup fee",
+  "You expect Shopify subscription/domain inside the launch scope",
 ];
 
 export function OfferSection() {
@@ -69,23 +69,22 @@ export function OfferSection() {
     <section
       ref={sectionRef}
       id="offer"
-      className="relative scroll-mt-32 overflow-hidden bg-[#070707] py-24 text-[#F4EFE6] md:scroll-mt-36 md:py-32"
+      className="relative scroll-mt-32 overflow-hidden bg-[#0B100E] py-24 text-[#F4EFE6] md:scroll-mt-36 md:py-32"
     >
         <div className="pointer-events-none absolute right-[-12rem] top-[-12rem] h-[32rem] w-[32rem] rounded-full bg-[#1DFF8A]/10 blur-[120px]" />
 
         <div className="relative z-10 mx-auto max-w-6xl px-6">
           <div className="mx-auto mb-14 max-w-4xl text-center">
-            <p className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#1DFF8A]/65">
+            <p className="mb-4 text-[10px] font-black uppercase tracking-[0.35em] text-[#b9f6ca]">
               One focused launch package
             </p>
             <h2 className="text-4xl font-black uppercase leading-[0.92] tracking-tighter md:text-7xl">
-              Instagram Brand{" "}
+              Social-first{" "}
               <span className="text-[#1DFF8A]">Shopify Launch</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-sm font-medium leading-relaxed text-white/48 md:text-base">
-              A focused Shopify setup for Instagram product brands that need a
-              clean link-in-bio store, product browsing flow, checkout-ready
-              structure and WhatsApp/contact path.
+            <p className="mx-auto mt-6 max-w-3xl text-sm font-medium leading-relaxed text-white/72 md:text-base">
+              A focused Shopify setup for product brands with products, prices,
+              photos and basic content ready for a clean buying flow.
             </p>
           </div>
 
@@ -93,36 +92,39 @@ export function OfferSection() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
-            className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.035] shadow-2xl md:rounded-[3rem]"
+            className="overflow-hidden rounded-[2rem] border border-white/18 bg-white/[0.075] shadow-2xl md:rounded-[3rem]"
           >
             <div className="grid lg:grid-cols-[0.72fr_1.28fr]">
-              <div className="flex flex-col justify-between border-b border-white/10 p-7 md:p-10 lg:border-b-0 lg:border-r">
+              <div className="flex flex-col justify-between border-b border-white/16 p-7 md:p-10 lg:border-b-0 lg:border-r">
                 <div>
-                  <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#1DFF8A]/60">
-                    Readyflow launch package
+                  <p className="text-[9px] font-black uppercase tracking-[0.3em] text-[#b9f6ca]">
+                    Focused Readyflow launch
                   </p>
                   <h3 className="mt-5 text-3xl font-black leading-tight tracking-tighter md:text-5xl">
-                    Instagram Brand Shopify Launch
+                    Social-first Shopify Launch
                   </h3>
 
-                  <div className="mt-10 flex items-end gap-2">
-                    <span className="text-6xl font-black tracking-tighter text-[#1DFF8A] md:text-8xl">
+                  <div className="mt-8 flex flex-col items-start gap-1">
+                    <span className="text-[10px] font-black uppercase tracking-[0.22em] text-white/70">
+                      Focused launches start at
+                    </span>
+                    <span className="text-4xl font-black tracking-tighter text-[#d7f4dd] md:text-5xl">
                       ₹11,999
                     </span>
                   </div>
-                  <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-white/35">
-                    Readyflow setup fee
+                  <p className="mt-3 text-sm font-medium leading-relaxed text-white/74">
+                    ₹11,999 fits focused Shopify launches where product photos, prices and basic content are ready.
                   </p>
                 </div>
 
-                <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div className="mt-8 rounded-2xl border border-white/16 bg-white/[0.07] p-5">
                   <div className="flex items-start gap-3">
                     <Clock3 size={18} className="mt-0.5 shrink-0 text-[#1DFF8A]" />
                     <div>
-                      <p className="text-[9px] font-black uppercase tracking-[0.25em] text-white/35">
+                      <p className="text-[9px] font-black uppercase tracking-[0.25em] text-white/60">
                         Timeline
                       </p>
-                      <p className="mt-2 text-sm font-bold leading-relaxed text-white/80">
+                      <p className="mt-2 text-sm font-bold leading-relaxed text-white/90">
                         3–5 days after content, products and access are ready
                       </p>
                     </div>
@@ -133,7 +135,7 @@ export function OfferSection() {
                   type="button"
                   onClick={() => {
                     const ctaParams = {
-                      cta_label: "Get My Store Plan",
+                      cta_label: "Check My Brand Fit",
                       section: "offer",
                       destination: "lead_form_modal",
                     };
@@ -145,7 +147,7 @@ export function OfferSection() {
                   }}
                   className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-[#1DFF8A] px-6 py-5 text-[11px] font-black uppercase tracking-[0.24em] text-[#070707] transition hover:scale-[1.01]"
                 >
-                  Get My Store Plan <ArrowDown size={15} />
+                  Check My Brand Fit <ArrowDown size={15} />
                 </button>
               </div>
 
@@ -165,7 +167,7 @@ export function OfferSection() {
                         <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1DFF8A]/12">
                           <Check size={10} strokeWidth={4} className="text-[#1DFF8A]" />
                         </span>
-                        <span className="text-sm font-medium leading-relaxed text-white/70">
+                        <span className="text-sm font-medium leading-relaxed text-white/88">
                           {item}
                         </span>
                       </div>
@@ -175,7 +177,7 @@ export function OfferSection() {
 
                 <div>
                   <div className="mb-6 flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-white/45">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white/70">
                       <X size={18} />
                     </span>
                     <h4 className="text-sm font-black uppercase tracking-[0.18em]">
@@ -188,18 +190,16 @@ export function OfferSection() {
                         <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/5">
                           <X size={10} strokeWidth={3} className="text-white/35" />
                         </span>
-                        <span className="text-sm font-medium leading-relaxed text-white/48">
+                        <span className="text-sm font-medium leading-relaxed text-white/78">
                           {item}
                         </span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-8 rounded-2xl border border-[#1DFF8A]/15 bg-[#1DFF8A]/5 p-5">
-                    <p className="text-xs font-medium leading-relaxed text-white/55">
-                      We set up the store structure, product flow and
-                      trust-building layout so customers can browse and
-                      enquire/order more smoothly.
+                  <div className="mt-8 rounded-2xl border border-[#b9f6ca]/25 bg-[#1DFF8A]/10 p-5">
+                    <p className="text-xs font-medium leading-relaxed text-white/82">
+                      Not every product brand needs the same setup. We check product count, content readiness and custom section needs before confirming final scope.
                     </p>
                   </div>
                 </div>
@@ -223,8 +223,8 @@ export function FitSection() {
               Clear fit before we start
             </p>
             <h2 className="text-4xl font-black uppercase leading-[0.92] tracking-tighter text-[#070707] md:text-7xl">
-              Built for Instagram brands that are{" "}
-              <span className="text-black/25">ready to launch properly</span>
+              Built for product brands that are{" "}
+              <span className="text-black/32">ready to launch properly</span>
             </h2>
           </div>
 

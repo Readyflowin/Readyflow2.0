@@ -4,73 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Instagram Brand Shopify Launch | Readyflow</title>
-    <meta
-      name="description"
-      content="Readyflow builds focused Shopify launch stores for Instagram-first product brands with product setup, mobile-first layout, WhatsApp/contact flow and checkout setup guidance."
-    />
+    <!--seo-head:start-->
+    <title>Readyflow</title>
+    <meta name="description" content="Readyflow builds mobile-first Shopify stores for Indian product brands." />
     <meta
       name="keywords"
       content="Instagram brand Shopify store, Shopify setup India, Shopify developer Indore, product brand website, ReadyFlow"
     />
     <meta name="author" content="ReadyFlow Studio" />
+    <meta property="og:type" content="website" />
+    <!--seo-head:end-->
 
     <link rel="icon" href="/favicon.ico" />
-    <link rel="canonical" href="https://readyflow.site/" />
 
-    <meta property="og:title" content="Instagram Brand Shopify Launch | Readyflow" />
-    <meta
-      property="og:description"
-      content="Readyflow builds focused Shopify launch stores for Instagram-first product brands with product setup, mobile-first layout, WhatsApp/contact flow and checkout setup guidance."
-    />
-    <meta property="og:url" content="https://readyflow.site" />
-    <meta property="og:type" content="website" />
+    <script>
+      (function () {
+        var indexablePaths = [
+          "/",
+          "/pricing",
+          "/work",
+          "/privacy-policy",
+          "/terms",
+          "/refund-cancellation-policy",
+          "/delivery-scope-policy",
+          "/shopify-store-setup-india",
+          "/shopify-store-setup-cost-india",
+          "/ecommerce-website-development-india",
+          "/clothing-brand-website",
+          "/jewellery-ecommerce-website",
+          "/instagram-brand-shopify-store"
+        ];
+        var path = window.location.pathname.replace(/\/+$/, "") || "/";
+        if (indexablePaths.indexOf(path) !== -1) return;
+        var robots = document.createElement("meta");
+        robots.name = "robots";
+        robots.content = "noindex, nofollow";
+        document.head.appendChild(robots);
+      })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700;8..60,800&amp;display=swap"
     />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "ReadyFlow",
-        "image": "https://readyflow.site/favicon.ico",
-        "@id": "https://readyflow.site",
-        "url": "https://readyflow.site",
-        "telephone": "+918602555840",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Indore",
-          "addressLocality": "Indore",
-          "addressRegion": "MP",
-          "postalCode": "452001",
-          "addressCountry": "IN"
-        },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 22.7196,
-          "longitude": 75.8577
-        },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          ],
-          "opens": "09:00",
-          "closes": "21:00"
-        },
-        "sameAs": ["https://www.instagram.com/ready_flow_/"]
-      }
-    </script>
 
     <!-- Meta Pixel Code -->
     <script>
@@ -82,7 +60,13 @@
           "/privacy-policy",
           "/terms",
           "/refund-cancellation-policy",
-          "/delivery-scope-policy"
+          "/delivery-scope-policy",
+          "/shopify-store-setup-india",
+          "/shopify-store-setup-cost-india",
+          "/ecommerce-website-development-india",
+          "/clothing-brand-website",
+          "/jewellery-ecommerce-website",
+          "/instagram-brand-shopify-store"
         ];
         var readyflowPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
@@ -124,13 +108,6 @@
   </head>
   <body>
     <noscript>
-      <img
-        height="1"
-        width="1"
-        style="display:none"
-        src="https://www.facebook.com/tr?id=866821196023345&amp;ev=PageView&amp;noscript=1"
-        alt=""
-      />
     </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

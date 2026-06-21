@@ -51,10 +51,10 @@ const INPUT_CLASS =
 const LABEL_CLASS =
   "block text-[10px] font-black uppercase tracking-[0.2em] text-black/45";
 
-function getAttribution(): Attribution {
+function getAttribution(leadSource?: string): Attribution {
   if (typeof window === "undefined") {
     return {
-      source: "website",
+      source: leadSource || "website",
       utm_source: "",
       utm_medium: "",
       utm_campaign: "",
@@ -66,7 +66,7 @@ function getAttribution(): Attribution {
 
   const params = new URLSearchParams(window.location.search);
   return {
-    source: "instagram_shopify_launch_form",
+    source: leadSource || "instagram_shopify_launch_form",
     utm_source: params.get("utm_source") || "",
     utm_medium: params.get("utm_medium") || "",
     utm_campaign: params.get("utm_campaign") || "",
@@ -78,11 +78,13 @@ function getAttribution(): Attribution {
 
 export default function LeadForm({
   onLeadSuccess,
+  leadSource,
 }: {
   onLeadSuccess?: () => void;
+  leadSource?: string;
 }) {
   const [values, setValues] = useState<LeadFormValues>(INITIAL_VALUES);
-  const [attribution] = useState<Attribution>(getAttribution);
+  const [attribution] = useState<Attribution>(() => getAttribution(leadSource));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [whatsappUrl, setWhatsappUrl] = useState("");
@@ -220,7 +222,7 @@ export default function LeadForm({
         <a
           href={whatsappUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           onClick={() => {
             trackContact({
               channel: "whatsapp",

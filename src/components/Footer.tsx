@@ -62,17 +62,17 @@ export default function Footer() {
             <div className="mb-7 flex items-center gap-3">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[#1DFF8A]" />
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30">
-                Instagram Brand Shopify Launch
+                Social-first Shopify Launch
               </span>
             </div>
             <h2 className="text-5xl font-black uppercase leading-[0.85] tracking-tighter md:text-8xl">
               Ready for a clean <br />
-              <span className="text-black/15">link-in-bio store?</span>
+              <span className="text-black/20">store customers can trust?</span>
             </h2>
             <p className="mt-8 max-w-xl text-sm font-semibold leading-relaxed text-black/45">
-              A focused ₹11,999 Shopify setup for Instagram-first product brands.
-              Shopify subscription, domain, paid apps, product photos and ad
-              management are arranged separately.
+              Focused Shopify launches start at ₹11,999 when product photos,
+              prices and basic content are ready. Shopify subscription, domain,
+              paid apps, product photos and ad management stay separate.
             </p>
           </div>
 
@@ -117,6 +117,10 @@ export default function Footer() {
               <ul className="space-y-4 text-xs font-black uppercase tracking-widest">
                 <li><a href={homeAnchor("#offer")} className="hover:text-[#0A8F50]">The Offer</a></li>
                 <li><a href={homeAnchor("#fit")} className="hover:text-[#0A8F50]">Who It’s For</a></li>
+                <li><Link to="/shopify-store-setup-india" className="hover:text-[#0A8F50]">Shopify Setup Guide</Link></li>
+                <li><Link to="/clothing-brand-website" className="hover:text-[#0A8F50]">Clothing Brand Website Guide</Link></li>
+                <li><Link to="/jewellery-ecommerce-website" className="hover:text-[#0A8F50]">Jewellery Ecommerce Guide</Link></li>
+                <li><Link to="/instagram-brand-shopify-store" className="hover:text-[#0A8F50]">Instagram Store Guide</Link></li>
                 <li><Link to="/work" className="hover:text-[#0A8F50]">Work Archive</Link></li>
                 <li><a href={homeAnchor("#faq")} className="hover:text-[#0A8F50]">FAQ</a></li>
               </ul>
@@ -131,7 +135,7 @@ export default function Footer() {
                   <a
                     href={INSTA_URL}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     onClick={() =>
                       trackInstagramClick({
                         source_section: "footer",
@@ -147,7 +151,7 @@ export default function Footer() {
                   <a
                     href={`https://wa.me/${WA_NUMBER}?text=${OFFER_MSG}`}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     onClick={() =>
                       trackWhatsAppClick({
                         source_section: "footer_social",
