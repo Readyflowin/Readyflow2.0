@@ -86,7 +86,7 @@ export const PUBLISHED_SEO_ROUTES = [
     pageId: "shopify_store_setup_india",
     title: "Shopify Store Setup in India for Instagram Brands | Readyflow",
     description:
-      "Readyflow helps Indian Instagram-first brands launch mobile-first Shopify stores. Get theme setup, products, payments, policies, WhatsApp flow and more for ₹11,999.",
+      "Readyflow helps Indian Instagram-first brands launch mobile-first Shopify stores. Get theme setup, products, payments, policies, WhatsApp flow and more for ₹14,999.",
     h1: "Shopify Store Setup in India for Instagram Brands",
     pageType: "article-service",
     category: "Shopify / Ecommerce",
@@ -109,7 +109,7 @@ export const PUBLISHED_SEO_ROUTES = [
     pageId: "shopify_store_setup_cost_india",
     title: "Shopify Store Setup Cost in India | Readyflow",
     description:
-      "Understand Shopify store setup cost in India. Readyflow's launch setup fee is ₹11,999, while Shopify plan, domain, apps, and third-party costs stay separate.",
+      "Understand Shopify store setup cost in India. Readyflow's launch setup fee is ₹14,999, while Shopify plan, domain, apps, and third-party costs stay separate.",
     h1: "Shopify Store Setup Cost in India Explained Clearly",
     pageType: "article-service",
     category: "Money & Ecommerce / India",
@@ -204,7 +204,7 @@ export const PUBLISHED_SEO_ROUTES = [
     pageId: "instagram_brand_shopify_store",
     title: "Turn Your Instagram Brand Into a Shopify Store in India | Readyflow",
     description:
-      "Turn your Instagram brand into a proper Shopify store. Readyflow helps Indian product businesses launch mobile-first stores with product pages, WhatsApp flow and ₹11,999 setup.",
+      "Turn your Instagram brand into a proper Shopify store. Readyflow helps Indian product businesses launch mobile-first stores with product pages, WhatsApp flow and ₹14,999 setup.",
     h1: "Turn Your Instagram Brand Into a Shopify Store",
     pageType: "article-service",
     category: "Ecommerce Advice",

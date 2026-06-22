@@ -10,7 +10,7 @@ import { useLeadFormModal } from "./LeadFormModalContext";
 
 const WA_NUMBER = "918602555840"; 
 const CONTACT_MSG = encodeURIComponent(
-  "Hi Readyflow, I’m interested in the ₹11,999 Instagram Brand Shopify Launch. My brand sells ______ and I want to know the next steps.",
+  "Hi Readyflow, I’m interested in the ₹14,999 Instagram Brand Shopify Launch. My brand sells ______ and I want to know the next steps.",
 );
 
 const NAV_LINKS = [

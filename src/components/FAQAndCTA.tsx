@@ -6,9 +6,9 @@ import { useLeadFormModal } from "./LeadFormModalContext";
 
 const FAQS = [
   {
-    question: "Is ₹11,999 the final price for every store?",
+    question: "Is ₹14,999 the final price for every store?",
     answer:
-      "₹11,999 is for focused Shopify launches where product photos, prices and core content are ready. Larger catalogues, custom sections, advanced features or unfinished content can change the final scope.",
+      "₹14,999 is for focused Shopify launches where product photos, prices and core content are ready. Larger catalogues, custom sections, advanced features or unfinished content can change the final scope.",
   },
   {
     question: "Do I need to sell only on Instagram?",
@@ -21,14 +21,14 @@ const FAQS = [
       "Not every product brand needs the same setup. We check product count, content readiness and required sections before confirming whether the focused launch scope is right for you.",
   },
   {
-    question: "What do I get for ₹11,999?",
+    question: "What do I get for ₹14,999?",
     answer:
       "The launch package includes Shopify theme setup, homepage setup, collections, up to 10 products, product-page layout, size chart section, WhatsApp/contact button, basic policy pages, payment/shipping setup guidance, mobile-first layout, basic SEO setup and 7 days of basic post-delivery support.",
   },
   {
     question: "Is Shopify/domain included?",
     answer:
-      "₹11,999 is Readyflow’s setup fee. Shopify subscription, domain, paid apps if needed, product photos and ad management are arranged separately.",
+      "₹14,999 is Readyflow’s setup fee. Shopify subscription, domain, paid apps if needed, product photos and ad management are arranged separately.",
   },
   {
     question: "How long does it take?",
@@ -38,7 +38,7 @@ const FAQS = [
   {
     question: "How many products are included?",
     answer:
-      "Up to 10 products are included in the ₹11,999 launch package. More products can be discussed separately if needed.",
+      "Up to 10 products are included in the ₹14,999 launch package. More products can be discussed separately if needed.",
   },
   {
     question: "Do I need product photos?",

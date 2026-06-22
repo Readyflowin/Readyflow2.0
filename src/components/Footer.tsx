@@ -18,7 +18,7 @@ import { useLeadFormModal } from "./LeadFormModalContext";
 const WA_NUMBER = "918602555840";
 const INSTA_URL = "https://www.instagram.com/ready_flow_/";
 const OFFER_MSG = encodeURIComponent(
-  "Hi Readyflow, I’m interested in the ₹11,999 Instagram Brand Shopify Launch. My brand sells ______ and I want to know the next steps.",
+  "Hi Readyflow, I’m interested in the ₹14,999 Instagram Brand Shopify Launch. My brand sells ______ and I want to know the next steps.",
 );
 
 const POLICY_LINKS = [
@@ -70,7 +70,7 @@ export default function Footer() {
               <span className="text-black/20">store customers can trust?</span>
             </h2>
             <p className="mt-8 max-w-xl text-sm font-semibold leading-relaxed text-black/45">
-              Focused Shopify launches start at ₹11,999 when product photos,
+              Focused Shopify launches start at ₹14,999 when product photos,
               prices and basic content are ready. Shopify subscription, domain,
               paid apps, product photos and ad management stay separate.
             </p>

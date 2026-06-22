@@ -38,10 +38,10 @@ export const FAQS = [
   {
     question: "How much does Shopify store setup cost in India?",
     answer:
-      "Readyflow's focused Shopify launch setup is a one-time ₹11,999. The Shopify plan, domain, optional paid apps or themes, payment processing, shipping, photography, and advanced custom work are separate.",
+      "Readyflow's focused Shopify launch setup is a one-time ₹14,999. The Shopify plan, domain, optional paid apps or themes, payment processing, shipping, photography, and advanced custom work are separate.",
   },
   {
-    question: "What is included in Readyflow's ₹11,999 Shopify setup?",
+    question: "What is included in Readyflow's ₹14,999 Shopify setup?",
     answer:
       "The launch covers theme and mobile store setup, homepage, collections, initial product setup within scope, policy pages, payment and shipping guidance, WhatsApp flow, basic SEO, trust sections, and launch review.",
   },
@@ -541,7 +541,7 @@ export default function ShopifyStoreSetupIndia() {
               <p>
                 Readyflow's <strong>Instagram Brand Shopify Launch</strong> is
                 a focused, done-for-you setup for Indian product brands. The
-                one-time launch fee is ₹11,999; the recurring Shopify plan and
+                one-time launch fee is ₹14,999; the recurring Shopify plan and
                 third-party business costs remain separate.
               </p>
               <div className="editorial-note">
@@ -626,7 +626,7 @@ export default function ShopifyStoreSetupIndia() {
 
             <section id="included" className="scroll-mt-28">
               <p className="editorial-kicker">The focused launch scope</p>
-              <h2 className="!mt-4">What Readyflow's ₹11,999 Shopify setup includes</h2>
+              <h2 className="!mt-4">What Readyflow's ₹14,999 Shopify setup includes</h2>
               <p>
                 The launch is deliberately practical: a ready-to-review
                 Shopify store shaped around your current product catalogue and
@@ -668,7 +668,7 @@ export default function ShopifyStoreSetupIndia() {
             <section id="pricing" ref={pricingRef} className="scroll-mt-28">
               <h2>Pricing and what stays separate</h2>
               <p>
-                Readyflow's ₹11,999 is a one-time setup fee for the focused
+                Readyflow's ₹14,999 is a one-time setup fee for the focused
                 launch work above. A useful Shopify quote makes the other costs
                 visible instead of quietly blending them into one number.
               </p>
@@ -677,7 +677,7 @@ export default function ShopifyStoreSetupIndia() {
                   <thead className="hidden bg-[#f3f0e9] sm:table-header-group">
                     <tr className="border-b-2 border-black">
                       <th className="px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em]">Item</th>
-                      <th className="px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em]">Included in ₹11,999?</th>
+                      <th className="px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em]">Included in ₹14,999?</th>
                       <th className="px-4 py-4 text-[10px] font-black uppercase tracking-[0.15em]">Notes</th>
                     </tr>
                   </thead>
@@ -944,7 +944,7 @@ export default function ShopifyStoreSetupIndia() {
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-black/62">
               Start with the catalogue you have. We will help you decide
-              whether the focused ₹11,999 launch is the right fit before
+              whether the focused ₹14,999 launch is the right fit before
               anything is built.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">

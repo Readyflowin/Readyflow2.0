@@ -44,7 +44,7 @@ function templateFor(
         `Hey ${name},`,
         `Just checking in - you filled the Readyflow Shopify Launch form for ${brand}.`,
         "If your products/photos are ready, I can help you understand the next steps for getting your Shopify store live.",
-        "The Rs. 11,999 package covers the store setup. Shopify subscription, domain, paid apps, product photos and ad management stay separate, so there is no confusion later.",
+        "The Rs. 14,999 package covers the store setup. Shopify subscription, domain, paid apps, product photos and ad management stay separate, so there is no confusion later.",
         "The goal is simple: make your Instagram brand look more organised, easier to browse, and ready for a smoother buying flow.",
       ],
       cta: "Continue on WhatsApp",
@@ -58,7 +58,7 @@ function templateFor(
       paragraphs: [
         `Hey ${name},`,
         `Your Readyflow store request for ${brand} is still open.`,
-        "If you are still planning the store, send your Instagram page and product details on WhatsApp. I will check whether the Rs. 11,999 Shopify Launch package fits your current stage or if you should wait until your content is more ready.",
+        "If you are still planning the store, send your Instagram page and product details on WhatsApp. I will check whether the Rs. 14,999 Shopify Launch package fits your current stage or if you should wait until your content is more ready.",
         "The idea is to set up a clean Shopify structure that makes your products easier to browse, understand and order/enquire about.",
       ],
       cta: "Send My Brand Page",

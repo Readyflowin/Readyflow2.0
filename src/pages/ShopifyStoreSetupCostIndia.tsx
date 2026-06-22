@@ -12,7 +12,7 @@ import { getSeoRoute } from "../lib/seoRoutes";
 const SEO_ROUTE = getSeoRoute("/shopify-store-setup-cost-india");
 const PAGE_PATH = SEO_ROUTE.path;
 const CTA_SOURCE = SEO_ROUTE.ctaSource!;
-const PRIMARY_CTA = "Check if ₹11,999 setup fits my brand";
+const PRIMARY_CTA = "Check if ₹14,999 setup fits my brand";
 
 const SHOPIFY_PRICING_URL = "https://www.shopify.com/in/pricing";
 const SHOPIFY_DOMAINS_URL = "https://help.shopify.com/en/manual/domains";
@@ -60,17 +60,17 @@ export const FAQS = [
   {
     question: "How much does Shopify store setup cost in India?",
     answer:
-      "For Readyflow’s focused offer, the setup work is ₹11,999. Your total launch budget also includes the Shopify plan, a domain, optional apps or theme, payment and shipping provider charges, and any separate content work.",
+      "For Readyflow’s focused offer, the setup work is ₹14,999. Your total launch budget also includes the Shopify plan, a domain, optional apps or theme, payment and shipping provider charges, and any separate content work.",
   },
   {
-    question: "What does Readyflow’s ₹11,999 setup include?",
+    question: "What does Readyflow’s ₹14,999 setup include?",
     answer:
       "It covers a focused Shopify launch: store structure, homepage, collections, product-page format, up to 10 product uploads, basic policies, WhatsApp/contact flow, setup guidance, mobile structure, and basic SEO.",
   },
   {
     question: "Is the Shopify subscription included?",
     answer:
-      "No. Shopify is a recurring platform charge paid directly to Shopify. The ₹11,999 is Readyflow’s one-time setup fee.",
+      "No. Shopify is a recurring platform charge paid directly to Shopify. The ₹14,999 is Readyflow’s one-time setup fee.",
   },
   {
     question: "Is a domain included?",
@@ -327,7 +327,7 @@ export default function ShopifyStoreSetupCostIndia() {
               <p className="first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-6xl first-letter:font-bold first-letter:leading-[0.82]">
                 Confusion usually begins when a setup fee is presented as if it
                 were the entire cost of owning an online store. It is not.
-                Readyflow’s ₹11,999 covers the work of preparing a focused
+                Readyflow’s ₹14,999 covers the work of preparing a focused
                 Shopify launch. The platform, domain, payment processing,
                 shipping, and optional tools belong to different providers.
               </p>
@@ -387,7 +387,7 @@ export default function ShopifyStoreSetupCostIndia() {
                 <table className="min-w-[720px] w-full border-collapse text-left text-sm">
                   <thead>
                     <tr className="border-b-2 border-black bg-[#f3f0e9]">
-                      {["Cost item", "Timing", "Charged by", "In ₹11,999?"].map(
+                      {["Cost item", "Timing", "Charged by", "In ₹14,999?"].map(
                         (heading) => (
                           <th
                             key={heading}
@@ -437,7 +437,7 @@ export default function ShopifyStoreSetupCostIndia() {
             </figure>
 
             <section id="readyflow-fee" ref={offerRef} className="scroll-mt-28">
-              <h2>What Readyflow’s ₹11,999 fee actually pays for</h2>
+              <h2>What Readyflow’s ₹14,999 fee actually pays for</h2>
               <p>
                 The one-time fee pays for turning your approved brand and
                 product inputs into a launch-ready Shopify structure. It is
@@ -553,7 +553,7 @@ export default function ShopifyStoreSetupCostIndia() {
             </figure>
 
             <section id="fit" className="scroll-mt-28">
-              <h2>When ₹11,999 is enough—and when it is not</h2>
+              <h2>When ₹14,999 is enough—and when it is not</h2>
               <p>
                 The focused setup is usually appropriate when the catalogue is
                 small, product information is ready, the buying flow is
@@ -636,7 +636,7 @@ export default function ShopifyStoreSetupCostIndia() {
           <div className="mx-auto max-w-3xl text-center">
             <p className="editorial-kicker">The practical next step</p>
             <h2 className="mt-4 font-serif text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
-              Want to know whether ₹11,999 is enough for your brand?
+              Want to know whether ₹14,999 is enough for your brand?
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-black/62">
               Share your catalogue and readiness. Readyflow will tell you

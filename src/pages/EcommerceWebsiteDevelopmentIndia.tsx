@@ -50,7 +50,7 @@ export const FAQS = [
   {
     question: "How much does ecommerce website development cost in India?",
     answer:
-      "It depends on the platform, catalogue, design depth, content readiness, apps, and integrations. Readyflow’s focused Shopify launch setup is ₹11,999, with platform and third-party costs separate.",
+      "It depends on the platform, catalogue, design depth, content readiness, apps, and integrations. Readyflow’s focused Shopify launch setup is ₹14,999, with platform and third-party costs separate.",
   },
   {
     question: "What is included in ecommerce website development?",
@@ -461,7 +461,7 @@ export default function EcommerceWebsiteDevelopmentIndia() {
                     Appropriate when the business has unusual workflows,
                     marketplace logic, deep integrations, advanced B2B rules,
                     or multiple operational systems. This is a different
-                    engineering project—not Readyflow’s ₹11,999 service lane.
+                    engineering project—not Readyflow’s ₹14,999 service lane.
                   </p>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function EcommerceWebsiteDevelopmentIndia() {
               <p>
                 Readyflow builds a focused, mobile-first Shopify store around
                 the brand’s current catalogue. The present Instagram Brand
-                Shopify Launch starts at ₹11,999 for setup work.
+                Shopify Launch starts at ₹14,999 for setup work.
               </p>
               <div className="my-8 grid gap-8 border-y border-black/12 py-8 md:grid-cols-2">
                 <div>
@@ -518,7 +518,7 @@ export default function EcommerceWebsiteDevelopmentIndia() {
             <section id="cost" className="scroll-mt-28">
               <h2>What ecommerce website cost actually includes</h2>
               <p>
-                Readyflow’s ₹11,999 is the service fee, not the lifetime cost
+                Readyflow’s ₹14,999 is the service fee, not the lifetime cost
                 of operating the store. The wider budget includes the Shopify
                 subscription, a domain, optional themes or apps, payment
                 processing, shipping charges, photography or content, and any

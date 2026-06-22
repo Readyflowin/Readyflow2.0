@@ -38,7 +38,7 @@ Readyflow's Shopify pricing-intent landing page is available at:
 SEO configuration:
 
 - Title: `Shopify Store Setup Cost in India | Readyflow`
-- Meta description explains the ₹11,999 Readyflow setup fee and separate
+- Meta description explains the ₹14,999 Readyflow setup fee and separate
   Shopify, domain, app, and third-party costs.
 - Canonical: `https://www.readyflow.site/shopify-store-setup-cost-india`
 - Sitemap entry: generated as `dist/sitemap.xml`
@@ -69,7 +69,7 @@ SEO configuration:
 - Title: `Shopify Store Setup in India for Instagram Brands | Readyflow`
 - Meta description: `Readyflow helps Indian Instagram-first brands launch
   mobile-first Shopify stores. Get theme setup, products, payments, policies,
-  WhatsApp flow and more for ₹11,999.`
+  WhatsApp flow and more for ₹14,999.`
 - Canonical: `https://www.readyflow.site/shopify-store-setup-india`
 - Internal links: `/shopify-store-setup-cost-india`,
   `/ecommerce-website-development-india`, and `/work`. Other brief-specified
@@ -207,7 +207,7 @@ SEO configuration:
 - Title: `Turn Your Instagram Brand Into a Shopify Store in India | Readyflow`
 - Meta description: `Turn your Instagram brand into a proper Shopify store.
   Readyflow helps Indian product businesses launch mobile-first stores with
-  product pages, WhatsApp flow and ₹11,999 setup.`
+  product pages, WhatsApp flow and ₹14,999 setup.`
 - Canonical: `https://www.readyflow.site/instagram-brand-shopify-store`
 - Sitemap entry: generated from the published route registry into
   `dist/sitemap.xml`.
@@ -436,7 +436,7 @@ bonus window.
 - 7 days: `Should I close this for now?`
 
 The Interested 72-hour email must not imply the bonus is still active. It should
-say the bonus window has passed and the standard Rs. 11,999 setup can still move
+say the bonus window has passed and the standard Rs. 14,999 setup can still move
 ahead.
 
 Closed Won behavior:

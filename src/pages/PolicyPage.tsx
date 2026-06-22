@@ -41,7 +41,7 @@ const POLICIES: Record<PolicyKey, PolicyContent> = {
       {
         heading: "Why we collect these details",
         bullets: [
-          "To respond to your Shopify Launch request and check fit for the ₹11,999 package.",
+          "To respond to your Shopify Launch request and check fit for the ₹14,999 package.",
           "To send package details, confirmation emails and WhatsApp/email follow-up.",
           "To track leads, understand ad performance and improve the landing page funnel.",
         ],
@@ -60,7 +60,7 @@ const POLICIES: Record<PolicyKey, PolicyContent> = {
   terms: {
     title: "Terms | Readyflow",
     description:
-      "Terms for Readyflow website/store setup services and the ₹11,999 Instagram Brand Shopify Launch package.",
+      "Terms for Readyflow website/store setup services and the ₹14,999 Instagram Brand Shopify Launch package.",
     path: "/terms",
     eyebrow: "Terms",
     updated: "Last updated: 20 June 2026",
@@ -73,7 +73,7 @@ const POLICIES: Record<PolicyKey, PolicyContent> = {
       {
         heading: "Package fee and separate costs",
         body:
-          "The ₹11,999 package is Readyflow’s setup fee. Shopify subscription, domain, paid apps, product photos and ad management are separate.",
+          "The ₹14,999 package is Readyflow’s setup fee. Shopify subscription, domain, paid apps, product photos and ad management are separate.",
       },
       {
         heading: "Client responsibilities",
@@ -123,13 +123,13 @@ const POLICIES: Record<PolicyKey, PolicyContent> = {
   delivery: {
     title: "Delivery & Scope Policy | Readyflow",
     description:
-      "What is included and separate in the ₹11,999 Instagram Brand Shopify Launch package.",
+      "What is included and separate in the ₹14,999 Instagram Brand Shopify Launch package.",
     path: "/delivery-scope-policy",
     eyebrow: "Delivery & Scope Policy",
     updated: "Last updated: 20 June 2026",
     sections: [
       {
-        heading: "Included in the ₹11,999 setup",
+        heading: "Included in the ₹14,999 setup",
         bullets: [
           "Shopify theme setup and homepage setup.",
           "Collection setup and up to 10 products uploaded.",

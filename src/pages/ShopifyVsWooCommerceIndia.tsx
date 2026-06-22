@@ -12,7 +12,7 @@ import { buildSeoStructuredData } from "../lib/seoStructuredData";
 const SEO_ROUTE = getSeoRoute("/shopify-vs-woocommerce-india");
 const PAGE_PATH = SEO_ROUTE.path;
 const CTA_SOURCE = SEO_ROUTE.ctaSource!;
-const PRIMARY_CTA = "Get Your ₹11,999 Shopify Launch Plan";
+const PRIMARY_CTA = "Get Your ₹14,999 Shopify Launch Plan";
 
 const SHOPIFY_PRICING_URL = "https://www.shopify.com/in/pricing";
 const SHOPIFY_PAYMENTS_COUNTRIES_URL =
@@ -307,12 +307,12 @@ export default function ShopifyVsWooCommerceIndia() {
             <section>
               <h2>Final recommendation</h2>
               <p>For a small Indian product brand that wants to launch quickly and avoid technical overhead, Shopify is usually the simpler choice. WooCommerce is not a lesser platform—it is often the better answer for a business that already has WordPress, trusted developer support, a content-heavy strategy, or genuinely unusual requirements.</p>
-              <p>The fairest choice is the one your brand can operate well after launch. If product photos, prices, and basic content are ready, Readyflow’s focused Shopify launches start at ₹11,999. You can also review <Link to="/pricing" className="font-bold text-[#087746] underline underline-offset-4">Readyflow pricing</Link> and browse <Link to="/work" className="font-bold text-[#087746] underline underline-offset-4">Shopify store examples</Link> before deciding.</p>
+              <p>The fairest choice is the one your brand can operate well after launch. If product photos, prices, and basic content are ready, Readyflow’s focused Shopify launches start at ₹14,999. You can also review <Link to="/pricing" className="font-bold text-[#087746] underline underline-offset-4">Readyflow pricing</Link> and browse <Link to="/work" className="font-bold text-[#087746] underline underline-offset-4">Shopify store examples</Link> before deciding.</p>
               <ContextualCTA heading="Ready to move from DMs to a proper Shopify store?" text="If you sell through Instagram, WhatsApp, Facebook, marketplaces or offline, share your products and we’ll suggest the right Shopify setup path for your brand." section="final_recommendation" />
             </section>
 
             <hr className="editorial-rule" />
-            <section id="faq" className="scroll-mt-28"><p className="editorial-kicker">Frequently asked questions</p><h2 className="!mt-4">Shopify vs WooCommerce in India: practical answers</h2><div className="divide-y divide-black/12 border-y border-black/12">{FAQS.map((faq, index) => <details key={faq.question} open={index === 0} className="group"><summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 font-bold">{faq.question}<span className="text-xl transition group-open:rotate-45">+</span></summary><p className="pb-5 !mb-0 text-[16px] leading-7 text-black/62">{faq.answer}</p></details>)}</div><TrackedCTA section="faq" label="Get Your ₹11,999 Shopify Launch Plan" className="mt-8 w-full sm:w-auto" /></section>
+            <section id="faq" className="scroll-mt-28"><p className="editorial-kicker">Frequently asked questions</p><h2 className="!mt-4">Shopify vs WooCommerce in India: practical answers</h2><div className="divide-y divide-black/12 border-y border-black/12">{FAQS.map((faq, index) => <details key={faq.question} open={index === 0} className="group"><summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 font-bold">{faq.question}<span className="text-xl transition group-open:rotate-45">+</span></summary><p className="pb-5 !mb-0 text-[16px] leading-7 text-black/62">{faq.answer}</p></details>)}</div><TrackedCTA section="faq" label="Get Your ₹14,999 Shopify Launch Plan" className="mt-8 w-full sm:w-auto" /></section>
           </div>
         </div>
 

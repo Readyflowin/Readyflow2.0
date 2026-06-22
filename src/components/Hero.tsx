@@ -277,7 +277,7 @@ export default function Hero() {
             <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border border-black/5 bg-white/70 px-4 py-3 shadow-sm backdrop-blur">
               <CheckCircle2 size={16} className="shrink-0 text-[#0A8F50]" />
               <p className="text-xs font-black uppercase tracking-[0.08em] text-[#070707] md:text-sm">
-                ₹11,999 setup fee · 3–5 day launch after content is ready
+                ₹14,999 setup fee · 3–5 day launch after content is ready
               </p>
             </div>
 

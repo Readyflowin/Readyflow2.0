@@ -142,7 +142,7 @@ export function LeadFormModalProvider({ children }: { children: ReactNode }) {
                     id={titleId}
                     className="mt-2 text-2xl font-black tracking-tighter text-[#070707] sm:text-4xl"
                   >
-                    Get Your ₹11,999 Shopify Launch Plan
+                    Get Your ₹14,999 Shopify Launch Plan
                   </h2>
                   <p
                     id={descriptionId}

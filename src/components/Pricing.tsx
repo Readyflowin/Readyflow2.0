@@ -109,11 +109,11 @@ export function OfferSection() {
                       Focused launches start at
                     </span>
                     <span className="text-4xl font-black tracking-tighter text-[#d7f4dd] md:text-5xl">
-                      ₹11,999
+                      ₹14,999
                     </span>
                   </div>
                   <p className="mt-3 text-sm font-medium leading-relaxed text-white/74">
-                    ₹11,999 fits focused Shopify launches where product photos, prices and basic content are ready.
+                    ₹14,999 fits focused Shopify launches where product photos, prices and basic content are ready.
                   </p>
                 </div>
 

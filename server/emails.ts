@@ -154,7 +154,7 @@ export function buildLeadEmail(
       `Thanks for filling the Readyflow Shopify Launch form for ${lead.instagram || "your brand"}. I've received your details.`,
     )}
     ${emailBox(
-      "Rs. 11,999 Shopify Launch Setup",
+      "Rs. 14,999 Shopify Launch Setup",
       emailBulletList([
         "Mobile-first Shopify store setup",
         "Homepage, collections and up to 10 products",
@@ -165,7 +165,7 @@ export function buildLeadEmail(
     )}
     ${emailBox(
       "Quick clarity",
-      `<p style="margin:0;color:#374151;font-size:15px;line-height:1.68">The &#8377;11,999 fee covers Readyflow's setup work. Shopify subscription, domain, paid apps, product photos and ad management are arranged separately.</p>`,
+      `<p style="margin:0;color:#374151;font-size:15px;line-height:1.68">The &#8377;14,999 fee covers Readyflow's setup work. Shopify subscription, domain, paid apps, product photos and ad management are arranged separately.</p>`,
     )}
     ${emailBox(
       "Next step",
@@ -195,14 +195,14 @@ function buildLeadText(lead: StoredLead, whatsappUrl: string): string {
     "",
     "Your store request is received.",
     "",
-    "Rs. 11,999 Shopify Launch Setup:",
+    "Rs. 14,999 Shopify Launch Setup:",
     "- Mobile-first Shopify store setup",
     "- Homepage, collections and up to 10 products",
     "- Product page, size chart and policy pages",
     "- WhatsApp/contact flow and checkout setup guidance",
     "- 3-5 day build after content/access is ready",
     "",
-    "Quick clarity: The Rs. 11,999 fee covers Readyflow's setup work. Shopify subscription, domain, paid apps, product photos and ad management are arranged separately.",
+    "Quick clarity: The Rs. 14,999 fee covers Readyflow's setup work. Shopify subscription, domain, paid apps, product photos and ad management are arranged separately.",
     "",
     "For the fastest response, continue on WhatsApp using the button below. Your submitted details will already be included in the message.",
     "",

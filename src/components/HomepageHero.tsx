@@ -84,7 +84,7 @@ export default function HomepageHero() {
           </div>
         </motion.div>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.72, duration: 0.5 }} className="mt-5 text-[12px] font-bold leading-relaxed text-black/62">
-          Focused launches start at ₹11,999 after content is ready.
+          Focused launches start at ₹14,999 after content is ready.
         </motion.p>
       </div>
 
@@ -97,7 +97,7 @@ export default function HomepageHero() {
 
       <div className="relative z-20 overflow-hidden bg-[#070707] py-3.5">
         <div className="flex w-max animate-marquee whitespace-nowrap text-[9px] font-black uppercase tracking-[0.25em] text-[#d7f4dd]">
-          {["Social-first product brands", "Mobile-first Shopify store", "Product and collection setup", "WhatsApp contact flow", "Focused launches start at ₹11,999", "Founder-led process", "Social-first product brands", "Mobile-first Shopify store", "Product and collection setup", "WhatsApp contact flow"].map((item, index) => <span key={`${item}-${index}`} className="inline-flex items-center gap-3 px-8"><span className="h-1 w-1 rounded-full bg-[#1DFF8A]" />{item}</span>)}
+          {["Social-first product brands", "Mobile-first Shopify store", "Product and collection setup", "WhatsApp contact flow", "Focused launches start at ₹14,999", "Founder-led process", "Social-first product brands", "Mobile-first Shopify store", "Product and collection setup", "WhatsApp contact flow"].map((item, index) => <span key={`${item}-${index}`} className="inline-flex items-center gap-3 px-8"><span className="h-1 w-1 rounded-full bg-[#1DFF8A]" />{item}</span>)}
         </div>
       </div>
     </section>

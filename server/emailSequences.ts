@@ -107,13 +107,13 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
       "We received your store request. Continue on WhatsApp to claim the next step.",
     ctaLabel: "Continue on WhatsApp",
     whatsappMessage: (lead) =>
-      `Hi Readyflow, I filled the form for ${brand(lead)}. Please review my brand and share the ₹11,999 Shopify launch plan + 48-hour bonus details.`,
+      `Hi Readyflow, I filled the form for ${brand(lead)}. Please review my brand and share the ₹14,999 Shopify launch plan + 48-hour bonus details.`,
     paragraphs: (lead) => [
       `Hi ${name(lead)},`,
       `Thank you for filling the Readyflow form for ${brand(lead)}.`,
       "We’ve received your store request. I’ll review your brand details and share the next step on WhatsApp.",
       "Your 48-Hour Launch Bonus is reserved: complete the WhatsApp step and confirm within 48 hours to unlock up to 5 custom Shopify sections coded just for your brand — at no extra setup fee.",
-      "The ₹11,999 package covers your Shopify launch setup. Shopify subscription and domain stay separate, and I’ll guide you on both.",
+      "The ₹14,999 package covers your Shopify launch setup. Shopify subscription and domain stay separate, and I’ll guide you on both.",
     ],
     bonusBlock: true,
   },
@@ -128,11 +128,11 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     preheader: () => "Your Readyflow launch bonus is still available.",
     ctaLabel: "Claim bonus on WhatsApp",
     whatsappMessage: (lead) =>
-      `Hi Readyflow, I want to continue with the ₹11,999 Shopify launch plan for ${brand(lead)}. Please explain the bonus and next step.`,
+      `Hi Readyflow, I want to continue with the ₹14,999 Shopify launch plan for ${brand(lead)}. Please explain the bonus and next step.`,
     paragraphs: (lead) => [
       `Hi ${name(lead)},`,
       "Just a quick reminder — your 48-Hour Launch Bonus is still available.",
-      "If your brand fits the ₹11,999 Shopify Launch package, confirming within the bonus window unlocks up to 5 custom Shopify sections coded just for your brand at no extra setup fee.",
+      "If your brand fits the ₹14,999 Shopify Launch package, confirming within the bonus window unlocks up to 5 custom Shopify sections coded just for your brand at no extra setup fee.",
       "The easiest next step is to continue on WhatsApp. I’ll review your brand and explain the setup clearly.",
     ],
     bonusBlock: true,
@@ -210,11 +210,11 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     preheader: () => "The 48-Hour Launch Bonus is open for your brand.",
     ctaLabel: "Complete onboarding on WhatsApp",
     whatsappMessage: (lead) =>
-      `Hi Readyflow, I want to continue with the ₹11,999 Shopify launch plan for ${brand(lead)}. Please guide me through onboarding and the 48-hour bonus.`,
+      `Hi Readyflow, I want to continue with the ₹14,999 Shopify launch plan for ${brand(lead)}. Please guide me through onboarding and the 48-hour bonus.`,
     paragraphs: (lead) => [
       `Hi ${name(lead)},`,
       `I’ve reviewed your details for ${brand(lead)}.`,
-      "Your Readyflow Shopify Launch plan is ready. The setup fee is ₹11,999 for the store launch work.",
+      "Your Readyflow Shopify Launch plan is ready. The setup fee is ₹14,999 for the store launch work.",
       "I’m also keeping the 48-Hour Launch Bonus open for you: confirm within 48 hours and I’ll include up to 5 custom Shopify sections coded just for your brand — at no extra setup fee.",
       "Complete the WhatsApp/onboarding step and I’ll guide you from there.",
     ],
@@ -298,7 +298,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
     paragraphs: (lead) => [
       `Hi ${name(lead)},`,
       "The 48-Hour Launch Bonus window has passed, so I won’t keep pushing that.",
-      "But if you still want to launch your Shopify store, the ₹11,999 Readyflow setup can still move ahead normally.",
+      "But if you still want to launch your Shopify store, the ₹14,999 Readyflow setup can still move ahead normally.",
       "Message me on WhatsApp and I’ll guide you with the cleanest next step.",
     ],
   },
@@ -336,7 +336,7 @@ export const SEQUENCE_DEFINITIONS: SequenceEmailDefinition[] = [
       "Thank you for choosing Readyflow. Your Instagram Brand Shopify Launch project is confirmed.",
       `We are excited to help bring ${brand(lead)} into a cleaner Shopify buying flow.`,
       "Next, I will share the content and access checklist. The project timeline starts once the main brand assets, product details, photos, and access are ready.",
-      "The Rs. 11,999 setup covers the agreed Readyflow setup work. Shopify subscription, domain, paid apps, extra products, and requests outside scope are handled separately and will be discussed before anything extra is done.",
+      "The Rs. 14,999 setup covers the agreed Readyflow setup work. Shopify subscription, domain, paid apps, extra products, and requests outside scope are handled separately and will be discussed before anything extra is done.",
       "Reply here or message on WhatsApp if you have any immediate questions.",
     ],
   },
