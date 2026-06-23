@@ -1,4 +1,5 @@
 import { trackGA4Event } from "./ga4";
+import { isPublicTrackablePath } from "./publicRoutes";
 
 export type MetaPixelParams = Record<string, unknown>;
 
@@ -13,26 +14,10 @@ type MetaPixelFunction = (
 const SAFE_DEFAULT_PARAMS: MetaPixelParams = {
   source: "landing_page",
   offer: "instagram_brand_shopify_launch",
-  package_price: "11999",
+  package_price: "14999",
 };
 
 const STANDARD_EVENTS = new Set(["PageView", "ViewContent", "Lead", "Contact"]);
-
-const PUBLIC_PATHS = new Set([
-  "/",
-  "/pricing",
-  "/work",
-  "/privacy-policy",
-  "/terms",
-  "/refund-cancellation-policy",
-  "/delivery-scope-policy",
-  "/shopify-store-setup-india",
-  "/shopify-store-setup-cost-india",
-  "/ecommerce-website-development-india",
-  "/clothing-brand-website",
-  "/jewellery-ecommerce-website",
-  "/instagram-brand-shopify-store",
-]);
 
 const SAFE_PARAM_KEYS = new Set([
   "source",
@@ -53,6 +38,13 @@ const SAFE_PARAM_KEYS = new Set([
   "cta_source",
   "destination_type",
   "form",
+  "article_slug",
+  "article_title",
+  "article_category",
+  "scroll_depth",
+  "active_time_seconds",
+  "traffic_source_group",
+  "traffic_source_label",
 ]);
 
 declare global {
@@ -68,7 +60,7 @@ function currentPathname(): string {
 }
 
 function isPublicPath(pathname: string): boolean {
-  return PUBLIC_PATHS.has(pathname.replace(/\/+$/, "") || "/");
+  return isPublicTrackablePath(pathname);
 }
 
 function safeParams(params?: MetaPixelParams): MetaPixelParams {
@@ -191,4 +183,14 @@ export function trackViewContent(params?: MetaPixelParams) {
 
 export function trackDuplicateLead(params?: MetaPixelParams) {
   trackPixelEvent("Readyflow_DuplicateLead", params);
+}
+
+export function trackArticleScroll(params?: MetaPixelParams) {
+  trackPixelEvent("Readyflow_ArticleScroll", params);
+  trackGA4Event("article_scroll", params);
+}
+
+export function trackQualifiedReader(params?: MetaPixelParams) {
+  trackPixelEvent("Readyflow_QualifiedReader", params);
+  trackGA4Event("qualified_reader", params);
 }

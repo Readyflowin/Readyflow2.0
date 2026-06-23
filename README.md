@@ -538,7 +538,7 @@ Meta Pixel remains the ad-optimization tracker for Meta campaigns.
 Configure GA4 with a public Vite env variable:
 
 ```text
-VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7
+VITE_GA_MEASUREMENT_ID=<your-ga4-measurement-id>
 ```
 
 Add this exact variable in:
@@ -586,7 +586,7 @@ Privacy rules:
 
 Test in GA4 Realtime:
 
-1. Set `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7` in local `.env.local` and the
+1. Set `VITE_GA_MEASUREMENT_ID` in local `.env.local` and the
    relevant Vercel Production, Preview and Development environments.
 2. Deploy or run the public site locally.
 3. Open the public homepage, navigate to `/work`, open the lead modal, and click
@@ -600,6 +600,25 @@ Test in GA4 DebugView:
 2. Repeat the public funnel actions.
 3. Open Admin > DebugView and confirm only safe event params appear.
 
+## SEO route and article tracking
+
+- Register published SEO metadata in `src/lib/seoRoutes.ts`, then map the page
+  component in `src/App.tsx` and `src/ssg.ts`. The registry drives the sitemap
+  and the browser-side SEO tracking allowlist.
+- `src/lib/publicRoutes.ts` derives the browser-side public SEO route list used
+  by Meta and GA4. Keep the two static lists in `index.html` aligned with it,
+  because the HTML shell cannot import TypeScript.
+- Render `SeoArticleTracker` on every editorial page. It sends safe
+  `ViewContent` / `view_offer` context plus separate engagement events:
+  `Readyflow_ArticleScroll` / `article_scroll` at 50% and 90%, and
+  `Readyflow_QualifiedReader` / `qualified_reader` after 60 visible seconds.
+- Conversion events remain the existing CTA → modal → form flow. Reuse the
+  existing tracked CTA/modal components; do not create article-specific forms
+  or raw lead buttons.
+- Never send form values, raw UTMs, `fbclid`, or other personal data to Meta or
+  GA4. Article events use only route, article, section, safe source-group, and
+  offer context.
+
 ## Production checklist
 
 Before running ads:
@@ -607,7 +626,7 @@ Before running ads:
 - Replace exposed Resend API key if it was ever shared or committed.
 - Change the admin password.
 - Set all Vercel env variables for Production, Preview and Development,
-  including `VITE_GA_MEASUREMENT_ID=G-FPK8SLV3E7`.
+  including `VITE_GA_MEASUREMENT_ID`.
 - Verify the Resend sender domain.
 - Share Google Sheet with the service account email as Editor.
 - Submit one test lead.

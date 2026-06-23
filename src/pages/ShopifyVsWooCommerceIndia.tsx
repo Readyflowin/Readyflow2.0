@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
-import { useInView } from "framer-motion";
+import { useEffect } from "react";
 import { ArrowRight, Check, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
 import { useLeadFormModal } from "../components/LeadFormModalContext";
-import { trackCTAClick, trackViewContent } from "../lib/metaPixel";
+import SeoArticleTracker from "../components/SeoArticleTracker";
+import { trackCTAClick } from "../lib/metaPixel";
 import { getSeoRoute } from "../lib/seoRoutes";
 import { buildSeoStructuredData } from "../lib/seoStructuredData";
 
@@ -181,20 +181,11 @@ function ContextualCTA({ heading, text, section, label = PRIMARY_CTA }: { headin
 }
 
 export default function ShopifyVsWooCommerceIndia() {
-  const viewRef = useRef<HTMLElement | null>(null);
-  const viewed = useRef(false);
-  const inView = useInView(viewRef, { once: true, margin: "-120px" });
-
-  useEffect(() => {
-    if (!inView || viewed.current) return;
-    viewed.current = true;
-    trackViewContent({ content_name: SEO_ROUTE.h1, section: "comparison_snapshot", cta_source: CTA_SOURCE });
-  }, [inView]);
-
   return (
     <>
       <SEO title={SEO_ROUTE.title} description={SEO_ROUTE.description} canonicalPath={PAGE_PATH} type="article" image={SEO_ROUTE.ogImage} />
       <StructuredData />
+      <SeoArticleTracker articleSlug={SEO_ROUTE.path} articleTitle={SEO_ROUTE.h1} articleCategory={SEO_ROUTE.category} section="comparison_snapshot" />
       <article className="editorial-shell">
         <header className="mx-auto max-w-6xl px-5 pb-12 pt-36 sm:px-6 md:pb-16 md:pt-44">
           <p className="editorial-kicker">Ecommerce Platform Guide</p>
@@ -223,7 +214,7 @@ export default function ShopifyVsWooCommerceIndia() {
               <ContextualCTA heading="Not sure which platform fits your brand?" text="Share your products and we’ll suggest the right Shopify setup path for your store." section="quick_answer" />
             </section>
 
-            <section id="comparison" ref={viewRef} className="scroll-mt-28">
+            <section id="comparison" className="scroll-mt-28">
               <h2>Shopify vs WooCommerce: comparison snapshot</h2>
               <p>Use this as a decision filter, not a scorecard. A WooCommerce advantage in control becomes a burden if no one on the team wants to maintain it; Shopify’s convenience can be a poor trade if your business genuinely needs a custom WordPress-led system.</p>
               <div className="-mx-5 my-8 overflow-x-auto border-y border-black/15 sm:mx-0">

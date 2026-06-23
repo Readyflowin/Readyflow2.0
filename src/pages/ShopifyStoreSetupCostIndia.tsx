@@ -1,12 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect, useRef } from "react";
-import { useInView } from "framer-motion";
+import { useEffect } from "react";
 import { ArrowDown, ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
 import { useLeadFormModal } from "../components/LeadFormModalContext";
-import { trackCTAClick, trackViewContent } from "../lib/metaPixel";
+import SeoArticleTracker from "../components/SeoArticleTracker";
+import { trackCTAClick } from "../lib/metaPixel";
 import { getSeoRoute } from "../lib/seoRoutes";
 
 const SEO_ROUTE = getSeoRoute("/shopify-store-setup-cost-india");
@@ -245,22 +245,6 @@ function StructuredData() {
 }
 
 export default function ShopifyStoreSetupCostIndia() {
-  const offerRef = useRef<HTMLElement | null>(null);
-  const viewed = useRef(false);
-  const inView = useInView(offerRef, { once: true, margin: "-120px" });
-
-  useEffect(() => {
-    if (!inView || viewed.current) return;
-    viewed.current = true;
-    trackViewContent({
-      content_name: "Shopify Store Setup Cost in India",
-      value: 11999,
-      currency: "INR",
-      section: "included_scope",
-      cta_source: CTA_SOURCE,
-    });
-  }, [inView]);
-
   return (
     <>
       <SEO
@@ -271,6 +255,7 @@ export default function ShopifyStoreSetupCostIndia() {
         image={SEO_ROUTE.ogImage}
       />
       <StructuredData />
+      <SeoArticleTracker articleSlug={SEO_ROUTE.path} articleTitle={SEO_ROUTE.h1} articleCategory={SEO_ROUTE.category} section="included_scope" />
 
       <article className="editorial-shell">
         <header className="mx-auto max-w-6xl px-5 pb-12 pt-36 sm:px-6 md:pb-16 md:pt-44">
@@ -436,7 +421,7 @@ export default function ShopifyStoreSetupCostIndia() {
               </figcaption>
             </figure>
 
-            <section id="readyflow-fee" ref={offerRef} className="scroll-mt-28">
+            <section id="readyflow-fee" className="scroll-mt-28">
               <h2>What Readyflow’s ₹14,999 fee actually pays for</h2>
               <p>
                 The one-time fee pays for turning your approved brand and

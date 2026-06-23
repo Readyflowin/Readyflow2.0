@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
 import MetaPixelRouteTracker from "./MetaPixelRouteTracker";
 import GA4RouteTracker from "./GA4RouteTracker";
+import AttributionRouteTracker from "./AttributionRouteTracker";
 import { LeadFormModalProvider } from "./LeadFormModal";
 
 function ScrollToTop() {
@@ -31,6 +32,7 @@ export default function PublicShell({ children }: { children: ReactNode }) {
       <ScrollToTop />
       <MetaPixelRouteTracker />
       <GA4RouteTracker />
+      <AttributionRouteTracker />
       <main className="relative min-h-screen bg-[#F4EFE6] font-sans selection:bg-indigo-100 selection:text-indigo-900">
         <Navbar />
         {children}

@@ -6,8 +6,11 @@ const BRANDS = [
   "Manish Fashion Hub",
   "LK Print Nation",
   "Pearll.in",
-  "Haelo",
   "TrulyEco",
+  "Haelo",
+  "Loocmire",
+  "Gold Sun Perfumes",
+  "SKYRN",
   "Devsocs",
   "Dharmiq Hub",
 ];

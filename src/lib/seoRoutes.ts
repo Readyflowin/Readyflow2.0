@@ -7,6 +7,8 @@ export type SeoRoute = {
   pageId: string;
   title: string;
   description: string;
+  ogTitle?: string;
+  ogDescription?: string;
   h1: string;
   pageType: SeoPageType;
   category: string;
@@ -225,12 +227,42 @@ export const PUBLISHED_SEO_ROUTES = [
       "/jewellery-ecommerce-website",
     ],
   }),
+  route({
+    path: "/shopify-store-launch-checklist-india",
+    pageId: "shopify_store_launch_checklist_india",
+    title: "Shopify Store Launch Checklist India | Readyflow",
+    description:
+      "A practical Shopify store launch checklist for Indian product brands, Instagram sellers, clothing brands and jewellery sellers planning an online store.",
+    ogTitle: "Shopify Store Launch Checklist for Indian Product Brands",
+    ogDescription:
+      "Plan your Shopify launch with this practical checklist for Indian Instagram sellers and product brands.",
+    h1: "Shopify Store Launch Checklist for Indian Product Brands",
+    pageType: "article",
+    category: "Shopify Launch Guide / India",
+    author: "Readyflow Editorial Desk",
+    publishedDate: "2026-06-23",
+    updatedDate: "2026-06-23",
+    readingTime: "14 min read",
+    sitemapInclude: true,
+    indexable: true,
+    ogImage: "/seo/shopify-store-launch-checklist.svg",
+    ctaSource: "seo_shopify_store_launch_checklist_india",
+    schemaId: "shopify-store-launch-checklist-india-schema",
+    relatedPaths: [
+      "/shopify-store-setup-india",
+      "/shopify-store-setup-cost-india",
+      "/ecommerce-website-development-india",
+      "/instagram-brand-shopify-store",
+      "/clothing-brand-website",
+      "/jewellery-ecommerce-website",
+      "/shopify-vs-woocommerce-india",
+    ],
+  }),
 ] as const satisfies readonly SeoRoute[];
 
 export const PLANNED_SEO_ROUTES = [
   "/shopify-vs-wordpress-ecommerce-india",
   "/how-to-setup-shopify-store-india",
-  "/shopify-store-launch-checklist-india",
 ].map(
   (path): PlannedSeoRoute => ({
     path,

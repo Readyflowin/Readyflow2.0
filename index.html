@@ -19,6 +19,8 @@
 
     <script>
       (function () {
+        // Keep this deploy-time list aligned with PUBLIC_TRACKABLE_ROUTES in
+        // src/lib/publicRoutes.ts; index.html cannot import TypeScript.
         var indexablePaths = [
           "/",
           "/pricing",
@@ -33,7 +35,8 @@
           "/clothing-brand-website",
           "/jewellery-ecommerce-website",
           "/instagram-brand-shopify-store",
-          "/shopify-vs-woocommerce-india"
+          "/shopify-vs-woocommerce-india",
+          "/shopify-store-launch-checklist-india"
         ];
         var path = window.location.pathname.replace(/\/+$/, "") || "/";
         if (indexablePaths.indexOf(path) !== -1) return;
@@ -54,6 +57,8 @@
     <!-- Meta Pixel Code -->
     <script>
       (function () {
+        // Keep this deploy-time list aligned with PUBLIC_TRACKABLE_ROUTES in
+        // src/lib/publicRoutes.ts; this prevents Pixel loading on private paths.
         var readyflowPublicPaths = [
           "/",
           "/pricing",
@@ -68,7 +73,8 @@
           "/clothing-brand-website",
           "/jewellery-ecommerce-website",
           "/instagram-brand-shopify-store",
-          "/shopify-vs-woocommerce-india"
+          "/shopify-vs-woocommerce-india",
+          "/shopify-store-launch-checklist-india"
         ];
         var readyflowPath = window.location.pathname.replace(/\/+$/, "") || "/";
 

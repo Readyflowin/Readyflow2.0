@@ -10,6 +10,15 @@ import {
 const PROJECTS = [
   {
     id: "01",
+    name: "Loocmire",
+    niche: "Clothing / Streetwear",
+    status: "Live Deployment",
+    web: "https://loocmire.com/",
+    highlight: "Bold streetwear storefront designed for limited drops and collection browsing.",
+    image: "/Pastwork/loocmire.png",
+  },
+  {
+    id: "02",
     name: "Confelion",
     niche: "Clothing / Premium",
     status: "Live Deployment",
@@ -19,17 +28,17 @@ const PROJECTS = [
     image: "/Pastwork/confelion.png",
   },
   {
-    id: "02",
+    id: "03",
     name: "Deazy.in",
     niche: "Clothing / Streetwear",
-    status: "Under Development",
+    status: "Live Deployment",
     insta: "https://www.instagram.com/crazysha01/",
     web: "https://deazy.in/",
     highlight: "Storefront structure for an Instagram-led streetwear brand.",
     image: "/Pastwork/deazy%20(2).png",
   },
   {
-    id: "03",
+    id: "04",
     name: "Manish Fashion Hub",
     niche: "Clothing / Fashion",
     status: "Live Deployment",
@@ -39,7 +48,7 @@ const PROJECTS = [
     image: "/Pastwork/manishfasion.png",
   },
   {
-    id: "04",
+    id: "05",
     name: "LK Print Nation",
     niche: "Clothing / Print",
     status: "Live Deployment",
@@ -49,7 +58,7 @@ const PROJECTS = [
     image: "/Pastwork/lkprint.png",
   },
   {
-    id: "05",
+    id: "06",
     name: "Pearll.in",
     niche: "Artificial Jewellery",
     status: "Live Deployment",
@@ -58,25 +67,43 @@ const PROJECTS = [
     image: "/Pastwork/pearll.png",
   },
   {
-    id: "06",
-    name: "Haelo",
-    niche: "Dropshipping",
-    status: "Live Deployment",
-    web: "https://haelo.shop/",
-    highlight: "Product store structured for clear browsing and catalogue updates.",
-    image: "/Pastwork/haeloo.png",
-  },
-  {
     id: "07",
-    name: "TrulyEco",
-    niche: "D2C Brand / Sustainable",
-    status: "Legacy Deployment",
-    web: "https://trulyeco.org/",
-    highlight: "Direct-to-consumer storefront for a sustainable product brand.",
-    image: "/Pastwork/Screenshot%202026-06-20%20011242.png",
+    name: "Gold Sun Perfumes",
+    niche: "Perfumes",
+    status: "Live Deployment",
+    web: "https://goldsunperfumes.in/",
+    highlight: "Premium perfume storefront with a luxury, product-led presentation.",
+    image: "/Pastwork/goldsun.png",
   },
   {
     id: "08",
+    name: "SKYRN",
+    niche: "Clothing / Streetwear",
+    status: "Live Deployment",
+    web: "https://skyrn.com/",
+    highlight: "Minimal streetwear storefront built around everyday oversized essentials.",
+    image: "/Pastwork/skyrn.png",
+  },
+  {
+    id: "09",
+    name: "TrulyEco",
+    niche: "D2C Brand / Sustainable",
+    status: "First Project",
+    web: "https://trulyeco.org/",
+    highlight: "Our first project — a direct-to-consumer storefront for a sustainable product brand.",
+    image: "/Pastwork/Screenshot%202026-06-20%20011242.png",
+  },
+  {
+    id: "10",
+    name: "Haelo",
+    niche: "Product Store",
+    status: "Second Project",
+    web: "https://haelo.shop/",
+    highlight: "Our second project — a product storefront built for clear catalogue browsing.",
+    image: "/Pastwork/haeloo.png",
+  },
+  {
+    id: "11",
     name: "Devsocs",
     niche: "Digital Product",
     status: "Legacy Deployment",
@@ -85,7 +112,7 @@ const PROJECTS = [
     image: "/Pastwork/devsocs.png",
   },
   {
-    id: "09",
+    id: "12",
     name: "Dharmiq Hub",
     niche: "Pujan Path Items",
     status: "Legacy Deployment",
@@ -133,8 +160,8 @@ export default function WorkArchive() {
                     {project.name}
                   </h3>
                   <div className="flex flex-wrap gap-3 mb-6">
-                    <span className="px-3 py-1 rounded-full border border-black/5 text-[9px] font-black uppercase tracking-widest bg-white/50">{project.niche}</span>
-                    <span className="px-3 py-1 rounded-full border border-black/5 text-[9px] font-black uppercase tracking-widest text-black/40 italic">{project.status}</span>
+                    <span className="px-3 py-1 border border-black/5 text-[9px] font-black uppercase tracking-widest bg-white/50">{project.niche}</span>
+                    <span className="px-3 py-1 border border-black/5 text-[9px] font-black uppercase tracking-widest text-black/40 italic">{project.status}</span>
                   </div>
                   <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-black/40 leading-relaxed max-w-md">
                     {project.highlight}
@@ -154,7 +181,7 @@ export default function WorkArchive() {
                       destination_type: "live_site",
                     })
                   }
-                  className="group/image block aspect-video overflow-hidden rounded-[1.5rem] border border-black/5 bg-white shadow-sm"
+                  className="group/image block aspect-video overflow-hidden border border-black/5 bg-white shadow-sm"
                 >
                   <img
                     src={project.image}
@@ -173,7 +200,7 @@ export default function WorkArchive() {
                         destination_type: "live_site",
                       })
                     }
-                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-[#070707] text-[#F4EFE6] rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#1DFF8A] hover:text-[#070707] transition-all"
+                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 bg-[#070707] text-[#F4EFE6] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#1DFF8A] hover:text-[#070707] transition-all"
                   >
                     Visit <Globe size={14} />
                   </a>
@@ -186,7 +213,7 @@ export default function WorkArchive() {
                           destination_type: "instagram",
                         })
                       }
-                      className="flex-1 flex items-center justify-center gap-3 px-6 py-4 border border-black/5 bg-white/50 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:border-black transition-all"
+                      className="flex-1 flex items-center justify-center gap-3 px-6 py-4 border border-black/5 bg-white/50 text-[10px] font-black uppercase tracking-[0.2em] hover:border-black transition-all"
                     >
                       Insta <Instagram size={14} />
                     </a>

@@ -11,6 +11,7 @@ import {
   trackWhatsAppClick,
 } from "../lib/metaPixel";
 import WhatsAppIcon from "./WhatsAppIcon";
+import { getLeadAttribution } from "../lib/attribution";
 
 type LeadFormValues = {
   name: string;
@@ -28,6 +29,11 @@ type Attribution = {
   utm_content: string;
   utm_term: string;
   fbclid: string;
+  traffic_source_group: string;
+  traffic_source_label: string;
+  landing_page: string;
+  current_page: string;
+  referrer_domain: string;
 };
 
 type LeadApiResponse = {
@@ -61,18 +67,28 @@ function getAttribution(leadSource?: string): Attribution {
       utm_content: "",
       utm_term: "",
       fbclid: "",
+      traffic_source_group: "direct",
+      traffic_source_label: "Direct / Unknown",
+      landing_page: "/",
+      current_page: "/",
+      referrer_domain: "",
     };
   }
-
+  const attribution = getLeadAttribution();
   const params = new URLSearchParams(window.location.search);
   return {
     source: leadSource || "instagram_shopify_launch_form",
-    utm_source: params.get("utm_source") || "",
-    utm_medium: params.get("utm_medium") || "",
-    utm_campaign: params.get("utm_campaign") || "",
-    utm_content: params.get("utm_content") || "",
-    utm_term: params.get("utm_term") || "",
+    utm_source: attribution?.utm_source || "",
+    utm_medium: attribution?.utm_medium || "",
+    utm_campaign: attribution?.utm_campaign || "",
+    utm_content: attribution?.utm_content || "",
+    utm_term: attribution?.utm_term || "",
     fbclid: params.get("fbclid") || "",
+    traffic_source_group: attribution?.traffic_source_group || "direct",
+    traffic_source_label: attribution?.traffic_source_label || "Direct / Unknown",
+    landing_page: attribution?.landing_page || window.location.pathname,
+    current_page: attribution?.current_page || window.location.pathname,
+    referrer_domain: attribution?.referrer_domain || "",
   };
 }
 
@@ -166,7 +182,7 @@ export default function LeadForm({
       }
       trackLead({
         form: "shopify_launch_lead_form",
-        value: 11999,
+        value: 14999,
         currency: "INR",
       });
     } catch (submitError) {

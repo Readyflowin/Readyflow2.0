@@ -60,7 +60,7 @@ export function OfferSection() {
     offerViewed.current = true;
     trackViewContent({
       content_name: "Instagram Brand Shopify Launch",
-      value: 11999,
+      value: 14999,
       currency: "INR",
     });
   }, [inView]);

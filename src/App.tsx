@@ -12,6 +12,7 @@ import ShopifyVsWooCommerceIndia from "./pages/ShopifyVsWooCommerceIndia";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const PricingPage = lazy(() => import("./pages/pricingpage"));
 const WorkArchive = lazy(() => import("./pages/WorkArchive"));
+const ShopifyStoreLaunchChecklistIndia = lazy(() => import("./pages/ShopifyStoreLaunchChecklistIndia"));
 const PolicyPage = lazy(() => import("./pages/PolicyPage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
@@ -44,6 +45,7 @@ export function AppRoutes() {
       <Route path="/jewellery-ecommerce-website" element={<PublicRoute><JewelleryEcommerceWebsite /></PublicRoute>} />
       <Route path="/instagram-brand-shopify-store" element={<PublicRoute><InstagramBrandShopifyStore /></PublicRoute>} />
       <Route path="/shopify-vs-woocommerce-india" element={<PublicRoute><ShopifyVsWooCommerceIndia /></PublicRoute>} />
+      <Route path="/shopify-store-launch-checklist-india" element={<PublicRoute><DeferredRoute><ShopifyStoreLaunchChecklistIndia /></DeferredRoute></PublicRoute>} />
       <Route path="*" element={<DeferredRoute><AdminDashboard /></DeferredRoute>} />
     </Routes>
   );

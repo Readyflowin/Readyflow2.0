@@ -1,4 +1,5 @@
 export type GA4Params = Record<string, unknown>;
+import { isPublicTrackablePath } from "./publicRoutes";
 
 type GtagCommand = "js" | "config" | "event";
 type GtagFunction = (
@@ -13,24 +14,8 @@ const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as
 
 const SAFE_DEFAULT_PARAMS: GA4Params = {
   offer: "instagram_brand_shopify_launch",
-  package_price: "11999",
+  package_price: "14999",
 };
-
-const PUBLIC_PATHS = new Set([
-  "/",
-  "/pricing",
-  "/work",
-  "/privacy-policy",
-  "/terms",
-  "/refund-cancellation-policy",
-  "/delivery-scope-policy",
-  "/shopify-store-setup-india",
-  "/shopify-store-setup-cost-india",
-  "/ecommerce-website-development-india",
-  "/clothing-brand-website",
-  "/jewellery-ecommerce-website",
-  "/instagram-brand-shopify-store",
-]);
 
 const SAFE_PARAM_KEYS = new Set([
   "page_path",
@@ -50,6 +35,13 @@ const SAFE_PARAM_KEYS = new Set([
   "status",
   "destination_type",
   "project_category",
+  "article_slug",
+  "article_title",
+  "article_category",
+  "scroll_depth",
+  "active_time_seconds",
+  "traffic_source_group",
+  "traffic_source_label",
 ]);
 
 declare global {
@@ -65,7 +57,7 @@ function currentPathname(): string {
 }
 
 function isPublicPath(pathname: string): boolean {
-  return PUBLIC_PATHS.has(pathname.replace(/\/+$/, "") || "/");
+  return isPublicTrackablePath(pathname);
 }
 
 function hasMeasurementId(): boolean {

@@ -39,6 +39,11 @@ export type LeadInput = {
   utm_term: string;
   fbclid: string;
   pageUrl: string;
+  trafficSourceGroup: string;
+  trafficSourceLabel: string;
+  landingPage: string;
+  currentPage: string;
+  referrerDomain: string;
 };
 
 export type StoredLead = LeadInput & {

@@ -1,11 +1,11 @@
-import { useEffect, useRef, type ReactNode } from "react";
-import { useInView } from "framer-motion";
+import { useEffect, type ReactNode } from "react";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
 import { useLeadFormModal } from "../components/LeadFormModalContext";
-import { trackCTAClick, trackViewContent } from "../lib/metaPixel";
+import SeoArticleTracker from "../components/SeoArticleTracker";
+import { trackCTAClick } from "../lib/metaPixel";
 import { getSeoRoute } from "../lib/seoRoutes";
 import { buildSeoStructuredData } from "../lib/seoStructuredData";
 
@@ -226,19 +226,10 @@ function StructuredData() {
 }
 
 export default function ClothingBrandWebsite() {
-  const scopeRef = useRef<HTMLElement | null>(null);
-  const viewedOffer = useRef(false);
-  const scopeInView = useInView(scopeRef, { once: true, margin: "-120px" });
-
-  useEffect(() => {
-    if (!scopeInView || viewedOffer.current) return;
-    viewedOffer.current = true;
-    trackViewContent({ content_name: "Clothing brand Shopify launch offer", value: 11999, currency: "INR", section: "included_scope", cta_source: CTA_SOURCE });
-  }, [scopeInView]);
-
   return <>
     <SEO title={SEO_ROUTE.title} description={SEO_ROUTE.description} canonicalPath={PAGE_PATH} type="article" image={SEO_ROUTE.ogImage} />
     <StructuredData />
+    <SeoArticleTracker articleSlug={SEO_ROUTE.path} articleTitle={SEO_ROUTE.h1} articleCategory={SEO_ROUTE.category} section="included_scope" />
     <article className="editorial-shell">
       <header className="mx-auto max-w-6xl px-5 pb-12 pt-36 sm:px-6 md:pb-16 md:pt-44">
         <p className="editorial-kicker">{SEO_ROUTE.category}</p>
@@ -280,7 +271,7 @@ export default function ClothingBrandWebsite() {
 
             <section><h2>Shopify store setup versus custom website development</h2><p>For a small Instagram-first clothing brand, Shopify is usually enough to start with because it covers products, variants, collections, checkout, policies, themes, payment and shipping setup, and mobile-friendly storefronts. A custom ecommerce build becomes more relevant when the business has unusual backend workflows, deep integrations, marketplace-like requirements, or a larger operation that cannot fit a normal store structure.</p><p>WooCommerce can be reasonable for a WordPress-first business that is comfortable managing hosting and plugins. It is a separate platform decision, not a badge of seriousness. For the practical setup route, see <Link to="/shopify-store-setup-india" className="font-bold text-[#087746] underline underline-offset-4">Shopify store setup in India</Link>. For broader platform and scope decisions, read about <Link to="/ecommerce-website-development-india" className="font-bold text-[#087746] underline underline-offset-4">ecommerce website development in India</Link>.</p></section>
 
-            <section id="readyflow" ref={scopeRef} className="scroll-mt-28"><p className="editorial-kicker">The practical service fit</p><h2 className="!mt-4">What Readyflow builds for small clothing brands</h2><p>Readyflow’s Instagram Brand Shopify Launch is designed for small Indian product brands that have a focused catalogue and want a real mobile storefront without jumping straight into a large custom build. The one-time setup fee is ₹14,999.</p><ul className="checklist-list"><li>Mobile-first Shopify theme and homepage setup.</li><li>Collection structure and product-page format for an apparel catalogue.</li><li>Initial product setup within the agreed launch scope, including size or colour variants where provided.</li><li>Policy-page setup using your approved business details.</li><li>Payment and shipping setup guidance, plus WhatsApp or contact flow.</li><li>Basic SEO/meta setup, trust sections, and a final mobile launch review.</li></ul><aside className="editorial-note"><p className="!mb-0"><strong>48-Hour Launch Bonus:</strong> Confirm within 48 hours after the plan is shared and unlock up to 5 custom Shopify sections coded just for your brand—at no extra setup fee. <span className="text-black/55">Simple brand-specific launch sections only.</span></p></aside><p>This setup does not include the Shopify subscription, domain, paid apps, paid themes, product photography, ad spend, payment gateway or courier charges, or advanced custom development. It also does not promise sales simply because a site is launched.</p><TrackedCTA section="included_scope" label="Plan My Shopify Clothing Store" className="w-full sm:w-auto" /></section>
+            <section id="readyflow" className="scroll-mt-28"><p className="editorial-kicker">The practical service fit</p><h2 className="!mt-4">What Readyflow builds for small clothing brands</h2><p>Readyflow’s Instagram Brand Shopify Launch is designed for small Indian product brands that have a focused catalogue and want a real mobile storefront without jumping straight into a large custom build. The one-time setup fee is ₹14,999.</p><ul className="checklist-list"><li>Mobile-first Shopify theme and homepage setup.</li><li>Collection structure and product-page format for an apparel catalogue.</li><li>Initial product setup within the agreed launch scope, including size or colour variants where provided.</li><li>Policy-page setup using your approved business details.</li><li>Payment and shipping setup guidance, plus WhatsApp or contact flow.</li><li>Basic SEO/meta setup, trust sections, and a final mobile launch review.</li></ul><aside className="editorial-note"><p className="!mb-0"><strong>48-Hour Launch Bonus:</strong> Confirm within 48 hours after the plan is shared and unlock up to 5 custom Shopify sections coded just for your brand—at no extra setup fee. <span className="text-black/55">Simple brand-specific launch sections only.</span></p></aside><p>This setup does not include the Shopify subscription, domain, paid apps, paid themes, product photography, ad spend, payment gateway or courier charges, or advanced custom development. It also does not promise sales simply because a site is launched.</p><TrackedCTA section="included_scope" label="Plan My Shopify Clothing Store" className="w-full sm:w-auto" /></section>
 
             <section><h2>Clothing brand website cost and scope, at a high level</h2><p>The ₹14,999 fee is for Readyflow’s focused launch work. Your business should separately plan for the Shopify subscription, domain, any optional paid theme or app, payment processing, shipping or courier costs, product photography, and any work outside the agreed launch scope. Costs increase when the requested build needs custom functionality or much more content preparation.</p><p>For the detailed breakdown, including what belongs in a launch budget, read <Link to="/shopify-store-setup-cost-india" className="font-bold text-[#087746] underline underline-offset-4">Shopify store setup cost in India</Link>. Platform and third-party pricing can change, so confirm current provider prices directly before buying.</p></section>
 

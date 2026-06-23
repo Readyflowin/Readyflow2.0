@@ -3,6 +3,30 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { trackCTAClick, trackExternalProjectClick } from "../lib/metaPixel";
 
+const LATEST_PROJECTS = [
+  {
+    name: "Loocmire",
+    category: "Streetwear",
+    status: "Live deployment",
+    url: "https://loocmire.com/",
+    image: "/Pastwork/loocmire.png",
+  },
+  {
+    name: "Gold Sun Perfumes",
+    category: "Perfumes",
+    status: "Live deployment",
+    url: "https://goldsunperfumes.in/",
+    image: "/Pastwork/goldsun.png",
+  },
+  {
+    name: "Manish Fashion Hub",
+    category: "Fashion",
+    status: "Live deployment",
+    url: "https://manishfashionhub.in/",
+    image: "/Pastwork/manishfasion.png",
+  },
+];
+
 const PROJECTS = [
   {
     name: "Confelion",
@@ -14,16 +38,9 @@ const PROJECTS = [
   {
     name: "Deazy.in",
     category: "Streetwear",
-    status: "Under development",
+    status: "Live deployment",
     url: "https://deazy.in/",
     image: "/Pastwork/deazy%20(2).png",
-  },
-  {
-    name: "Manish Fashion Hub",
-    category: "Fashion",
-    status: "Live deployment",
-    url: "https://manishfashionhub.in/",
-    image: "/Pastwork/manishfasion.png",
   },
   {
     name: "LK Print Nation",
@@ -40,18 +57,25 @@ const PROJECTS = [
     image: "/Pastwork/pearll.png",
   },
   {
-    name: "Haelo",
-    category: "Product store",
+    name: "SKYRN",
+    category: "Streetwear",
     status: "Live deployment",
-    url: "https://haelo.shop/",
-    image: "/Pastwork/haeloo.png",
+    url: "https://skyrn.com/",
+    image: "/Pastwork/skyrn.png",
   },
   {
     name: "TrulyEco",
     category: "Sustainable D2C",
-    status: "Legacy deployment",
+    status: "First project",
     url: "https://trulyeco.org/",
     image: "/Pastwork/Screenshot%202026-06-20%20011242.png",
+  },
+  {
+    name: "Haelo",
+    category: "Product store",
+    status: "Second project",
+    url: "https://haelo.shop/",
+    image: "/Pastwork/haeloo.png",
   },
   {
     name: "Devsocs",
@@ -85,6 +109,49 @@ const itemVariants: Variants = {
     transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
   },
 };
+
+type Project = (typeof PROJECTS)[number];
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <motion.a
+      key={project.name}
+      variants={itemVariants}
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={() =>
+        trackExternalProjectClick({
+          source_section: "homepage_work",
+          project_category: project.category,
+          destination_type: "live_site",
+        })
+      }
+      className="group relative overflow-hidden border border-black/5 bg-white text-[#070707] transition hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div className="relative aspect-video overflow-hidden bg-black/5">
+        <img
+          src={project.image}
+          alt={`${project.name} storefront screenshot`}
+          loading="lazy"
+          className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.035]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+        <span className="absolute left-4 top-4 bg-[#070707]/85 px-3 py-2 text-[8px] font-black uppercase tracking-[0.2em] text-[#1DFF8A] backdrop-blur">
+          {project.status}
+        </span>
+        <span className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center bg-[#1DFF8A] text-[#070707] shadow-lg transition group-hover:rotate-45">
+          <ArrowUpRight size={16} />
+        </span>
+      </div>
+
+      <div className="p-6">
+        <h3 className="text-2xl font-black uppercase tracking-tighter">{project.name}</h3>
+        <p className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-black/35">{project.category}</p>
+      </div>
+    </motion.a>
+  );
+}
 
 export default function Testimonials() {
   return (
@@ -124,49 +191,22 @@ export default function Testimonials() {
           </motion.p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {PROJECTS.map((project) => (
-            <motion.a
-              key={project.name}
-              variants={itemVariants}
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                trackExternalProjectClick({
-                  source_section: "homepage_work",
-                  project_category: project.category,
-                  destination_type: "live_site",
-                })
-              }
-              className="group relative overflow-hidden rounded-[2rem] border border-black/5 bg-white text-[#070707] transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <div className="relative aspect-video overflow-hidden bg-black/5">
-                <img
-                  src={project.image}
-                  alt={`${project.name} storefront screenshot`}
-                  loading="lazy"
-                  className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.035]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-                <span className="absolute left-4 top-4 rounded-full bg-[#070707]/85 px-3 py-2 text-[8px] font-black uppercase tracking-[0.2em] text-[#1DFF8A] backdrop-blur">
-                  {project.status}
-                </span>
-                <span className="absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#1DFF8A] text-[#070707] shadow-lg transition group-hover:rotate-45">
-                  <ArrowUpRight size={16} />
-                </span>
-              </div>
+        <div>
+          <motion.p variants={itemVariants} className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-black/45">
+            Latest builds
+          </motion.p>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {LATEST_PROJECTS.map((project) => <ProjectCard key={project.name} project={project} />)}
+          </div>
+        </div>
 
-              <div className="p-6">
-                <h3 className="text-2xl font-black uppercase tracking-tighter">
-                  {project.name}
-                </h3>
-                <p className="mt-2 text-[10px] font-black uppercase tracking-[0.22em] text-black/35">
-                  {project.category}
-                </p>
-              </div>
-            </motion.a>
-          ))}
+        <div className="mt-14">
+          <motion.p variants={itemVariants} className="mb-5 text-[10px] font-black uppercase tracking-[0.35em] text-black/45">
+            Earlier projects
+          </motion.p>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {PROJECTS.map((project) => <ProjectCard key={project.name} project={project} />)}
+          </div>
         </div>
 
         <motion.div variants={itemVariants} className="mt-12 flex justify-center">

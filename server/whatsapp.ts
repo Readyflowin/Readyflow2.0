@@ -1,7 +1,15 @@
 import type { LeadInput } from "./leadTypes.js";
 
 export function buildLeadWhatsAppMessage(lead: LeadInput): string {
-  return `Hi Readyflow, I filled the form for ${lead.instagram || "my brand"}. Please review my brand and share the Shopify launch plan details.`;
+  const sourceLines = [
+    lead.trafficSourceLabel ? `Traffic source: ${lead.trafficSourceLabel}` : "",
+    lead.landingPage ? `Landing page: ${lead.landingPage}` : "",
+    lead.currentPage ? `Current page: ${lead.currentPage}` : "",
+  ].filter(Boolean);
+  return [
+    `Hi Readyflow, I filled the form for ${lead.instagram || "my brand"}. Please review my brand and share the Shopify launch plan details.`,
+    ...sourceLines,
+  ].join("\n");
 }
 
 export function buildWhatsAppUrl(

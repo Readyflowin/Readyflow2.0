@@ -6,6 +6,8 @@ type SEOProps = {
   description: string;
   canonicalPath?: string | null;
   image?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   type?: "article" | "website";
   noindex?: boolean;
 };
@@ -55,21 +57,23 @@ export default function SEO({
   description,
   canonicalPath = "/",
   image,
+  ogTitle,
+  ogDescription,
   type = "website",
   noindex = false,
 }: SEOProps) {
   useEffect(() => {
     document.title = title;
     setMeta("description", description);
-    setOg("og:title", title);
-    setOg("og:description", description);
+    setOg("og:title", ogTitle || title);
+    setOg("og:description", ogDescription || description);
     setOg("og:type", type);
     setCanonical(canonicalPath);
     if (image) {
       setOg("og:image", `${SITE_ORIGIN}${image}`);
       setMeta("twitter:card", "summary_large_image");
-      setMeta("twitter:title", title);
-      setMeta("twitter:description", description);
+      setMeta("twitter:title", ogTitle || title);
+      setMeta("twitter:description", ogDescription || description);
       setMeta("twitter:image", `${SITE_ORIGIN}${image}`);
     }
     if (noindex) {
@@ -77,7 +81,7 @@ export default function SEO({
     } else {
       document.querySelector('meta[name="robots"]')?.remove();
     }
-  }, [canonicalPath, description, image, noindex, title, type]);
+  }, [canonicalPath, description, image, noindex, ogDescription, ogTitle, title, type]);
 
   return null;
 }

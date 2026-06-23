@@ -11,6 +11,8 @@ import ClothingBrandWebsite, { FAQS as clothingFaqs } from "./pages/ClothingBran
 import JewelleryEcommerceWebsite, { FAQS as jewelleryFaqs } from "./pages/JewelleryEcommerceWebsite";
 import InstagramBrandShopifyStore, { FAQS as instagramFaqs } from "./pages/InstagramBrandShopifyStore";
 import ShopifyVsWooCommerceIndia, { FAQS as shopifyVsWooCommerceFaqs } from "./pages/ShopifyVsWooCommerceIndia";
+import ShopifyStoreLaunchChecklistIndia from "./pages/ShopifyStoreLaunchChecklistIndia";
+import { SHOPIFY_STORE_LAUNCH_CHECKLIST_FAQS as checklistFaqs } from "./pages/shopifyStoreLaunchChecklistData";
 import HomePage from "./pages/HomePage";
 
 const PAGE_COMPONENTS = {
@@ -22,6 +24,7 @@ const PAGE_COMPONENTS = {
   jewellery_ecommerce_website: JewelleryEcommerceWebsite,
   instagram_brand_shopify_store: InstagramBrandShopifyStore,
   shopify_vs_woocommerce_india: ShopifyVsWooCommerceIndia,
+  shopify_store_launch_checklist_india: ShopifyStoreLaunchChecklistIndia,
 } as const;
 
 const PAGE_FAQS: Record<string, readonly SeoFaq[]> = {
@@ -32,6 +35,7 @@ const PAGE_FAQS: Record<string, readonly SeoFaq[]> = {
   jewellery_ecommerce_website: jewelleryFaqs,
   instagram_brand_shopify_store: instagramFaqs,
   shopify_vs_woocommerce_india: shopifyVsWooCommerceFaqs,
+  shopify_store_launch_checklist_india: checklistFaqs,
 };
 
 function escapeAttribute(value: string): string {
@@ -54,14 +58,14 @@ export function renderSeoHead(route: SeoRoute): string {
     `<meta name="description" content="${escapeAttribute(route.description)}" />`,
     '<meta name="robots" content="index, follow" />',
     `<link rel="canonical" href="${canonical}" />`,
-    `<meta property="og:title" content="${escapeAttribute(route.title)}" />`,
-    `<meta property="og:description" content="${escapeAttribute(route.description)}" />`,
+    `<meta property="og:title" content="${escapeAttribute(route.ogTitle || route.title)}" />`,
+    `<meta property="og:description" content="${escapeAttribute(route.ogDescription || route.description)}" />`,
     `<meta property="og:url" content="${canonical}" />`,
     `<meta property="og:type" content="${type}" />`,
     `<meta property="og:image" content="${image}" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
-    `<meta name="twitter:title" content="${escapeAttribute(route.title)}" />`,
-    `<meta name="twitter:description" content="${escapeAttribute(route.description)}" />`,
+    `<meta name="twitter:title" content="${escapeAttribute(route.ogTitle || route.title)}" />`,
+    `<meta name="twitter:description" content="${escapeAttribute(route.ogDescription || route.description)}" />`,
     `<meta name="twitter:image" content="${image}" />`,
     structuredDataScript(route),
     "<!--seo-head:end-->",

@@ -84,6 +84,11 @@ export function validateLeadPayload(payload: unknown): ValidationResult {
     utm_term: cleanText(payload.utm_term, 250),
     fbclid: cleanText(payload.fbclid, 500),
     pageUrl: cleanText(payload.pageUrl, 2000),
+    trafficSourceGroup: cleanText(payload.traffic_source_group, 80),
+    trafficSourceLabel: cleanText(payload.traffic_source_label, 120),
+    landingPage: cleanText(payload.landing_page, 300),
+    currentPage: cleanText(payload.current_page, 300),
+    referrerDomain: cleanText(payload.referrer_domain, 180),
   };
 
   return { ok: true, data };

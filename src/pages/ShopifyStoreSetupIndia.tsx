@@ -1,6 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useEffect, useRef, type ReactNode } from "react";
-import { useInView } from "framer-motion";
+import { useEffect, type ReactNode } from "react";
 import {
   ArrowRight,
   ExternalLink,
@@ -9,7 +8,8 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
 import { useLeadFormModal } from "../components/LeadFormModalContext";
-import { trackCTAClick, trackViewContent } from "../lib/metaPixel";
+import SeoArticleTracker from "../components/SeoArticleTracker";
+import { trackCTAClick } from "../lib/metaPixel";
 import { getSeoRoute } from "../lib/seoRoutes";
 
 const SEO_ROUTE = getSeoRoute("/shopify-store-setup-india");
@@ -422,25 +422,6 @@ function StructuredData() {
 }
 
 export default function ShopifyStoreSetupIndia() {
-  const pricingRef = useRef<HTMLElement | null>(null);
-  const viewedOffer = useRef(false);
-  const pricingInView = useInView(pricingRef, {
-    once: true,
-    margin: "-120px",
-  });
-
-  useEffect(() => {
-    if (!pricingInView || viewedOffer.current) return;
-    viewedOffer.current = true;
-    trackViewContent({
-      content_name: "Shopify Store Setup India launch offer",
-      value: 11999,
-      currency: "INR",
-      section: "pricing_scope",
-      cta_source: CTA_SOURCE,
-    });
-  }, [pricingInView]);
-
   return (
     <>
       <SEO
@@ -451,6 +432,7 @@ export default function ShopifyStoreSetupIndia() {
         image={SEO_ROUTE.ogImage}
       />
       <StructuredData />
+      <SeoArticleTracker articleSlug={SEO_ROUTE.path} articleTitle={SEO_ROUTE.h1} articleCategory={SEO_ROUTE.category} section="pricing_scope" />
 
       <article className="editorial-shell">
         <header className="mx-auto max-w-6xl px-5 pb-12 pt-36 sm:px-6 md:pb-16 md:pt-44">
@@ -665,7 +647,7 @@ export default function ShopifyStoreSetupIndia() {
 
             <hr className="editorial-rule" />
 
-            <section id="pricing" ref={pricingRef} className="scroll-mt-28">
+            <section id="pricing" className="scroll-mt-28">
               <h2>Pricing and what stays separate</h2>
               <p>
                 Readyflow's ₹14,999 is a one-time setup fee for the focused
